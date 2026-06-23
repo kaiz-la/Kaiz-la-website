@@ -47,6 +47,23 @@ export function ChatWindow({ conversationId: currentConversationId }: ChatWindow
     if (member && !currentConversationId) setCelebration('returning');
   }, [currentConversationId]);
 
+  // Show the "Welcome to Kaiz La" takeover when a lead is handed off. This is
+  // driven by an event (not local state) so it survives the router.push to
+  // /chat/[id] that a first-message hand-off triggers — that navigation
+  // remounts this component, which would otherwise drop the celebration.
+  useEffect(() => {
+    const onComplete = (e: Event) => {
+      const id = (e as CustomEvent<string>).detail;
+      if (id && id === currentConversationId) {
+        setMemberCookie();
+        setIsMember(true);
+        setCelebration('new');
+      }
+    };
+    document.addEventListener('kaizla-lead-complete', onComplete as EventListener);
+    return () => document.removeEventListener('kaizla-lead-complete', onComplete as EventListener);
+  }, [currentConversationId]);
+
   useEffect(() => {
     const handleSetInput = (event: CustomEvent<string>) => {
       setInput(event.detail);
@@ -148,11 +165,12 @@ export function ChatWindow({ conversationId: currentConversationId }: ChatWindow
         }),
       });
 
-      // The team was just notified — celebrate and remember this member.
+      // The team was just notified. Announce the hand-off via an event so the
+      // takeover survives the new-chat navigation (see the listener above).
       if (leadHandedOff) {
-        setMemberCookie();
-        setIsMember(true);
-        setCelebration('new');
+        document.dispatchEvent(
+          new CustomEvent('kaizla-lead-complete', { detail: conversationId })
+        );
       }
     } catch (error) {
       console.error("Failed to fetch chat response:", error);
