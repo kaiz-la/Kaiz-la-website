@@ -1,27 +1,30 @@
-import { Bot } from "lucide-react";
-import React from 'react';
+"use client";
 
-export const TypingIndicator = () => (
-  <div className="flex items-start gap-4 justify-start">
-    <div className="flex-shrink-0 size-10 rounded-xl bg-secondary text-secondary-foreground flex items-center justify-center shadow-md animate-pulse">
-      <Bot size={18} />
-    </div>
-    
-    <div className="group bg-card shadow-md hover:shadow-lg rounded-2xl p-4 transition-all duration-200 relative">
-      <div className="flex items-center gap-3">
-        <span className="text-sm text-card-foreground/70 font-medium">AI is thinking</span>
-        <div className="flex items-center gap-1">
-          <span className="h-2 w-2 bg-secondary rounded-full animate-bounce delay-0"></span>
-          <span className="h-2 w-2 bg-secondary/80 rounded-full animate-bounce delay-150"></span>
-          <span className="h-2 w-2 bg-secondary/60 rounded-full animate-bounce delay-300"></span>
-        </div>
+export const TypingIndicator = () => {
+  return (
+    <div className="flex items-start gap-3 justify-start">
+      <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl border-2 border-crimson bg-white font-display text-lg leading-none text-crimson shadow-sm">
+        喜
       </div>
 
-      {/* Floating tail effect to match MessageBubble */}
-      <div className="absolute top-4 w-3 h-3 rotate-45 bg-card -left-1.5 shadow-md" />
-      
-      {/* Subtle shimmer effect */}
-      <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-transparent via-secondary/5 to-transparent -skew-x-12 animate-pulse opacity-30" />
+      <div className="card-lux relative max-w-xl rounded-2xl rounded-tl-sm px-5 py-4">
+        <div className="mb-1.5 flex items-center gap-2">
+          <span className="text-xs font-semibold tracking-wide text-crimson">KaiExpert · Kaiz La</span>
+          <span className="inline-flex items-center gap-1 text-[11px] font-medium text-green-600">
+            <span className="h-1.5 w-1.5 rounded-full bg-green-500" />
+            online
+          </span>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1">
+            <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-crimson" style={{ animationDelay: "0ms" }} />
+            <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-crimson/70" style={{ animationDelay: "150ms" }} />
+            <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-crimson/50" style={{ animationDelay: "300ms" }} />
+          </div>
+          <span className="text-xs text-muted-foreground">is typing…</span>
+        </div>
+      </div>
     </div>
-  </div>
-);
+  );
+};

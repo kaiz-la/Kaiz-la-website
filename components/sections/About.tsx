@@ -26,7 +26,7 @@ const itemVariants: Variants = {
   },
 }
 
-export default function About() {
+export default function About({ showHeader = true }: { showHeader?: boolean }) {
   return (
     <section id="about" className="bg-background py-12 lg:py-16">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -38,10 +38,12 @@ export default function About() {
           className="max-w-7xl mx-auto"
         >
           {/* Section Header */}
-          <motion.div variants={itemVariants} className="text-center mb-12 lg:mb-16">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold text-primary mb-4 drop-shadow-sm">About <span className="text-secondary">Kaiz La</span> </h2>
-            <div className="w-20 h-1 bg-accent mx-auto rounded-full shadow-sm"></div>
-          </motion.div>
+          {showHeader && (
+            <motion.div variants={itemVariants} className="text-center mb-12 lg:mb-16">
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold text-primary mb-4 drop-shadow-sm">About <span className="text-secondary">Kaiz La</span> </h2>
+              <div className="w-20 h-1 bg-accent mx-auto rounded-full shadow-sm"></div>
+            </motion.div>
+          )}
 
           {/* Main Content Grid */}
           <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-start">

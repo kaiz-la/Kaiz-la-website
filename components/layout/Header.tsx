@@ -3,16 +3,14 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import Image from "next/image"
+import { usePathname } from "next/navigation"
 import { Menu, X } from "lucide-react"
+import { navRoutes } from "@/lib/site"
 
-const navigationItems = [
-  { name: "Home", href: "#home" },
-  { name: "Services", href: "#services" },
-  { name: "About", href: "#about" },
-  { name: "Contact", href: "#contact" },
-]
+const navigationItems = navRoutes
 
 export function Header() {
+  const pathname = usePathname()
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [scrollState, setScrollState] = useState({
     isScrolled: false,
@@ -109,22 +107,28 @@ export function Header() {
             </div>
 
             <nav className="hidden lg:flex items-center space-x-6 xl:space-x-8">
-              {navigationItems.map((item) => (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className="
-                    relative text-foreground hover:text-primary 
-                    transition-colors duration-200 font-medium 
-                    text-base xl:text-lg py-2 px-1
-                    after:absolute after:bottom-0 after:left-0 after:w-0 
-                    after:h-0.5 after:bg-primary after:transition-all after:duration-200
-                    hover:after:w-full
-                  "
-                >
-                  {item.name}
-                </Link>
-              ))}
+              {navigationItems.map((item) => {
+                const isActive =
+                  item.href === "/" ? pathname === "/" : pathname.startsWith(item.href)
+                return (
+                  <Link
+                    key={item.name}
+                    href={item.href}
+                    aria-current={isActive ? "page" : undefined}
+                    className={`
+                      relative transition-colors duration-200 font-medium
+                      text-base xl:text-lg py-2 px-1
+                      after:absolute after:bottom-0 after:left-0 after:h-0.5
+                      after:bg-crimson after:transition-all after:duration-200
+                      ${isActive
+                        ? "text-crimson after:w-full"
+                        : "text-foreground hover:text-crimson after:w-0 hover:after:w-full"}
+                    `}
+                  >
+                    {item.name}
+                  </Link>
+                )
+              })}
             </nav>
 
             <div className="hidden lg:flex items-center space-x-3 xl:space-x-4">
@@ -190,24 +194,29 @@ export function Header() {
         `}>
           <div className="container mx-auto px-4 py-6 sm:px-6 max-w-7xl">
             <nav className="flex flex-col space-y-1">
-              {navigationItems.map((item, index) => (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  onClick={toggleMobileMenu}
-                  className="
-                    text-foreground hover:text-primary hover:bg-background/50
-                    transition-colors duration-200 font-medium 
-                    text-lg py-3 px-4 rounded-lg
-                    focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2
-                  "
-                  style={{
-                    animationDelay: `${index * 50}ms`
-                  }}
-                >
-                  {item.name}
-                </Link>
-              ))}
+              {navigationItems.map((item, index) => {
+                const isActive =
+                  item.href === "/" ? pathname === "/" : pathname.startsWith(item.href)
+                return (
+                  <Link
+                    key={item.name}
+                    href={item.href}
+                    onClick={toggleMobileMenu}
+                    aria-current={isActive ? "page" : undefined}
+                    className={`
+                      transition-colors duration-200 font-medium
+                      text-lg py-3 px-4 rounded-lg
+                      focus:outline-none focus:ring-2 focus:ring-crimson focus:ring-offset-2
+                      ${isActive
+                        ? "text-crimson bg-crimson/5"
+                        : "text-foreground hover:text-crimson hover:bg-background/50"}
+                    `}
+                    style={{ animationDelay: `${index * 50}ms` }}
+                  >
+                    {item.name}
+                  </Link>
+                )
+              })}
 
               <div className="pt-6 border-t border-border mt-4">
                 <div className="flex flex-col space-y-3 sm:flex-row sm:space-y-0 sm:space-x-3">

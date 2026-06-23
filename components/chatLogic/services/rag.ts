@@ -4,6 +4,30 @@ import { pineconeIndex } from '@/lib/pinecone';
 import { embedWithRetry } from './embedding';
 import { readStreamResponse } from '../utils/responseHandler';
 
+/**
+ * Retrieve relevant knowledge-base context for a message (no LLM call).
+ * Returns "" on any failure so the conversation can continue gracefully.
+ */
+export async function retrieveContext(userMessageContent: string): Promise<string> {
+  try {
+    const vector = await embedWithRetry(userMessageContent);
+    if (!vector) return '';
+    const queryResponse = await pineconeIndex.query({
+      topK: 4,
+      vector,
+      includeMetadata: true,
+    });
+    return queryResponse.matches
+      .filter((m) => (m.score ?? 0) > 0.3)
+      .map((m) => m.metadata?.text)
+      .filter(Boolean)
+      .join('\n\n');
+  } catch (error) {
+    console.error('retrieveContext failed:', error);
+    return '';
+  }
+}
+
 export async function handleRAG(userMessageContent: string, addFollowUpQuestion: boolean = false): Promise<NextResponse> {
   try {
     const vector = await embedWithRetry(userMessageContent);

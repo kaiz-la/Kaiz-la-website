@@ -9,7 +9,8 @@
     "start": "next start",
     "lint": "next lint",
     "postinstall": "prisma generate",
-    "ingest": "ts-node scripts/ingest.ts"
+    "ingest": "ts-node scripts/ingest.ts",
+    "test:whatsapp": "ts-node scripts/test-whatsapp.ts"
   },
   "dependencies": {
     "@ai-sdk/google": "^2.0.8",

@@ -62,6 +62,17 @@ export async function generateChatResponse(messages: any[], systemPrompt: string
   }
 }
 
+// Non-streaming completion — used for lead extraction & chat summaries.
+export async function generateCompletion(prompt: string, system?: string): Promise<string> {
+  const { text } = await generateText({
+    model: google('gemini-1.5-flash-latest'),
+    system,
+    prompt,
+    maxOutputTokens: 600,
+  });
+  return text.trim();
+}
+
 export async function generateTitle(text: string): Promise<string> {
   const now = Date.now();
   const timeSinceLastGenerate = now - lastGenerateTime;

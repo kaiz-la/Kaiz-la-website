@@ -27,7 +27,7 @@ const itemVariants: Variants = {
   },
 }
 
-export default function Services() {
+export default function Services({ showHeader = true }: { showHeader?: boolean }) {
   const [hoveredService, setHoveredService] = useState<string | null>(null)
 
   const services = [
@@ -93,16 +93,18 @@ export default function Services() {
           viewport={{ once: true, margin: "-100px" }}
           className="max-w-7xl mx-auto"
         >
-          <motion.div variants={itemVariants} className="text-center mb-12 lg:mb-16">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold text-primary mb-4 drop-shadow-sm">
-              Our <span className="text-secondary">Services</span>
-            </h2>
-            <div className="w-20 h-1 bg-accent mx-auto rounded-full shadow-sm mb-6"></div>
-            <p className="text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-              <span className="font-semibold text-foreground">End-to-End Solutions</span> - We manage the entire
-              lifecycle of your procurement with precision, transparency, and expertise.
-            </p>
-          </motion.div>
+          {showHeader && (
+            <motion.div variants={itemVariants} className="text-center mb-12 lg:mb-16">
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold text-primary mb-4 drop-shadow-sm">
+                Our <span className="text-secondary">Services</span>
+              </h2>
+              <div className="w-20 h-1 bg-accent mx-auto rounded-full shadow-sm mb-6"></div>
+              <p className="text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+                <span className="font-semibold text-foreground">End-to-End Solutions</span> - We manage the entire
+                lifecycle of your procurement with precision, transparency, and expertise.
+              </p>
+            </motion.div>
+          )}
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
             {services.map((service) => (

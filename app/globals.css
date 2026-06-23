@@ -1,83 +1,179 @@
 @import "tailwindcss";
 
-:root {
-  --primary: #080202;
-  --secondary: #CC3433;
-  --accent: #CC3433;
-  --background: #ededed;
-  --foreground: #333333;
-  --card: #ffffff;
-  --border: #CC3433;
-  --muted: #6b7280;
-  --radius: 0.5rem;
+/*
+  ============================================================
+  KAIZ LA — Premium design system
+  White + crimson, with restrained imperial gold.
+  Inspired by the wordmark serif + the 喜 ("double happiness") seal.
+  ============================================================
+*/
 
-  /* --- Variables ADDED to support new components --- */
-  --primary-foreground: #ffffff; /* White text for black primary bg */
-  --secondary-foreground: #ffffff; /* White text for red secondary bg */
-  --muted-foreground: #6b7280; /* Same as muted for consistency */
-  --destructive: #ef4444; /* A standard bright red for delete actions */
-  --destructive-foreground: #ffffff; /* White text for destructive actions */
+@theme {
+  /* Brand core — official: crimson #CC3433 + the "western sun" gradient */
+  --color-crimson: #cc3433;
+  --color-crimson-deep: #9e1f1e;
+  --color-crimson-bright: #e0463f;
+
+  /* Sunset gradient stops (Visual Identity B1 — "the sun setting in the west") */
+  --color-sun-amber: #f4b400;
+  --color-sun-orange: #f97733;
+
+  /* Warm accent drawn from the sun gradient (replaces antique gold) */
+  --color-gold: #e0892e;
+  --color-gold-soft: #f2a942;
+
+  /* Surfaces */
+  --color-ink: #1a1413;
+  --color-ink-soft: #4a3f3d;
+  --color-porcelain: #faf7f3;
+  --color-porcelain-deep: #f3ede5;
+  --color-paper: #ffffff;
+  --color-mist: #ededed; /* official inverted neutral */
+
+  /* Mapped tokens (stable names for existing components) */
+  --color-primary: #1a1413;
+  --color-primary-foreground: #ffffff;
+  --color-secondary: #cc3433;
+  --color-secondary-foreground: #ffffff;
+  --color-accent: #e0892e;
+  --color-background: #faf7f3;
+  --color-foreground: #2a201e;
+  --color-card: #ffffff;
+  --color-border: #e7ddd1;
+  --color-muted: #8a7d76;
+  --color-muted-foreground: #7d7068;
+  --color-destructive: #cc3433;
+  --color-destructive-foreground: #ffffff;
+
+  --radius: 0.75rem;
 }
 
+/* Dark theme overrides (used by chat surfaces) */
 .dark {
-  --primary: #ef4444;
-  --secondary: #FB8C00;
-  --accent: #fbbf24;
-  --background: #0f172a;
-  --foreground: #f1f5f9;
-  --card: #1e293b;
-  --border: #ef4444;
-  --muted: #94a3b8;
-
-  /* --- Variables ADDED to support new components (Dark Mode) --- */
-  --primary-foreground: #f1f5f9;
-  --secondary-foreground: #0f172a;
-  --muted-foreground: #94a3b8;
-  --destructive: #ef4444;
-  --destructive-foreground: #f1f5f9;
+  --color-primary: #f4ece2;
+  --color-primary-foreground: #140d0c;
+  --color-secondary: #e0463f;
+  --color-secondary-foreground: #ffffff;
+  --color-accent: #d8b675;
+  --color-background: #140d0c;
+  --color-foreground: #f1e8de;
+  --color-card: #1f1614;
+  --color-border: #3a2c28;
+  --color-muted: #b6a89e;
+  --color-muted-foreground: #b6a89e;
+  --color-destructive: #e0463f;
+  --color-destructive-foreground: #ffffff;
 }
 
 * {
-  border-color: var(--border); /* Changed from hsl() to var() for direct use */
+  border-color: var(--color-border);
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background-color: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-sans);
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
 }
 
-.bg-brand-gradient {
-  background-image: linear-gradient(to right, #f4b400, #F97733, #CC3433);
+::selection {
+  background-color: var(--color-crimson);
+  color: #fff;
 }
 
-/* --- Utility classes to make new variables usable --- */
-.bg-primary { background-color: var(--primary); }
-.text-primary-foreground { color: var(--primary-foreground); }
-.bg-secondary { background-color: var(--secondary); }
-.text-secondary-foreground { color: var(--secondary-foreground); }
-.bg-accent { background-color: var(--accent); }
-.bg-background { background-color: var(--background); }
-.bg-card { background-color: var(--card); }
-.bg-destructive { background-color: var(--destructive); }
+/* ---------- Typography ---------- */
+.font-display {
+  font-family: var(--font-display), Georgia, "Times New Roman", serif;
+}
+.font-brand {
+  font-family: var(--font-brand), Georgia, serif;
+  letter-spacing: 0.12em;
+}
+.eyebrow {
+  font-family: var(--font-brand), Georgia, serif;
+  text-transform: uppercase;
+  letter-spacing: 0.32em;
+  font-size: 0.72rem;
+  font-weight: 600;
+}
 
-.text-primary { color: var(--primary); }
-.text-secondary { color: var(--secondary); }
-.text-accent { color: var(--accent); }
-.text-foreground { color: var(--foreground); }
-.text-background { color: var(--background); }
-.text-muted { color: var(--muted); }
-.text-muted-foreground { color: var(--muted-foreground); }
-.text-white { color: #ffffff; }
-.text-destructive { color: var(--destructive); }
-.text-destructive-foreground { color: var(--destructive-foreground); }
-
-.border-primary { border-color: var(--primary); }
-.border-border { border-color: var(--border); }
-
+/* ---------- Brand gradients (the "western sun") ---------- */
+.bg-brand-gradient,
+.bg-sun-gradient {
+  background-image: linear-gradient(135deg, #f4b400 0%, #f97733 48%, #cc3433 100%);
+}
 .text-gradient-tonal {
-  background: linear-gradient(145deg, #E57373, var(--primary) 70%);
+  background: linear-gradient(145deg, #e57373, var(--color-primary) 70%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+}
+/* Crimson lifting into the warm sun — for headline accent words */
+.text-gradient-crimson,
+.text-gradient-sun {
+  background: linear-gradient(110deg, var(--color-crimson-deep), var(--color-crimson) 38%, var(--color-sun-orange) 98%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* ---------- Surfaces / flourishes ---------- */
+.card-lux {
+  background-color: var(--color-paper);
+  border: 1px solid var(--color-border);
+  box-shadow: 0 1px 2px rgba(26, 20, 19, 0.04), 0 24px 48px -24px rgba(26, 20, 19, 0.14);
+}
+.rule-gold {
+  height: 1px;
+  background-image: linear-gradient(to right, var(--color-gold), transparent);
+}
+.grain::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ---------- Animations ---------- */
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+.animate-float-slow { animation: float-slow 7s ease-in-out infinite; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(2px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes seal-pulse {
+  0%, 100% { transform: scale(1); opacity: 0.92; }
+  50% { transform: scale(1.04); opacity: 1; }
+}
+.animate-seal { animation: seal-pulse 5s ease-in-out infinite; }
+
+/* Welcome / celebration takeover entrance */
+@keyframes overlay-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes celebrate-in {
+  from { opacity: 0; transform: translateY(18px) scale(0.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+.animate-overlay-in { animation: overlay-in 0.5s ease both; }
+.animate-celebrate-in { animation: celebrate-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) both; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
 }

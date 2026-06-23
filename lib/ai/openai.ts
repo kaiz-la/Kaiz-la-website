@@ -29,6 +29,17 @@ export async function generateChatResponse(messages: any[], systemPrompt: string
   return result.toTextStreamResponse();
 }
 
+// Non-streaming completion — used for lead extraction & chat summaries.
+export async function generateCompletion(prompt: string, system?: string): Promise<string> {
+  const { text } = await generateText({
+    model: openai('gpt-4o-mini'),
+    system,
+    prompt,
+    maxOutputTokens: 600,
+  });
+  return text.trim();
+}
+
 export async function generateTitle(text: string): Promise<string> {
   const prompt = `Based on the following user message, create a short, concise title (4 words maximum) for this conversation.
 

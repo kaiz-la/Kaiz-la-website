@@ -1,6 +1,8 @@
 import type { Metadata } from "next"
-import { Geist, Geist_Mono } from "next/font/google"
+import { Geist, Geist_Mono, Playfair_Display, Cinzel } from "next/font/google"
 import "./globals.css"
+import { siteConfig } from "@/lib/site"
+import { JsonLd } from "@/components/seo/JsonLd"
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -12,31 +14,107 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 })
 
+// Elegant serif display — echoes the KAIZ LA wordmark
+const playfair = Playfair_Display({
+  variable: "--font-display",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800", "900"],
+  style: ["normal", "italic"],
+})
+
+// Trajan-esque caps for the brand / eyebrow labels
+const cinzel = Cinzel({
+  variable: "--font-brand",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+})
+
 export const metadata: Metadata = {
-  title: "Kaiz La | Global Sourcing Made Simple",
-  description:
-    "Kaiz La is a sourcing-as-a-service company based in China with 15+ years of expertise. We connect businesses across India and the Middle East with vetted Chinese suppliers, offering end-to-end procurement—supplier discovery, negotiations, quality checks, logistics, and customs clearance. Empowering global trade with seamless sourcing solutions.",
+  metadataBase: new URL(siteConfig.url),
+  title: {
+    default: `${siteConfig.name} | ${siteConfig.tagline}`,
+    template: `%s | ${siteConfig.name}`,
+  },
+  description: siteConfig.description,
+  applicationName: siteConfig.name,
   keywords: [
     "Kaiz La",
     "global sourcing",
     "China sourcing company",
+    "sourcing as a service",
     "supplier management",
     "product sourcing",
     "procurement services",
     "import from China",
     "India China trade",
     "Middle East sourcing",
+    "quality inspection China",
+    "freight and customs clearance",
   ],
+  alternates: { canonical: "/" },
   openGraph: {
-    title: "Kaiz La | Empowering Global Trade",
-    description:
-      "Simplifying global trade with end-to-end sourcing solutions. Trusted by businesses for supplier discovery, negotiations, quality checks, logistics, and customs clearance.",
-    url: "https://kaizla.com", 
-    siteName: "Kaiz La",
+    title: `${siteConfig.name} | Empowering Global Trade`,
+    description: siteConfig.description,
+    url: siteConfig.url,
+    siteName: siteConfig.name,
+    images: [{ url: siteConfig.ogImage, width: 1200, height: 630, alt: siteConfig.name }],
     locale: "en_US",
     type: "website",
   },
-};
+  twitter: {
+    card: "summary_large_image",
+    title: `${siteConfig.name} | ${siteConfig.tagline}`,
+    description: siteConfig.description,
+    images: [siteConfig.ogImage],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, "max-image-preview": "large" },
+  },
+  icons: { icon: "/favicon.ico" },
+}
+
+const organizationLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "@id": `${siteConfig.url}/#organization`,
+  name: siteConfig.legalName,
+  alternateName: siteConfig.name,
+  url: siteConfig.url,
+  logo: `${siteConfig.url}/logo.png`,
+  description: siteConfig.description,
+  email: siteConfig.email,
+  telephone: siteConfig.phone,
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: siteConfig.address.street,
+    addressLocality: siteConfig.address.city,
+    addressRegion: siteConfig.address.region,
+    addressCountry: siteConfig.address.country,
+  },
+  sameAs: siteConfig.sameAs,
+}
+
+const localBusinessLd = {
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "@id": `${siteConfig.url}/#business`,
+  name: siteConfig.name,
+  image: `${siteConfig.url}${siteConfig.ogImage}`,
+  url: siteConfig.url,
+  telephone: siteConfig.phone,
+  email: siteConfig.email,
+  priceRange: "$$",
+  areaServed: ["IN", "AE", "SA", "QA", "KW", "OM", "BH", "Southeast Asia"],
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: siteConfig.address.street,
+    addressLocality: siteConfig.address.city,
+    addressRegion: siteConfig.address.region,
+    addressCountry: siteConfig.address.country,
+  },
+}
 
 
 export default function RootLayout({
@@ -46,8 +124,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <body className={`${geistSans.variable} ${geistMono.variable} ${playfair.variable} ${cinzel.variable} antialiased`}>
         {children}
+        <JsonLd data={[organizationLd, localBusinessLd]} />
       </body>
     </html>
   )

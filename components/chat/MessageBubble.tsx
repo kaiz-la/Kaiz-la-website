@@ -1,5 +1,5 @@
 import { type Message } from '@/store/chatStore';
-import { Bot, User, Calendar } from 'lucide-react';
+import { Calendar, MessageCircle } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 
@@ -14,60 +14,96 @@ function CalendlyButton({ payload }: { payload: any }) {
 
   return (
     <div className="space-y-4">
-      <p className="text-sm text-card-foreground/90 leading-relaxed">{payload.text}</p>
+      <p className="text-sm leading-relaxed text-ink">{payload.text}</p>
       <a
         href={payload.url}
         target="_blank"
         rel="noopener noreferrer"
-        className="group inline-flex items-center gap-3 bg-secondary hover:bg-secondary/90 text-secondary-foreground font-semibold py-3 px-6 rounded-xl shadow-sm hover:shadow-md transition-all duration-150 text-sm"
+        className="group inline-flex items-center gap-2.5 rounded-full bg-crimson px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all duration-150 hover:bg-[var(--color-crimson-deep)] hover:shadow-md"
       >
-        <Calendar className="w-4 h-4" />
+        <Calendar className="h-4 w-4" />
         Schedule Your Call
       </a>
-      <div className="flex items-center gap-2 pt-2 border-t border-border/50">
-        <span className="text-md text-muted-foreground">Finished scheduling? Click here:</span>
-        <button onClick={() => handleSuggestedReply('Scheduled')} className="text-md font-semibold text-primary text-secondary cursor-pointer hover:underline">Scheduled</button>
+      <div className="flex items-center gap-2 border-t border-border/60 pt-3">
+        <span className="text-xs text-muted-foreground">Finished scheduling?</span>
+        <button
+          onClick={() => handleSuggestedReply('Scheduled')}
+          className="cursor-pointer text-xs font-semibold text-crimson hover:underline"
+        >
+          Let us know
+        </button>
       </div>
+    </div>
+  );
+}
+
+function WhatsAppButton({ payload }: { payload: any }) {
+  return (
+    <div className="space-y-4">
+      <p className="text-sm leading-relaxed text-ink">{payload.text}</p>
+      <a
+        href={payload.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="group inline-flex items-center gap-2.5 rounded-full bg-[#25D366] px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all duration-150 hover:bg-[#1ebe5b] hover:shadow-md"
+      >
+        <MessageCircle className="h-4 w-4" />
+        Continue on WhatsApp
+      </a>
     </div>
   );
 }
 
 function getMarkdownComponents() {
   return {
+    h1: ({ children }: any) => (
+      <h1 className="font-display text-lg font-semibold text-ink mt-4 mb-2 first:mt-0">{children}</h1>
+    ),
+    h2: ({ children }: any) => (
+      <h2 className="font-display text-base font-semibold text-ink mt-4 mb-2 first:mt-0">{children}</h2>
+    ),
+    h3: ({ children }: any) => (
+      <h3 className="text-sm font-semibold text-ink mt-3 mb-1.5 first:mt-0">{children}</h3>
+    ),
     ul: ({ children }: any) => (
-      <ul className="space-y-2 my-4 pl-0 list-none">
-        {children}
-      </ul>
+      <ul className="space-y-1.5 my-3 pl-0 list-none">{children}</ul>
     ),
-    li: ({ children }: any) => (
-      <li className="flex items-start gap-2 text-sm">
-        <span className="text-primary mt-1.5 text-xs">•</span>
-        <div className="flex-1 leading-relaxed">{children}</div>
-      </li>
+    ol: ({ children }: any) => (
+      <ol className="space-y-1.5 my-3 pl-5 list-decimal marker:text-crimson marker:font-semibold">{children}</ol>
     ),
+    li: ({ children, ordered }: any) =>
+      ordered ? (
+        <li className="text-sm leading-relaxed pl-1">{children}</li>
+      ) : (
+        <li className="flex items-start gap-2 text-sm">
+          <span className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-crimson" />
+          <div className="flex-1 leading-relaxed">{children}</div>
+        </li>
+      ),
     p: ({ children }: any) => (
-      <p className="text-sm leading-relaxed mb-3 last:mb-0">
+      <p className="text-sm leading-relaxed text-ink mb-3 last:mb-0">{children}</p>
+    ),
+    a: ({ children, href }: any) => (
+      <a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="font-medium text-crimson underline underline-offset-2 hover:text-[var(--color-crimson-deep)]"
+      >
         {children}
-      </p>
+      </a>
     ),
-    hr: () => (
-      <hr className="my-3 border-border/20 border-dashed" />
-    ),
+    hr: () => <hr className="my-3 border-dashed border-border/60" />,
     strong: ({ children }: any) => (
-      <strong className="font-semibold text-card-foreground">
-        {children}
-      </strong>
+      <strong className="font-semibold text-ink">{children}</strong>
     ),
+    em: ({ children }: any) => <em className="italic">{children}</em>,
     code: ({ children }: any) => (
-      <code className="bg-muted px-1.5 py-0.5 rounded text-xs font-mono">
-        {children}
-      </code>
+      <code className="rounded bg-porcelain-deep px-1.5 py-0.5 text-xs font-mono text-ink">{children}</code>
     ),
     pre: ({ children }: any) => (
-      <pre className="bg-muted p-3 rounded-lg overflow-x-auto text-xs">
-        {children}
-      </pre>
-    )
+      <pre className="my-3 overflow-x-auto rounded-lg bg-porcelain-deep p-3 text-xs">{children}</pre>
+    ),
   };
 }
 
@@ -76,60 +112,54 @@ export function MessageBubble({ message }: MessageBubbleProps) {
   let content;
 
   if (message.role === 'assistant') {
+    let parsed: any = null;
     try {
-      const parsedContent = JSON.parse(message.content);
-      if (parsedContent.type === 'calendly-link') {
-        content = <CalendlyButton payload={parsedContent} />;
-      } else {
-        content = <p className="text-sm text-card-foreground leading-relaxed whitespace-pre-wrap">{message.content}</p>;
-      }
-    } catch (error) {
+      parsed = JSON.parse(message.content);
+    } catch {
+      parsed = null;
+    }
+
+    if (parsed?.type === 'calendly-link') {
+      content = <CalendlyButton payload={parsed} />;
+    } else if (parsed?.type === 'whatsapp-link') {
+      content = <WhatsAppButton payload={parsed} />;
+    } else {
       content = (
-        <div className="prose prose-sm max-w-none dark:prose-invert prose-headings:text-card-foreground prose-p:text-card-foreground prose-p:leading-relaxed prose-strong:text-card-foreground prose-li:text-card-foreground prose-ul:my-3 prose-li:my-1">
-          <ReactMarkdown
-            remarkPlugins={[remarkGfm]}
-            components={getMarkdownComponents()}
-          >
+        <div className="text-ink">
+          <ReactMarkdown remarkPlugins={[remarkGfm]} components={getMarkdownComponents()}>
             {message.content}
           </ReactMarkdown>
         </div>
       );
     }
   } else {
-    content = <p className="text-sm text-primary-foreground leading-relaxed whitespace-pre-wrap">{message.content}</p>;
+    content = <p className="text-sm leading-relaxed text-white whitespace-pre-wrap">{message.content}</p>;
   }
 
   return (
-    <div className={`flex items-start gap-4 ${isUser ? 'justify-end' : 'justify-start'}`}>
+    <div className={`flex items-start gap-3 ${isUser ? 'justify-end' : 'justify-start'}`}>
       {!isUser && (
-        <div className="flex-shrink-0 size-10 rounded-xl bg-secondary text-secondary-foreground flex items-center justify-center shadow-md">
-          <Bot size={18} />
+        <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl border-2 border-crimson bg-white font-display text-lg leading-none text-crimson shadow-sm">
+          喜
         </div>
       )}
       <div
-        className={`group relative max-w-2xl ${
+        className={`relative max-w-xl px-5 py-4 ${
           isUser
-            ? 'bg-primary text-primary-foreground shadow-sm hover:shadow-md'
-            : 'bg-card text-card-foreground shadow-sm hover:shadow-md'
-        } rounded-2xl p-5 transition-shadow duration-150`}
+            ? 'rounded-2xl rounded-br-sm bg-crimson text-white shadow-[0_10px_30px_-12px_rgba(204,52,51,0.5)]'
+            : 'card-lux rounded-2xl rounded-tl-sm'
+        }`}
       >
+        {!isUser && (
+          <div className="mb-1.5 text-xs font-semibold tracking-wide text-crimson">
+            KaiExpert · Kaiz La
+          </div>
+        )}
         {content}
-        <div className={`text-xs mt-4 opacity-60 ${isUser ? 'text-right' : 'text-left'}`}>
+        <div className={`mt-2 text-[11px] ${isUser ? 'text-right text-white/60' : 'text-left text-muted-foreground'}`}>
           {new Date(message.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
         </div>
-        <div
-          className={`absolute top-4 w-3 h-3 rotate-45 ${
-            isUser
-              ? 'bg-primary -right-1.5'
-              : 'bg-card -left-1.5'
-          } shadow-md`}
-        />
       </div>
-      {isUser && (
-        <div className="flex-shrink-0 size-10 rounded-xl bg-secondary text-secondary-foreground flex items-center justify-center shadow-md">
-          <User size={18} />
-        </div>
-      )}
     </div>
   );
 }

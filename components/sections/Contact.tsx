@@ -26,7 +26,7 @@ const itemVariants = {
   },
 }
 
-export default function Contact() {
+export default function Contact({ showHeader = true }: { showHeader?: boolean }) {
   const contactInfo = [
     {
       icon: Mail,
@@ -58,15 +58,17 @@ export default function Contact() {
           className="max-w-7xl mx-auto"
         >
           {/* Section Header */}
-          <motion.div variants={itemVariants} className="text-center mb-16 lg:mb-20">
-            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-primary mb-6 drop-shadow-sm">
-              Get In <span className="text-secondary">Touch</span>
-            </h2>
-            <div className="w-20 h-1 bg-accent mx-auto rounded-full shadow-sm mb-6"></div>
-            <p className="text-lg lg:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-              Ready to streamline your sourcing? Let's discuss how we can help transform your supply chain.
-            </p>
-          </motion.div>
+          {showHeader && (
+            <motion.div variants={itemVariants} className="text-center mb-16 lg:mb-20">
+              <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-primary mb-6 drop-shadow-sm">
+                Get In <span className="text-secondary">Touch</span>
+              </h2>
+              <div className="w-20 h-1 bg-accent mx-auto rounded-full shadow-sm mb-6"></div>
+              <p className="text-lg lg:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+                Ready to streamline your sourcing? Let's discuss how we can help transform your supply chain.
+              </p>
+            </motion.div>
+          )}
 
           {/* Unified Contact Section */}
           <motion.div

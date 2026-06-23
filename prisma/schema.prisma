@@ -3,8 +3,11 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  // Direct (non-pooled) connection for Prisma Migrate. On Neon use the
+  // "-pooler" host for DATABASE_URL and the direct host for DIRECT_URL.
+  directUrl = env("DIRECT_URL")
 }
 
 model Conversation {
@@ -25,6 +28,34 @@ model Message {
   conversationId String
 }
 
+model Shipment {
+  id                String          @id @default(cuid())
+  trackingId        String          @unique
+  customerName      String?
+  productSummary    String?
+  origin            String?
+  destination       String?
+  status            String          @default("SOURCING")
+  estimatedDelivery DateTime?
+  notes             String?         @db.Text
+  events            ShipmentEvent[]
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+}
+
+model ShipmentEvent {
+  id          String   @id @default(cuid())
+  shipment    Shipment @relation(fields: [shipmentId], references: [id], onDelete: Cascade)
+  shipmentId  String
+  status      String
+  description String?  @db.Text
+  location    String?
+  occurredAt  DateTime @default(now())
+  createdAt   DateTime @default(now())
+
+  @@index([shipmentId])
+}
+
 model Lead {
   id               String       @id @default(cuid())
   createdAt        DateTime     @default(now())
@@ -38,6 +69,7 @@ model Lead {
   orderVolume      String?
   preferredRegion  String?
   sourcingTimeline String?
+  preferredContact String?
   scheduledCall    Boolean      @default(false)
   callDate         DateTime?
   notes            String?      @db.Text

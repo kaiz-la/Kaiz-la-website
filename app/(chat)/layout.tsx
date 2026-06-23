@@ -13,30 +13,39 @@ export default function ChatLayout({
   return (
     <div className="flex h-screen w-full bg-background">
       <main className="flex flex-1 flex-col h-full min-w-0">
-        <header className="flex h-16 sm:h-18 lg:h-20 shrink-0 items-center gap-4 px-4 sm:px-6 lg:px-8 bg-card/95 backdrop-blur-md shadow-md">
+        <header className="flex h-16 sm:h-18 lg:h-20 shrink-0 items-center gap-4 border-b border-border bg-white/90 px-4 sm:px-6 lg:px-8 backdrop-blur-md">
           <div className="container mx-auto max-w-7xl flex items-center justify-between w-full">
-            <div className="flex-shrink-0">
+            <div className="flex items-center gap-4">
               <Link href="/" className="flex items-center group" aria-label="Kaiz La Home">
                 <Image
                   src="/logo.png"
                   alt="Kaiz La Logo"
-                  width={180}
-                  height={100}
-                  className="transition-transform duration-300 group-hover:scale-105 dark:filter dark:[filter:brightness(0)_invert(35%)_sepia(95%)_saturate(5000%)_hue-rotate(325deg)]"
+                  width={150}
+                  height={84}
+                  className="h-auto w-auto transition-transform duration-300 group-hover:scale-105"
                   priority
                 />
               </Link>
+              <div className="hidden items-center gap-2 border-l border-border pl-4 sm:flex">
+                <div>
+                  <div className="text-sm font-semibold leading-tight text-ink">Sourcing Desk</div>
+                  <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                    <span className="h-1.5 w-1.5 rounded-full bg-green-500" />
+                    Online · replies in minutes
+                  </div>
+                </div>
+              </div>
             </div>
 
             <div className="flex items-center gap-3 xl:gap-4">
               <Link href="/chat">
                 <button className="
                   flex items-center gap-2 px-4 py-2 xl:px-5 xl:py-2.5
-                  bg-secondary text-white rounded-lg 
-                  hover:opacity-90 hover:shadow-md
-                  transition-all duration-200 font-medium
+                  bg-crimson text-white rounded-full
+                  hover:bg-[var(--color-crimson-deep)] hover:shadow-md
+                  transition-all duration-200 font-semibold
                   text-sm xl:text-base
-                  focus:outline-none focus:ring-2 focus:ring-secondary focus:ring-offset-2
+                  focus:outline-none focus:ring-2 focus:ring-crimson focus:ring-offset-2
                 ">
                   <Plus className="size-4" />
                   <span className="hidden sm:inline">New Chat</span>

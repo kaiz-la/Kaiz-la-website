@@ -6,9 +6,24 @@ import { useChatStore, type Message as MessageType } from '@/store/chatStore';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { MessageBubble } from "./MessageBubble";
-import { Bot, Send, MessageSquare, Calendar, Search } from "lucide-react";
+import { Send, Search, Compass, FileText } from "lucide-react";
 import { TypingIndicator } from './TypingIndicator';
 import { StartingChatLoader } from './StartingChatLoader';
+import { WelcomeCelebration } from './WelcomeCelebration';
+import { Seal } from "@/components/ui/Seal";
+
+const MEMBER_COOKIE = 'kaizla_member';
+
+function hasMemberCookie(): boolean {
+  if (typeof document === 'undefined') return false;
+  return document.cookie.split('; ').some((c) => c.startsWith(`${MEMBER_COOKIE}=1`));
+}
+
+function setMemberCookie(): void {
+  if (typeof document === 'undefined') return;
+  // Remember the converted user for a year.
+  document.cookie = `${MEMBER_COOKIE}=1; max-age=31536000; path=/; samesite=lax`;
+}
 
 interface ChatWindowProps {
   conversationId?: string;
@@ -21,6 +36,16 @@ export function ChatWindow({ conversationId: currentConversationId }: ChatWindow
   const [isLoading, setIsLoading] = useState(false);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const [isStartingNewChat, setIsStartingNewChat] = useState(false);
+  // null = no takeover, 'new' = just converted, 'returning' = welcome a known member back
+  const [celebration, setCelebration] = useState<null | 'new' | 'returning'>(null);
+  const [isMember, setIsMember] = useState(false);
+
+  // Greet returning members with the crimson welcome screen on a fresh chat.
+  useEffect(() => {
+    const member = hasMemberCookie();
+    setIsMember(member);
+    if (member && !currentConversationId) setCelebration('returning');
+  }, [currentConversationId]);
 
   useEffect(() => {
     const handleSetInput = (event: CustomEvent<string>) => {
@@ -31,6 +56,18 @@ export function ChatWindow({ conversationId: currentConversationId }: ChatWindow
       document.removeEventListener('set-chat-input', handleSetInput as EventListener);
     };
   }, []);
+
+  // Carry over a prompt passed from the homepage search bar (/chat?q=...)
+  useEffect(() => {
+    if (typeof window === 'undefined' || currentConversationId) return;
+    const params = new URLSearchParams(window.location.search);
+    const q = params.get('q');
+    if (q) {
+      setInput(q);
+      // Clean the URL so a refresh doesn't re-populate the box
+      window.history.replaceState(null, '', window.location.pathname);
+    }
+  }, [currentConversationId]);
 
   useEffect(() => {
     if (!currentConversationId) {
@@ -72,6 +109,7 @@ export function ChatWindow({ conversationId: currentConversationId }: ChatWindow
         }),
       });
       if (!response.body) throw new Error("Response body is empty.");
+      const leadHandedOff = response.headers.get('X-Lead-Complete') === '1';
       const reader = response.body.getReader();
       const decoder = new TextDecoder();
       let assistantResponse = '';
@@ -109,12 +147,28 @@ export function ChatWindow({ conversationId: currentConversationId }: ChatWindow
           createdAt: assistantCreatedAt,
         }),
       });
+
+      // The team was just notified — celebrate and remember this member.
+      if (leadHandedOff) {
+        setMemberCookie();
+        setIsMember(true);
+        setCelebration('new');
+      }
     } catch (error) {
       console.error("Failed to fetch chat response:", error);
       setIsLoading(false);
       setIsStartingNewChat(false);
     }
   };
+
+  if (celebration) {
+    return (
+      <WelcomeCelebration
+        returning={celebration === 'returning'}
+        onContinue={() => setCelebration(null)}
+      />
+    );
+  }
 
   if (isStartingNewChat) {
     return <StartingChatLoader />;
@@ -126,21 +180,22 @@ export function ChatWindow({ conversationId: currentConversationId }: ChatWindow
         <div className="max-w-4xl mx-auto py-6 px-4 sm:px-6">
           {messages.length === 0 && !isLoading && !currentConversationId ? (
             <div className="flex flex-col items-center justify-center text-center min-h-[calc(100vh-28rem)] sm:min-h-[calc(100vh-24rem)] md:min-h-[calc(100vh-22rem)]">
-              <div className="mb-4 flex aspect-square size-20 sm:size-24 items-center justify-center rounded-2xl bg-secondary text-secondary-foreground shadow-lg">
-                <Bot className="size-10 sm:size-12" />
-              </div>
-              <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-secondary tracking-tight mb-3">Hi, I'm Kai <span className='text-primary'>Expert!</span></h1>
-              <p className="text-base leading-relaxed sm:text-lg text-muted-foreground max-w-sm sm:max-w-md mb-4 px-4"> Think of me as your personal sourcing
-                companion at Kaiz La. I’ll answer your
-                queries, guide you through our services,
-                and help set up a call with our experts.</p>
+              <Seal size={76} label="KaiExpert" />
+              <div className="eyebrow mt-6 text-crimson">Kaiz La · Sourcing Desk</div>
+              <h1 className="mt-3 font-display text-3xl font-medium tracking-tight text-ink sm:text-4xl md:text-5xl">
+                How can we help you <span className="text-gradient-sun italic">source?</span>
+              </h1>
+              <p className="mt-4 max-w-md px-4 text-base leading-relaxed text-ink-soft sm:text-lg">
+                Tell me what you’re looking to source from China — I’ll guide you on suppliers,
+                quality, pricing and delivery, then connect you with our sourcing team.
+              </p>
             </div>
           ) : (
             <div className="space-y-6">
               {messages.map((message: any) => (
                 <MessageBubble key={message.id} message={message} />
               ))}
-              {isLoading && <TypingIndicator />}
+              {isLoading && messages[messages.length - 1]?.role === 'user' && <TypingIndicator />}
             </div>
           )}
         </div>
@@ -149,54 +204,50 @@ export function ChatWindow({ conversationId: currentConversationId }: ChatWindow
       {messages.length === 0 && !isLoading && !currentConversationId && (
         <div className="max-w-4xl mx-auto px-4 sm:px-6 pb-6">
           <div className="flex flex-col sm:flex-row flex-wrap gap-3 justify-center">
-            <button
-              onClick={() => setInput("Start a new chat")}
-              className="px-4 py-3 bg-card hover:bg-card/80 text-card-foreground rounded-xl shadow-sm hover:shadow-md transition-all duration-150 text-sm font-medium flex items-center justify-center gap-2"
-            >
-              <MessageSquare className="size-4" />
-              Start Chat
-            </button>
-            <button
-              onClick={() => setInput("How do I schedule a call?")}
-              className="px-4 py-3 bg-card hover:bg-card/80 text-card-foreground rounded-xl shadow-sm hover:shadow-md transition-all duration-150 text-sm font-medium flex items-center justify-center gap-2"
-            >
-              <Calendar className="size-4" />
-              Schedule a Call
-            </button>
-            <button
-              onClick={() => setInput("Explore sourcing solutions")}
-              className="px-4 py-3 bg-card hover:bg-card/80 text-card-foreground rounded-xl shadow-sm hover:shadow-md transition-all duration-150 text-sm font-medium flex items-center justify-center gap-2"
-            >
-              <Search className="size-4" />
-              Explore Sourcing Solutions
-            </button>
+            {[
+              { icon: Search, label: "What can you source?", prompt: "What kinds of products can you source for me?" },
+              { icon: Compass, label: "How does it work?", prompt: "How does sourcing with Kaiz La work?" },
+              { icon: FileText, label: "I need a quote", prompt: "I'd like a quote for a product I want to source." },
+            ].map(({ icon: Icon, label, prompt }) => (
+              <button
+                key={label}
+                onClick={() => setInput(prompt)}
+                className="group inline-flex items-center justify-center gap-2 rounded-full border border-border bg-white px-5 py-2.5 text-sm font-medium text-ink shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-crimson/40 hover:text-crimson hover:shadow-md"
+              >
+                <Icon className="size-4 text-crimson" />
+                {label}
+              </button>
+            ))}
           </div>
         </div>
       )}
 
-      <div className="bg-background/95 backdrop-blur-sm shadow-lg">
+      <div className="border-t border-border bg-porcelain/80 backdrop-blur-sm">
         <div className="max-w-4xl mx-auto p-4 sm:p-6">
           <form onSubmit={handleSubmit} className="relative">
-            <div className="flex items-center gap-3 p-2 bg-card rounded-2xl shadow-sm hover:shadow-md transition-shadow duration-150">
+            <div className="flex items-center gap-2 rounded-full border border-border bg-white p-1.5 pl-5 shadow-[0_8px_30px_-12px_rgba(26,20,19,0.2)] transition-shadow duration-150 focus-within:border-crimson/40 focus-within:shadow-[0_8px_30px_-10px_rgba(204,52,51,0.3)]">
               <Input
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                placeholder="Type your message here..."
+                placeholder="Tell us what you'd like to source…"
                 disabled={isLoading}
-                className="flex-1 bg-transparent border-none focus:ring-0 focus-visible:ring-0 h-12 px-4 text-base placeholder:text-muted-foreground"
+                className="flex-1 h-11 border-none bg-transparent px-0 text-base text-ink shadow-none focus:ring-0 focus-visible:ring-0 placeholder:text-muted-foreground"
               />
               <Button
                 type="submit"
                 disabled={isLoading || !input.trim()}
-                className={`h-12 w-12 rounded-xl transition-all duration-150 shadow-sm ${input.trim() && !isLoading
-                    ? 'bg-secondary hover:bg-secondary/90 text-secondary-foreground hover:shadow-md'
-                    : 'bg-secondary/50 text-secondary-foreground/50'
+                className={`h-11 w-11 rounded-full transition-all duration-150 ${input.trim() && !isLoading
+                    ? 'bg-crimson text-white hover:bg-[var(--color-crimson-deep)] hover:shadow-md'
+                    : 'bg-crimson/40 text-white/70'
                   }`}
                 size="icon"
               >
                 <Send className="w-5 h-5" />
               </Button>
             </div>
+            <p className="mt-2 text-center text-[11px] text-muted-foreground">
+              A Kaiz La sourcing specialist reviews every conversation.
+            </p>
           </form>
         </div>
       </div>

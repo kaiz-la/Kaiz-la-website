@@ -8,3 +8,4 @@ const aiProvider = provider === 'openai' ? openai : gemini;
 export const embedQuery = aiProvider.embedQuery;
 export const generateChatResponse = aiProvider.generateChatResponse;
 export const generateTitle = aiProvider.generateTitle;
+export const generateCompletion = aiProvider.generateCompletion;

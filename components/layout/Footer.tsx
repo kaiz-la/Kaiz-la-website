@@ -2,6 +2,7 @@
 
 import { motion, type Variants } from "framer-motion"
 import Image from "next/image"
+import Link from "next/link"
 import { Linkedin, Twitter, Facebook } from "lucide-react"
 
 const containerVariants = {
@@ -35,11 +36,11 @@ export default function Footer() {
   ]
 
   const companyLinks = [
-    { name: "About Us", href: "#about" },
-    { name: "The Kaiz La Advantage", href: "#why-choose-us" },
-    { name: "How It Works", href: "#how-it-works" },
-    { name: "Why Choose Us", href: "#why-choose-us" },
-    { name: "Contact Us", href: "#contact" },
+    { name: "Services", href: "/services" },
+    { name: "How It Works", href: "/how-it-works" },
+    { name: "Track Order", href: "/track" },
+    { name: "About Us", href: "/about" },
+    { name: "Contact Us", href: "/contact" },
   ]
 
   return (
@@ -56,16 +57,16 @@ export default function Footer() {
             
             {/* Company Info Section */}
             <motion.div variants={itemVariants} className="md:col-span-2">
-              <a href="#" className="mb-5 inline-block">
+              <Link href="/" className="mb-5 inline-block">
                 <Image
                   src="/image.png"
                   alt="Kaiz La Logo"
                   width={150}
                   height={80}
-                  className="transition-transform duration-300 hover:scale-105"
+                  className="h-auto w-auto transition-transform duration-300 hover:scale-105"
                   priority
                 />
-              </a>
+              </Link>
               <p className="text-lg text-background/90 leading-relaxed mb-8 max-w-lg">
                 Your trusted partner in global sourcing, simplifying supply chains with expertise and technology.
               </p>
@@ -91,9 +92,9 @@ export default function Footer() {
               <ul className="space-y-4">
                 {companyLinks.map((link) => (
                   <li key={link.name}>
-                    <a href={link.href} className="text-base font-medium text-background/90 hover:text-white hover:underline transition-colors duration-200">
+                    <Link href={link.href} className="text-base font-medium text-background/90 hover:text-white hover:underline transition-colors duration-200">
                       {link.name}
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>

@@ -1,118 +1,299 @@
 "use client"
 
-import { motion, type Variants } from "framer-motion"
+import { motion } from "framer-motion"
 import Link from "next/link"
-import { ArrowRight, Award } from "lucide-react"
+import { useRouter } from "next/navigation"
+import { useState } from "react"
+import {
+  ArrowRight,
+  Search,
+  PackageSearch,
+  ShieldCheck,
+  Ship,
+  PackageCheck,
+} from "lucide-react"
 
-const containerVariants: Variants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-    },
-  },
+type Tab = {
+  id: string
+  label: string
+  placeholder: string
+  cta: string
+  icon: typeof Search
+  build: (value: string) => string
 }
 
-const itemVariants: Variants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.5,
-      ease: "easeOut",
-    },
+const tabs: Tab[] = [
+  {
+    id: "source",
+    label: "Start Sourcing",
+    placeholder: "What do you want to source? e.g. LED lighting",
+    cta: "Find Suppliers",
+    icon: Search,
+    build: (q) => q,
   },
-}
+  {
+    id: "track",
+    label: "Track Order",
+    placeholder: "Enter your order or shipment ID",
+    cta: "Track Order",
+    icon: PackageSearch,
+    build: (id) => `Track my order. Order / Shipment ID: ${id}`,
+  },
+  {
+    id: "quote",
+    label: "Get a Quote",
+    placeholder: "Tell us your product & destination",
+    cta: "Request Quote",
+    icon: Search,
+    build: (q) => `I'd like a quote for: ${q}`,
+  },
+]
+
+const tiles = [
+  {
+    icon: PackageSearch,
+    title: "Supplier Sourcing",
+    desc: "Discover & vet factories across China.",
+    href: "/how-it-works",
+  },
+  {
+    icon: ShieldCheck,
+    title: "Quality & Inspection",
+    desc: "QA checks at every production stage.",
+    href: "/how-it-works",
+  },
+  {
+    icon: Ship,
+    title: "Freight & Logistics",
+    desc: "Air and sea freight, fully tracked.",
+    href: "/services",
+  },
+  {
+    icon: PackageCheck,
+    title: "Customs & Delivery",
+    desc: "Clearance through to your doorstep.",
+    href: "/services",
+  },
+]
+
+const stats = [
+  { value: "1000+", label: "Clients" },
+  { value: "5M+", label: "Products sourced" },
+  { value: "50+", label: "Countries" },
+  { value: "15+", label: "Years" },
+]
 
 export default function Hero() {
+  const router = useRouter()
+  const [active, setActive] = useState(tabs[0].id)
+  const [query, setQuery] = useState("")
+  const activeTab = tabs.find((t) => t.id === active)!
+
+  const handleWidgetSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    const value = query.trim()
+    // Track Order goes to the live shipment tracker, not the chat bot.
+    if (active === "track") {
+      router.push(value ? `/track?id=${encodeURIComponent(value)}` : "/track")
+      return
+    }
+    if (!value) {
+      router.push("/chat")
+      return
+    }
+    router.push(`/chat?q=${encodeURIComponent(activeTab.build(value))}`)
+  }
+
   return (
-    <section className="min-h-screen w-full bg-background relative">
-      {/* Dual Gradient Overlay Background */}
-      <div
-        className="absolute inset-0 z-0"
-        style={{
-          backgroundImage: `
-            linear-gradient(to right, var(--border) 1px, transparent 1px),
-            linear-gradient(to bottom, var(--border) 1px, transparent 1px),
-            radial-gradient(circle 500px at 20% 80%, var(--secondary), transparent),
-            radial-gradient(circle 500px at 80% 20%, var(--accent), transparent)
-          `,
-          backgroundSize: "48px 48px, 48px 48px, 100% 100%, 100% 100%",
-          opacity: 0.15,
-        }}
-      />
+    <section id="home" className="relative w-full bg-porcelain">
+      {/* ===== Banner ===== */}
+      <div className="relative w-full overflow-hidden">
+        {/* Background image */}
+        <img
+          src="/KaizLa-Backdrop.png"
+          alt="The gateway of Chinese manufacturing"
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+        {/* Brand crimson gradient overlay (legibility, per identity guide) */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(96deg, rgba(158,31,30,0.95) 0%, rgba(204,52,51,0.86) 34%, rgba(204,52,51,0.45) 64%, rgba(204,52,51,0.12) 100%)",
+          }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-[rgba(120,18,18,0.5)] via-transparent to-transparent" />
 
-      <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col items-center justify-center pt-12 pb-20 sm:pt-16 sm:pb-24">
-          <motion.div
-            className="w-full max-w-7xl text-center space-y-6"
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-          >
+        <div className="relative container mx-auto px-5 sm:px-6 lg:px-8">
+          <div className="flex min-h-[60vh] max-w-2xl flex-col justify-center py-20 lg:min-h-[66vh] lg:py-28">
             <motion.div
-              className="inline-flex items-center gap-2 rounded-full bg-card/80 backdrop-blur-sm border border-border/50 px-4 py-2 shadow-sm"
-              variants={itemVariants}
+              initial={{ opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
             >
-              <Award className="h-4 w-4 text-secondary shrink-0" />
-              <span className="text-sm font-medium text-primary whitespace-nowrap">
-                15+ Years of Global Sourcing Excellence
-              </span>
-            </motion.div>
+              <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-4 py-1.5 backdrop-blur-sm">
+                <span className="h-1.5 w-1.5 rounded-full bg-sun-amber" />
+                <span className="text-xs font-semibold uppercase tracking-[0.18em] text-white/90">
+                  15 Years · Factory to Doorstep
+                </span>
+              </div>
 
-            <motion.div className="space-y-3" variants={itemVariants}>
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-primary leading-[1.1] drop-shadow-xl">
-                Empowering Global Trade with <span className="text-secondary drop-shadow-sm">Seamless Sourcing</span> Solutions
+              <h1 className="text-4xl font-extrabold leading-[1.04] tracking-tight text-white sm:text-5xl lg:text-6xl">
+                Global sourcing,
+                <br />
+                made effortless.
               </h1>
-              <p className="text-base sm:text-lg md:text-xl lg:text-2xl leading-relaxed text-muted-foreground max-w-4xl mx-auto">
-                Leading sourcing-as-a-service company connecting Global suppliers to clients across{" "}
-                <span className="font-semibold text-secondary">India and the Middle East</span>.
+
+              <p className="mt-5 max-w-xl text-lg leading-relaxed text-white/85">
+                Vetted Chinese factories to your doorstep across India &amp; the Middle East —
+                discovery, quality, logistics and customs, handled end to end.
               </p>
-            </motion.div>
 
+              <div className="mt-8 flex flex-wrap items-center gap-4">
+                <Link
+                  href="/chat"
+                  className="group inline-flex items-center justify-center rounded-full bg-white px-7 py-3.5 text-base font-bold text-crimson shadow-lg transition-all duration-300 hover:bg-porcelain hover:shadow-xl"
+                >
+                  Start Sourcing
+                  <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1.5" />
+                </Link>
+                <Link
+                  href="/services"
+                  className="inline-flex items-center justify-center rounded-full border-2 border-white/70 px-7 py-3.5 text-base font-bold text-white transition-all duration-300 hover:bg-white/10"
+                >
+                  Explore Services
+                </Link>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+
+        {/* Signature sun-gradient stripe (DHL-style accent band) */}
+        <div className="absolute bottom-0 left-0 h-1.5 w-full bg-sun-gradient" />
+      </div>
+
+      {/* ===== Quick-action widget (overlaps banner) ===== */}
+      <div className="container mx-auto px-5 sm:px-6 lg:px-8">
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="card-lux relative z-10 -mt-12 rounded-2xl p-2 sm:-mt-14"
+        >
+          {/* Tabs */}
+          <div className="flex flex-wrap gap-1 border-b border-border px-2 pt-1">
+            {tabs.map((t) => (
+              <button
+                key={t.id}
+                type="button"
+                onClick={() => {
+                  setActive(t.id)
+                  setQuery("")
+                }}
+                className={`relative px-4 py-3 text-sm font-semibold transition-colors sm:text-base ${
+                  active === t.id ? "text-crimson" : "text-muted-foreground hover:text-ink"
+                }`}
+              >
+                {t.label}
+                {active === t.id && (
+                  <motion.span
+                    layoutId="hero-tab"
+                    className="absolute inset-x-2 -bottom-px h-0.5 rounded-full bg-crimson"
+                  />
+                )}
+              </button>
+            ))}
+          </div>
+
+          {/* Input row */}
+          <form
+            onSubmit={handleWidgetSubmit}
+            className="flex flex-col gap-3 p-3 sm:flex-row sm:items-center"
+          >
+            <div className="flex flex-1 items-center gap-3 rounded-xl bg-porcelain px-4 py-3.5">
+              <activeTab.icon className="h-5 w-5 flex-shrink-0 text-crimson" />
+              <input
+                type="text"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder={activeTab.placeholder}
+                aria-label={activeTab.label}
+                className="w-full bg-transparent text-base text-ink placeholder:text-muted-foreground focus:outline-none"
+              />
+            </div>
+            <button
+              type="submit"
+              className="group inline-flex items-center justify-center rounded-xl bg-crimson px-7 py-3.5 text-base font-bold text-white transition-all duration-300 hover:bg-[var(--color-crimson-deep)]"
+            >
+              {activeTab.cta}
+              <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+            </button>
+          </form>
+        </motion.div>
+      </div>
+
+      {/* ===== Service entry tiles ===== */}
+      <div className="container mx-auto px-5 pb-6 pt-12 sm:px-6 lg:px-8 lg:pt-16">
+        <div className="mb-7 flex items-end justify-between">
+          <div>
+            <div className="eyebrow text-crimson">Explore Kaiz La</div>
+            <h2 className="mt-2 text-2xl font-bold tracking-tight text-ink sm:text-3xl">
+              Everything you need to source from China
+            </h2>
+          </div>
+          <Link
+            href="/services"
+            className="hidden items-center gap-1 text-sm font-semibold text-crimson hover:underline sm:inline-flex"
+          >
+            All services
+            <ArrowRight className="h-4 w-4" />
+          </Link>
+        </div>
+
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {tiles.map((tile, i) => (
             <motion.div
-              className="flex flex-wrap items-center justify-center gap-6 pt-8 pb-4"
-              variants={itemVariants}
+              key={tile.title}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.45, delay: i * 0.06 }}
             >
               <Link
-                href="/chat"
-                className="group inline-flex items-center justify-center rounded-lg bg-secondary px-8 py-4 text-lg font-bold text-white shadow-xl transition-all duration-300 ease-in-out hover:bg-secondary/90 hover:shadow-2xl hover:scale-110 focus:outline-none focus:ring-4 focus:ring-secondary focus:ring-offset-4 focus:ring-offset-background border-2 border-transparent hover:border-white/20"
+                href={tile.href}
+                className="group relative flex h-full flex-col rounded-2xl border border-border bg-card p-6 transition-all duration-300 hover:-translate-y-1 hover:border-crimson/40 hover:shadow-[0_24px_48px_-24px_rgba(204,52,51,0.45)]"
               >
-                Talk to KaiExpert
-                <ArrowRight className="ml-3 h-5 w-5 shrink-0 transition-transform duration-300 group-hover:translate-x-2" />
-              </Link>
-
-              <Link
-                href="#why-choose-us"
-                className="group inline-flex items-center justify-center rounded-lg bg-secondary px-8 py-4 text-lg font-bold text-white shadow-xl transition-all duration-300 ease-in-out hover:bg-secondary/90 hover:shadow-2xl hover:scale-110 focus:outline-none focus:ring-4 focus:ring-secondary focus:ring-offset-4 focus:ring-offset-background border-2 border-transparent hover:border-white/20"
-              >
-                The Kaiz La Advantage
-                <ArrowRight className="ml-3 h-5 w-5 shrink-0 transition-transform duration-300 group-hover:translate-x-2" />
+                {/* top accent on hover */}
+                <span className="absolute inset-x-0 top-0 h-1 origin-left scale-x-0 rounded-t-2xl bg-sun-gradient transition-transform duration-300 group-hover:scale-x-100" />
+                <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-crimson/10 transition-colors duration-300 group-hover:bg-crimson/15">
+                  <tile.icon className="h-6 w-6 text-crimson" />
+                </div>
+                <h3 className="text-lg font-bold text-ink">{tile.title}</h3>
+                <p className="mt-1.5 flex-1 text-sm leading-relaxed text-muted-foreground">
+                  {tile.desc}
+                </p>
+                <div className="mt-4 inline-flex items-center text-sm font-semibold text-crimson">
+                  Learn more
+                  <ArrowRight className="ml-1 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+                </div>
               </Link>
             </motion.div>
+          ))}
+        </div>
+      </div>
 
-            <motion.div
-              className="grid grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 pt-8 max-w-2xl mx-auto"
-              variants={itemVariants}
-            >
-              <div className="text-center p-4 rounded-lg bg-card/80 backdrop-blur-lg shadow-lg hover:shadow-lg transition-shadow duration-200">
-                <div className="text-2xl sm:text-3xl font-bold text-secondary drop-shadow-sm">1000+</div>
-                <div className="text-sm text-muted-foreground mt-1">Clients</div>
+      {/* ===== Trust strip ===== */}
+      <div className="border-y border-border bg-porcelain-deep">
+        <div className="container mx-auto grid grid-cols-2 divide-x divide-border px-5 sm:px-6 md:grid-cols-4 lg:px-8">
+          {stats.map((s) => (
+            <div key={s.label} className="px-4 py-6 text-center">
+              <div className="text-2xl font-extrabold text-crimson sm:text-3xl">{s.value}</div>
+              <div className="mt-1 text-xs font-medium uppercase tracking-wide text-muted-foreground sm:text-sm">
+                {s.label}
               </div>
-
-              <div className="text-center p-4 rounded-lg bg-card/80 backdrop-blur-lg shadow-lg hover:shadow-lg transition-shadow duration-200">
-                <div className="text-2xl sm:text-3xl font-bold text-secondary drop-shadow-sm">5 Million+</div>
-                <div className="text-sm text-muted-foreground mt-1">Product Served</div>
-              </div>
-
-              <div className="col-span-2 lg:col-span-1 text-center p-4 rounded-lg bg-card/80 backdrop-blur-lg shadow-lg hover:shadow-lg transition-shadow duration-200">
-                <div className="text-2xl sm:text-3xl font-bold text-secondary drop-shadow-sm">50+</div>
-                <div className="text-sm text-muted-foreground mt-1">Country Served</div>
-              </div>
-            </motion.div>
-          </motion.div>
+            </div>
+          ))}
         </div>
       </div>
     </section>
