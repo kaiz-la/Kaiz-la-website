@@ -119,7 +119,7 @@ export default function WhyChooseUs() {
               The <span className="text-secondary">Kaiz La</span> Advantage
             </h2>
             <p className="text-lg lg:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-              We combine deep industry expertise with cutting-edge technology to transform your supply chain into a competitive advantage.
+              We pair 15+ years of on-the-ground sourcing expertise with technology and a vetted factory network — turning China procurement into a reliable competitive advantage.
             </p>
           </motion.div>
 

@@ -28,6 +28,7 @@ export const navRoutes = [
   { name: "Home", href: "/" },
   { name: "Services", href: "/services" },
   { name: "How It Works", href: "/how-it-works" },
+  { name: "Guides", href: "/guides" },
   { name: "About", href: "/about" },
   { name: "Contact", href: "/contact" },
 ] as const

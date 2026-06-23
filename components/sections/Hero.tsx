@@ -134,19 +134,20 @@ export default function Hero() {
               <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-4 py-1.5 backdrop-blur-sm">
                 <span className="h-1.5 w-1.5 rounded-full bg-sun-amber" />
                 <span className="text-xs font-semibold uppercase tracking-[0.18em] text-white/90">
-                  15 Years · Factory to Doorstep
+                  15+ Years · China Sourcing Experts
                 </span>
               </div>
 
               <h1 className="text-4xl font-extrabold leading-[1.04] tracking-tight text-white sm:text-5xl lg:text-6xl">
-                Global sourcing,
+                Your sourcing partner
                 <br />
-                made effortless.
+                on the ground in China.
               </h1>
 
               <p className="mt-5 max-w-xl text-lg leading-relaxed text-white/85">
-                Vetted Chinese factories to your doorstep across India &amp; the Middle East —
-                discovery, quality, logistics and customs, handled end to end.
+                Kaiz La connects businesses across India &amp; the Middle East with vetted Chinese
+                manufacturers — managing supplier discovery, quality control, freight and customs,
+                end to end.
               </p>
 
               <div className="mt-8 flex flex-wrap items-center gap-4">

@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next"
 import { siteConfig } from "@/lib/site"
+import { guideSlugs } from "@/lib/guides"
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date()
@@ -8,6 +9,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/", priority: 1, changeFrequency: "weekly" },
     { path: "/services", priority: 0.9, changeFrequency: "monthly" },
     { path: "/how-it-works", priority: 0.8, changeFrequency: "monthly" },
+    { path: "/guides", priority: 0.8, changeFrequency: "weekly" },
+    ...guideSlugs.map((slug) => ({
+      path: `/guides/${slug}`,
+      priority: 0.7,
+      changeFrequency: "monthly" as const,
+    })),
     { path: "/about", priority: 0.7, changeFrequency: "monthly" },
     { path: "/track", priority: 0.6, changeFrequency: "monthly" },
     { path: "/contact", priority: 0.7, changeFrequency: "yearly" },
