@@ -145,9 +145,8 @@ export default function Hero() {
               </h1>
 
               <p className="mt-5 max-w-xl text-lg leading-relaxed text-white/85">
-                Kaiz La connects businesses across India &amp; the Middle East with vetted Chinese
-                manufacturers — managing supplier discovery, quality control, freight and customs,
-                end to end.
+                We find the factory, check the quality, and ship it to your door — across India
+                &amp; the Middle East. You stay in control; we handle China.
               </p>
 
               <div className="mt-8 flex flex-wrap items-center gap-4">
@@ -238,7 +237,7 @@ export default function Hero() {
       <div className="container mx-auto px-5 pb-6 pt-12 sm:px-6 lg:px-8 lg:pt-16">
         <div className="mb-7 flex items-end justify-between">
           <div>
-            <div className="eyebrow text-crimson">Explore Kaiz La</div>
+            <div className="eyebrow text-crimson">What we handle</div>
             <h2 className="mt-2 text-2xl font-bold tracking-tight text-ink sm:text-3xl">
               Everything you need to source from China
             </h2>

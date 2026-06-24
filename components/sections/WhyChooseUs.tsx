@@ -2,7 +2,7 @@
 
 import { motion, AnimatePresence, type Variants } from "framer-motion"
 import { useState } from "react"
-import { Award, ShieldCheck, Clock, Brain, ArrowRight, CheckCircle, UserCheck } from "lucide-react"
+import { Award, ShieldCheck, Clock, ArrowRight, CheckCircle, UserCheck, BadgeCheck, Radar } from "lucide-react"
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -53,49 +53,63 @@ export default function WhyChooseUs() {
   const tabsData = [
     {
       icon: ShieldCheck,
-      tabName: "360\u00B0 Confidentiality",
-      title: "100% Confidentiality & Zero IP Leakage",
-      description: "From enquiry to delivery, we safeguard your business intelligence and product integrity at every stage of the sourcing journey. Our NDA-backed supplier and partner network operates under strict, pre-agreed confidentiality protocols, ensuring your designs, pricing, and market strategies remain fully protected. With Kaiz La, you get transparent quality control and absolute peace of mind—no leaks, no surprises.",
-      stat: "100% Confidentiality & Zero IP Leakage",
+      tabName: "Confidentiality",
+      image: "/media/adv-confidentiality.jpg",
+      title: "Your designs stay yours.",
+      description:
+        "NDA-backed suppliers, locked-in pricing, and zero IP leakage — from first enquiry to final delivery. Your designs, costs and strategy stay protected. No leaks, no surprises.",
+      stat: "NDA-backed supplier network",
     },
-      {
+    {
       icon: UserCheck,
-      tabName: "Customer Experience Support",
-      title: "Firsthand Confidence Before You Buy",
+      tabName: "See It Before You Buy",
+      image: "/media/adv-inspection.jpg",
+      title: "Inspect your goods in person.",
       description: (
         <>
-          We invite you to China to personally experience your products before purchase. From the moment you arrive, Kaiz La handles every detail of your itinerary — travel, factory visits, product inspections, and more. A dedicated <span className="text-secondary font-bold">Kaiz La Customer Success Expert</span> accompanies you throughout the journey, ensuring seamless communication, transparency, and complete confidence in your sourcing decisions.
+          We fly you in and handle the whole trip — travel, factory visits, and product
+          inspections. A dedicated{" "}
+          <span className="text-secondary font-bold">Kaiz La Success Expert</span> stays with you
+          start to finish, so you buy with complete confidence.
         </>
       ),
-      stat: "100% On-Site Inspection Support",
+      stat: "On-site inspection included",
     },
     {
       icon: Award,
-      tabName: "Proven Expertise",
-      title: "15+ Years of Industry-Leading Experience",
-      description: "Our deep understanding of international trade nuances comes from over a decade of successfully navigating the complexities of the global market. We've seen it all, so you don't have to.",
-      stat: "1000+ Projects Delivered",
+      tabName: "15+ Years",
+      image: "/media/adv-experience.jpg",
+      title: "We've made the mistakes so you won't.",
+      description:
+        "Fifteen years navigating Chinese manufacturing, customs and freight across India and the Middle East. We've seen what goes wrong — and we keep it from reaching you.",
+      stat: "1,000+ projects delivered",
     },
     {
-      icon: ShieldCheck,
-      tabName: "Verified Network",
-      title: "Access an Elite, Vetted Supplier Network",
-      description: " We connect you with top-tier manufacturers, delivering factory-direct pricing and uncompromising quality. Every partner is rigorously vetted to meet Kaiz La's high standards. Our strict in-house QA checks—conducted at multiple production stages—ensure your products meet exact specifications. Before loading, you receive a detailed quality inspection report, giving you complete transparency and confidence in every shipment.",
-      stat: "500+ Trusted Partners",
+      icon: BadgeCheck,
+      tabName: "Vetted Network",
+      image: "/media/adv-network.jpg",
+      title: "Factory-direct, rigorously vetted.",
+      description:
+        "Every supplier passes our in-house QA at multiple production stages, and you get a detailed inspection report before anything ships. Factory pricing, factory accountability.",
+      stat: "500+ vetted partners",
     },
     {
       icon: Clock,
-      tabName: "Optimized Lead Times",
-      title: "Significantly Faster Delivery Times",
-      description: "Our local presence in key markets and a fully integrated supply chain allow us to cut through delays and get your products to you faster.",
-      stat: "Up to 40% Faster Delivery",
+      tabName: "Faster Delivery",
+      image: "/media/adv-delivery.jpg",
+      title: "Less waiting, fewer surprises.",
+      description:
+        "Local teams and a fully integrated supply chain cut the delays that usually stall China orders — dispatched by the fastest route, air or sea, fully tracked.",
+      stat: "Air & sea, fully tracked",
     },
     {
-      icon: Brain,
-      tabName: "AI-Enhanced Operations",
-      title: "Technology-Driven Sourcing",
-      description: "Leverage our smart systems for efficient supplier management, real-time production tracking, and proactive risk minimization, ensuring 99.8% accuracy.",
-      stat: "99.8% Order Accuracy",
+      icon: Radar,
+      tabName: "Real-Time Tracking",
+      image: "/media/adv-tracking.jpg",
+      title: "Know where your order is, always.",
+      description:
+        "Live production updates and proactive risk flags mean you're never left guessing between order and arrival. Check any shipment's status the moment you want it.",
+      stat: "Real-time shipment tracking",
     },
   ];
 
@@ -158,6 +172,11 @@ export default function WhyChooseUs() {
                     animate="visible"
                     exit="exit"
                   >
+                    <img
+                      src={tabsData[activeTab].image}
+                      alt={tabsData[activeTab].tabName}
+                      className="mb-6 h-48 w-full rounded-xl object-cover shadow-sm lg:h-60"
+                    />
                     <div className="mb-6 pb-6 border-b border-border/10">
                       <h3 className="text-3xl lg:text-4xl font-bold text-secondary mb-3">{tabsData[activeTab].title}</h3>
                       <div className="text-lg text-muted-foreground leading-relaxed">
