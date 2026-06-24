@@ -1,153 +1,144 @@
 "use client"
 
 import { motion, type Variants } from "framer-motion"
-import { MapPin, Building2, Users2, Zap } from "lucide-react"
+import { MapPin, Globe2, Layers, Award } from "lucide-react"
+
+const facts = [
+  { icon: MapPin, label: "Headquarters", value: "Shenzhen, China" },
+  { icon: Globe2, label: "Markets served", value: "India, Middle East & SE Asia" },
+  { icon: Layers, label: "Service model", value: "End-to-end sourcing & logistics" },
+  { icon: Award, label: "Track record", value: "15+ years · 1,000+ projects" },
+]
 
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      duration: 0.8,
-      staggerChildren: 0.15,
-    },
-  },
+  visible: { opacity: 1, transition: { duration: 0.6, staggerChildren: 0.12 } },
 }
 
 const itemVariants: Variants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.6,
-      ease: "easeOut",
-    },
-  },
+  hidden: { opacity: 0, y: 28 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
 }
 
 export default function About({ showHeader = true }: { showHeader?: boolean }) {
   return (
-    <section id="about" className="bg-background py-12 lg:py-16">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="about" className="relative grain overflow-hidden bg-porcelain py-20 lg:py-28">
+      {/* Ambient brand glows */}
+      <div
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(42% 30% at 88% 4%, rgba(204,52,51,0.06), transparent 70%), radial-gradient(40% 30% at 6% 98%, rgba(224,137,46,0.07), transparent 70%)",
+        }}
+      />
+
+      <div className="relative z-10 container mx-auto px-5 sm:px-6 lg:px-8">
+        {showHeader && (
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+            className="mx-auto mb-14 max-w-2xl text-center lg:mb-16"
+          >
+            <div className="flex items-center justify-center gap-3">
+              <span className="h-px w-8 bg-gold" />
+              <span className="eyebrow text-ink/60">About Kaiz La</span>
+              <span className="h-px w-8 bg-gold" />
+            </div>
+            <h2 className="mt-5 font-display text-4xl font-medium leading-[1.1] text-ink sm:text-5xl">
+              Sourcing from China, <span className="text-gradient-crimson italic">done right.</span>
+            </h2>
+          </motion.div>
+        )}
+
         <motion.div
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
-          className="max-w-7xl mx-auto"
+          className="grid items-center gap-10 lg:grid-cols-12 lg:gap-14"
         >
-          {/* Section Header */}
-          {showHeader && (
-            <motion.div variants={itemVariants} className="text-center mb-12 lg:mb-16">
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold text-primary mb-4 drop-shadow-sm">About <span className="text-secondary">Kaiz La</span> </h2>
-              <div className="w-20 h-1 bg-accent mx-auto rounded-full shadow-sm"></div>
-            </motion.div>
-          )}
-
-          {/* Main Content Grid */}
-          <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-start">
-            {/* Left Column - Images */}
-            <motion.div variants={itemVariants} className="lg:col-span-5 space-y-4 lg:space-y-6">
-              <div className="relative rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
+          {/* Image collage */}
+          <motion.div variants={itemVariants} className="lg:col-span-6">
+            <div className="grid grid-cols-2 gap-4">
+              <div className="card-lux relative col-span-2 overflow-hidden rounded-3xl">
                 <img
-                  src="https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=600"
-                  alt="International trade and sourcing operations"
-                  className="w-full h-[300px] lg:h-[350px] object-cover"
+                  src="/media/about-china.jpg"
+                  alt="Traditional architecture in China, where Kaiz La is based"
+                  className="h-64 w-full object-cover sm:h-72"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-primary/40 to-transparent"></div>
-                <div className="absolute bottom-4 left-4 lg:bottom-6 lg:left-6 text-white drop-shadow-md">
-                  <div className="text-xl lg:text-2xl font-bold">Sourcing Excellence</div>
-                  <div className="text-sm opacity-90">Factory to Doorstep</div>
+                <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-ink/20 to-transparent" />
+                <div className="absolute bottom-5 left-5">
+                  <div className="eyebrow text-white/75">On the ground in China</div>
+                  <div className="mt-1 font-display text-2xl text-white">Shenzhen · 深圳</div>
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-3 lg:gap-4">
-                <div className="relative rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300">
-                  <img
-                    src="https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=400"
-                    alt="Manufacturing and quality control"
-                    className="w-full h-[160px] lg:h-[180px] object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-secondary/50 to-transparent"></div>
+              <div className="relative overflow-hidden rounded-2xl border border-border">
+                <img
+                  src="/media/about-qc.jpg"
+                  alt="Quality control inspection of electronics"
+                  className="h-40 w-full object-cover sm:h-44"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-ink/75 to-transparent" />
+                <span className="absolute bottom-3 left-4 text-sm font-bold text-white">
+                  Quality control
+                </span>
+              </div>
+              <div className="relative overflow-hidden rounded-2xl border border-border">
+                <img
+                  src="/media/freight-band.jpg"
+                  alt="Freight and delivery from China"
+                  className="h-40 w-full object-cover sm:h-44"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-ink/75 to-transparent" />
+                <span className="absolute bottom-3 left-4 text-sm font-bold text-white">
+                  Freight &amp; delivery
+                </span>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Content */}
+          <motion.div variants={itemVariants} className="lg:col-span-6">
+            {!showHeader && (
+              <div className="mb-5 flex items-center gap-3">
+                <span className="h-px w-8 bg-gold" />
+                <span className="eyebrow text-ink/60">Who we are</span>
+              </div>
+            )}
+            <p className="font-display text-2xl leading-snug text-ink sm:text-3xl">
+              Kaiz La is your sourcing partner in the manufacturing heart of China.
+            </p>
+            <p className="mt-5 text-lg leading-relaxed text-ink-soft">
+              Headquartered in Shenzhen, we connect businesses across India, the Middle East and
+              Southeast Asia with vetted Chinese factories — and handle the hard parts of importing
+              on your behalf.
+            </p>
+            <p className="mt-4 text-base leading-relaxed text-ink-soft">
+              For over 15 years we&apos;ve managed supplier discovery, negotiation, quality control,
+              consolidation, customs and last-mile delivery — so you can buy direct at factory MOQs,
+              with full transparency, without the usual risk and guesswork.
+            </p>
+
+            <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2">
+              {facts.map((f) => (
+                <div
+                  key={f.label}
+                  className="card-lux flex items-center gap-4 rounded-2xl p-4 transition-shadow duration-300 hover:shadow-md"
+                >
+                  <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-crimson/10 ring-1 ring-crimson/15">
+                    <f.icon className="h-5 w-5 text-crimson" />
+                  </div>
+                  <div>
+                    <div className="eyebrow text-gold">{f.label}</div>
+                    <div className="mt-0.5 text-sm font-semibold text-ink">{f.value}</div>
+                  </div>
                 </div>
-                <div className="relative rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300">
-                  <img
-                    src="https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpeg?auto=compress&cs=tinysrgb&w=400"
-                    alt="Global logistics and shipping"
-                    className="w-full h-[160px] lg:h-[180px] object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-accent/50 to-transparent"></div>
-                </div>
-              </div>
-            </motion.div>
-
-            {/* Right Column - Content */}
-            <motion.div variants={itemVariants} className="lg:col-span-7 space-y-6 lg:space-y-8">
-              <div className="space-y-4 lg:space-y-6">
-                <p className="text-lg sm:text-xl lg:text-2xl text-foreground leading-relaxed font-medium">
-                  <span className="text-secondary">Kaiz La</span>  is a leading sourcing-as-a-service company based in the heart of China, facilitating seamless
-                  trade between Chinese suppliers and clients across India and the Middle East.
-                </p>
-                <p className="text-base lg:text-lg text-muted-foreground leading-relaxed">
-                  We enable businesses to source products directly from China at the supplier's MOQ, handling every step
-                  from factory to final delivery through our AI-enabled platform and experienced on-ground teams.
-                </p>
-              </div>
-
-              {/* Key Info List */}
-              <div className="w-full">
-                <ul className="space-y-4">
-
-                  {/* Item 1: Headquarters */}
-                  <li className="group flex items-center gap-5 p-4 rounded-xl bg-card/60 backdrop-blur-lg shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-[1.02] hover:bg-card/80">
-                    <div className="w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0 bg-primary/10 transition-all duration-300">
-                      <MapPin className="h-6 w-6 text-secondary" />
-                    </div>
-                    <div className="flex-grow">
-                      <h4 className="font-bold text-foreground transition-colors duration-300 group-hover:text-primary">Headquarters</h4>
-                      <p className="text-sm text-muted-foreground">Shenzhen, China</p>
-                    </div>
-                  </li>
-
-                  {/* Item 2: Markets Served */}
-                  <li className="group flex items-center gap-5 p-4 rounded-xl bg-card/60 backdrop-blur-lg shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-[1.02] hover:bg-card/80">
-                    <div className="w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0 bg-primary/10 transition-all duration-300">
-                      <Users2 className="h-6 w-6 text-secondary" />
-                    </div>
-                    <div className="flex-grow">
-                      <h4 className="font-bold text-foreground transition-colors duration-300 group-hover:text-primary">Markets Served</h4>
-                      <p className="text-sm text-muted-foreground"> India, Middle East & Southeast Asia</p>
-                    </div>
-                  </li>
-
-                  {/* Item 3: Service Model */}
-                  <li className="group flex items-center gap-5 p-4 rounded-xl bg-card/60 backdrop-blur-lg shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-[1.02] hover:bg-card/80">
-                    <div className="w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0 bg-primary/10 transition-all duration-300">
-                      <Building2 className="h-6 w-6 text-secondary" />
-                    </div>
-                    <div className="flex-grow">
-                      <h4 className="font-bold text-foreground transition-colors duration-300 group-hover:text-primary">Service Model</h4>
-                      <p className="text-sm text-muted-foreground">End-to-End Product Sourcing & Logistics
-                      </p>
-                    </div>
-                  </li>
-
-                  {/* Item 4: Technology */}
-                  <li className="group flex items-center gap-5 p-4 rounded-xl bg-card/60 backdrop-blur-lg shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-[1.02] hover:bg-card/80">
-                    <div className="w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0 bg-primary/10 transition-all duration-300">
-                      <Zap className="h-6 w-6 text-secondary" />
-                    </div>
-                    <div className="flex-grow">
-                      <h4 className="font-bold text-foreground transition-colors duration-300 group-hover:text-primary">Technology</h4>
-                      <p className="text-sm text-muted-foreground">AI-Enabled Supplier Management</p>
-                    </div>
-                  </li>
-
-                </ul>
-              </div>
-            </motion.div>
-          </div>
+              ))}
+            </div>
+          </motion.div>
         </motion.div>
       </div>
     </section>

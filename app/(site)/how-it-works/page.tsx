@@ -1,6 +1,6 @@
 import type { Metadata } from "next"
 import PageHeader from "@/components/layout/PageHeader"
-import Journey from "@/components/sections/Journey"
+import HowItWorks from "@/components/sections/HowItWorks"
 import CTABand from "@/components/sections/CTABand"
 
 export const metadata: Metadata = {
@@ -29,7 +29,7 @@ export default function HowItWorksPage() {
           { name: "How It Works", href: "/how-it-works" },
         ]}
       />
-      <Journey showHeader={false} />
+      <HowItWorks />
       <CTABand
         title="Ready to put this journey to work?"
         subtitle="Start a sourcing request and we'll guide you through every step."

@@ -1,231 +1,170 @@
 "use client"
 
-import { motion, AnimatePresence, type Variants } from "framer-motion"
-import { useState } from "react"
-import { Award, ShieldCheck, Clock, ArrowRight, CheckCircle, UserCheck, BadgeCheck, Radar } from "lucide-react"
+import { motion, type Variants } from "framer-motion"
+import type { ReactNode } from "react"
+import { Award, ShieldCheck, Clock, UserCheck, BadgeCheck, Radar } from "lucide-react"
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      duration: 0.8,
-      staggerChildren: 0.1,
-    },
-  },
+type Advantage = {
+  icon: typeof Award
+  title: string
+  description: ReactNode
+  stat: string
+  image: string
 }
 
-const itemVariants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.6,
-      ease: "easeOut" as const,
-    },
+const advantages: Advantage[] = [
+  {
+    icon: ShieldCheck,
+    title: "Your designs stay yours.",
+    description:
+      "NDA-backed suppliers, locked-in pricing, and zero IP leakage — from first enquiry to final delivery. Your designs, costs and strategy stay protected.",
+    stat: "NDA-backed supplier network",
+    image: "/media/adv-confidentiality.jpg",
   },
+  {
+    icon: UserCheck,
+    title: "Inspect your goods in person.",
+    description: (
+      <>
+        We fly you in and handle the whole trip — travel, factory visits, and inspections. A
+        dedicated <span className="font-semibold text-crimson">Kaiz La Success Expert</span> stays
+        with you start to finish.
+      </>
+    ),
+    stat: "On-site inspection included",
+    image: "/media/adv-inspection.jpg",
+  },
+  {
+    icon: Award,
+    title: "We've made the mistakes so you won't.",
+    description:
+      "Fifteen years navigating Chinese manufacturing, customs and freight across India and the Middle East. We've seen what goes wrong — and we keep it from reaching you.",
+    stat: "1,000+ projects delivered",
+    image: "/media/adv-experience.jpg",
+  },
+  {
+    icon: BadgeCheck,
+    title: "Factory-direct, rigorously vetted.",
+    description:
+      "Every supplier passes our in-house QA at multiple production stages, and you get a detailed inspection report before anything ships.",
+    stat: "500+ vetted partners",
+    image: "/media/adv-network.jpg",
+  },
+  {
+    icon: Clock,
+    title: "Less waiting, fewer surprises.",
+    description:
+      "Local teams and a fully integrated supply chain cut the delays that usually stall China orders — dispatched by the fastest route, air or sea.",
+    stat: "Air & sea, fully tracked",
+    image: "/media/adv-delivery.jpg",
+  },
+  {
+    icon: Radar,
+    title: "Know where your order is, always.",
+    description:
+      "Live production updates and proactive risk flags mean you're never left guessing between order and arrival.",
+    stat: "Real-time shipment tracking",
+    image: "/media/adv-tracking.jpg",
+  },
+]
+
+const containerVariants: Variants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.08 } },
 }
 
-const contentVariants = {
-  hidden: { opacity: 0, x: 20 },
-  visible: {
-    opacity: 1,
-    x: 0,
-    transition: {
-      duration: 0.5,
-      ease: 'easeOut' as const,
-    },
-  },
-  exit: {
-    opacity: 0,
-    x: -20,
-    transition: {
-      duration: 0.3,
-      ease: 'easeIn' as const,
-    },
-  },
-};
+const cardVariants: Variants = {
+  hidden: { opacity: 0, y: 28 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: "easeOut" } },
+}
 
 export default function WhyChooseUs() {
-  const [activeTab, setActiveTab] = useState(0);
-
-  const tabsData = [
-    {
-      icon: ShieldCheck,
-      tabName: "Confidentiality",
-      image: "/media/adv-confidentiality.jpg",
-      title: "Your designs stay yours.",
-      description:
-        "NDA-backed suppliers, locked-in pricing, and zero IP leakage — from first enquiry to final delivery. Your designs, costs and strategy stay protected. No leaks, no surprises.",
-      stat: "NDA-backed supplier network",
-    },
-    {
-      icon: UserCheck,
-      tabName: "See It Before You Buy",
-      image: "/media/adv-inspection.jpg",
-      title: "Inspect your goods in person.",
-      description: (
-        <>
-          We fly you in and handle the whole trip — travel, factory visits, and product
-          inspections. A dedicated{" "}
-          <span className="text-secondary font-bold">Kaiz La Success Expert</span> stays with you
-          start to finish, so you buy with complete confidence.
-        </>
-      ),
-      stat: "On-site inspection included",
-    },
-    {
-      icon: Award,
-      tabName: "15+ Years",
-      image: "/media/adv-experience.jpg",
-      title: "We've made the mistakes so you won't.",
-      description:
-        "Fifteen years navigating Chinese manufacturing, customs and freight across India and the Middle East. We've seen what goes wrong — and we keep it from reaching you.",
-      stat: "1,000+ projects delivered",
-    },
-    {
-      icon: BadgeCheck,
-      tabName: "Vetted Network",
-      image: "/media/adv-network.jpg",
-      title: "Factory-direct, rigorously vetted.",
-      description:
-        "Every supplier passes our in-house QA at multiple production stages, and you get a detailed inspection report before anything ships. Factory pricing, factory accountability.",
-      stat: "500+ vetted partners",
-    },
-    {
-      icon: Clock,
-      tabName: "Faster Delivery",
-      image: "/media/adv-delivery.jpg",
-      title: "Less waiting, fewer surprises.",
-      description:
-        "Local teams and a fully integrated supply chain cut the delays that usually stall China orders — dispatched by the fastest route, air or sea, fully tracked.",
-      stat: "Air & sea, fully tracked",
-    },
-    {
-      icon: Radar,
-      tabName: "Real-Time Tracking",
-      image: "/media/adv-tracking.jpg",
-      title: "Know where your order is, always.",
-      description:
-        "Live production updates and proactive risk flags mean you're never left guessing between order and arrival. Check any shipment's status the moment you want it.",
-      stat: "Real-time shipment tracking",
-    },
-  ];
-
   return (
-    <section id="why-choose-us" className="relative bg-background py-20 lg:py-28 overflow-hidden">
-      {/* Background Glows */}
-      <div className="absolute top-0 left-0 w-96 h-96 bg-secondary/10 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
-      <div className="absolute bottom-0 right-0 w-96 h-96 bg-accent/10 rounded-full blur-3xl translate-x-1/2 translate-y-1/2"></div>
+    <section
+      id="why-choose-us"
+      className="relative grain overflow-hidden bg-porcelain py-24 lg:py-32"
+    >
+      {/* Ambient brand glows */}
+      <div
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(42% 30% at 85% 4%, rgba(204,52,51,0.07), transparent 70%), radial-gradient(40% 30% at 6% 98%, rgba(224,137,46,0.08), transparent 70%)",
+        }}
+      />
 
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div className="relative z-10 container mx-auto px-5 sm:px-6 lg:px-8">
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+          className="mx-auto mb-16 max-w-2xl text-center lg:mb-20"
+        >
+          <div className="flex items-center justify-center gap-3">
+            <span className="h-px w-8 bg-gold" />
+            <span className="eyebrow text-ink/60">Why Kaiz La</span>
+            <span className="h-px w-8 bg-gold" />
+          </div>
+          <h2 className="mt-5 font-display text-4xl font-medium leading-[1.1] text-ink sm:text-5xl lg:text-6xl">
+            The Kaiz La <span className="text-gradient-crimson italic">Advantage.</span>
+          </h2>
+          <p className="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-ink-soft">
+            Fifteen years on the ground in China, an elite vetted factory network, and technology
+            that keeps you in the loop — six reasons sourcing with us simply works.
+          </p>
+        </motion.div>
+
+        {/* Advantage grid */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          className="max-w-7xl mx-auto"
+          viewport={{ once: true, margin: "-60px" }}
+          className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3"
         >
-          {/* Section Header */}
-          <motion.div variants={itemVariants} className="text-center mb-16 lg:mb-20">
-            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-primary mb-6 drop-shadow-sm">
-              The <span className="text-secondary">Kaiz La</span> Advantage
-            </h2>
-            <p className="text-lg lg:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-              We pair 15+ years of on-the-ground sourcing expertise with technology and a vetted factory network — turning China procurement into a reliable competitive advantage.
-            </p>
-          </motion.div>
-
-          {/* Interactive Tab Showcase */}
-          <div className="lg:grid lg:grid-cols-12 lg:gap-12">
-            {/* Left Column: Tab Navigation */}
-            <motion.div variants={itemVariants} className="lg:col-span-4 mb-8 lg:mb-0">
-              <div className="space-y-2">
-                {tabsData.map((tab, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setActiveTab(index)}
-                    className={`w-full text-left flex items-center gap-4 p-4 cursor-pointer rounded-xl transition-all duration-300
-                      ${activeTab === index ? 'bg-secondary shadow-lg border-border/20' : 'hover:bg-card/50'}`}
-                  >
-                    <div className={`w-12 h-12 flex items-center justify-center rounded-lg flex-shrink-0 transition-colors duration-300
-                      ${activeTab === index ? 'bg-secondary text-background ' : 'bg-primary/10 text-primary'}`}>
-                      <tab.icon className="w-6 h-6" />
-                    </div>
-                    <span className={`text-lg font-semibold transition-colors duration-300 ${activeTab === index ? 'text-background font-extrabold' : 'text-primary'}`}>
-                      {tab.tabName}
-                    </span>
-                  </button>
-                ))}
+          {advantages.map((a, i) => (
+            <motion.div
+              key={i}
+              variants={cardVariants}
+              className="group card-lux relative flex h-full flex-col overflow-hidden rounded-3xl transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_30px_60px_-24px_rgba(204,52,51,0.35)]"
+            >
+              {/* Photo banner */}
+              <div className="relative h-44 overflow-hidden">
+                <img
+                  src={a.image}
+                  alt={a.title}
+                  className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-ink/55 via-crimson/5 to-transparent" />
+                {/* Oversized number watermark */}
+                <span className="pointer-events-none absolute right-4 top-1 font-display text-7xl font-semibold text-white/20">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                {/* Sun-gradient top accent on hover */}
+                <span className="absolute inset-x-0 top-0 h-1 origin-left scale-x-0 bg-sun-gradient transition-transform duration-300 group-hover:scale-x-100" />
               </div>
-            </motion.div>
 
-            {/* Right Column: Content Display */}
-            <motion.div variants={itemVariants} className="lg:col-span-8">
-              <div className="relative bg-card/50 backdrop-blur-md border border-border/10 rounded-2xl p-8 lg:p-12">
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={activeTab}
-                    variants={contentVariants}
-                    initial="hidden"
-                    animate="visible"
-                    exit="exit"
-                  >
-                    <img
-                      src={tabsData[activeTab].image}
-                      alt={tabsData[activeTab].tabName}
-                      className="mb-6 h-48 w-full rounded-xl object-cover shadow-sm lg:h-60"
-                    />
-                    <div className="mb-6 pb-6 border-b border-border/10">
-                      <h3 className="text-3xl lg:text-4xl font-bold text-secondary mb-3">{tabsData[activeTab].title}</h3>
-                      <div className="text-lg text-muted-foreground leading-relaxed">
-                        {tabsData[activeTab].description}
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-4">
-                      <div className="w-10 h-10 bg-accent/10 rounded-full flex items-center justify-center">
-                        <CheckCircle className="w-5 h-5 text-accent" />
-                      </div>
-                      <p className="text-lg font-semibold text-accent">{tabsData[activeTab].stat}</p>
-                    </div>
-                  </motion.div>
-                </AnimatePresence>
-              </div>
-            </motion.div>
-          </div>
+              <div className="relative flex flex-1 flex-col px-8 pb-8">
+                {/* Brand chip floating over the image edge */}
+                <div className="-mt-7 mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-crimson shadow-lg ring-4 ring-[var(--color-paper)]">
+                  <a.icon className="h-7 w-7 text-white" />
+                </div>
 
-          {/* CTA Section - Placed after the tab component */}
-          {/* <motion.div variants={itemVariants} className="mt-20">
-            <div className="group relative rounded-2xl p-8 lg:p-12 overflow-hidden bg-gradient-to-r from-primary to-accent text-white">
-                <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between">
-                  <div className="lg:w-1/2 mb-8 lg:mb-0">
-                      <h3 className="text-3xl lg:text-4xl font-bold mb-3">Ready to Transform Your Sourcing?</h3>
-                      <p className="text-lg opacity-90">
-                          Let's build a more efficient and reliable supply chain for your business.
-                      </p>
-                  </div>
-                  <div className="lg:w-1/2">
-                      <div className="bg-white/10 backdrop-blur-sm p-2 rounded-xl flex flex-col sm:flex-row gap-2">
-                          <input 
-                              type="email" 
-                              placeholder="Enter your business email"
-                              className="w-full sm:flex-grow bg-transparent placeholder-white/70 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-white/50"
-                          />
-                          <motion.button
-                              whileHover={{ scale: 1.05 }}
-                              whileTap={{ scale: 0.95 }}
-                              className="w-full sm:w-auto inline-flex items-center justify-center bg-white text-primary px-6 py-3 rounded-lg text-base font-semibold transition-all duration-200 shadow-lg hover:shadow-xl group"
-                          >
-                              Get a Free Quote
-                              <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                          </motion.button>
-                      </div>
-                  </div>
+                <h3 className="font-display text-2xl font-medium leading-snug text-ink">
+                  {a.title}
+                </h3>
+                <div className="rule-gold my-4 w-14" />
+                <p className="text-[15px] leading-relaxed text-ink-soft">{a.description}</p>
+
+                <div className="mt-auto flex items-center gap-2.5 pt-7">
+                  <span className="h-1.5 w-1.5 flex-shrink-0 rounded-full bg-gold" />
+                  <span className="eyebrow text-gold">{a.stat}</span>
                 </div>
               </div>
-          </motion.div> */}
-
+            </motion.div>
+          ))}
         </motion.div>
       </div>
     </section>

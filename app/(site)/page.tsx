@@ -3,7 +3,6 @@ import WhyChooseUs from "@/components/sections/WhyChooseUs"
 import WhatWeSource from "@/components/sections/WhatWeSource"
 import Journey from "@/components/sections/Journey"
 import FreightBand from "@/components/sections/FreightBand"
-import Testimonials from "@/components/sections/testimonials"
 import SourcingGuides from "@/components/sections/SourcingGuides"
 import CTABand from "@/components/sections/CTABand"
 
@@ -12,10 +11,9 @@ export default function Home() {
     <>
       <Hero />
       <WhatWeSource />
-      <Journey />
       <FreightBand />
+      <Journey />
       <WhyChooseUs />
-      <Testimonials />
       <SourcingGuides />
       <CTABand
         title="Source from China with a partner who's done it 1,000+ times"

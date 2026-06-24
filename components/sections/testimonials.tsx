@@ -64,9 +64,9 @@ export default function Testimonials() {
         Array.from({ length: 5 }, (_, i) => (
             <Star
                 key={i}
-                className={`h-5 w-5 transition-colors ${i < rating
-                    ? (isActive ? "text-white fill-white" : "text-accent fill-accent")
-                    : (isActive ? "text-white/30" : "text-muted/20")
+                className={`h-4 w-4 transition-colors ${i < rating
+                    ? (isActive ? "text-white fill-white" : "text-gold fill-gold")
+                    : (isActive ? "text-white/30" : "text-ink/15")
                     }`}
             />
         ))
@@ -79,143 +79,135 @@ export default function Testimonials() {
     };
 
     return (
-        <div className="bg-background text-foreground font-sans antialiased">
-            <section className="py-16 lg:py-24 overflow-hidden">
-                <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <section className="relative grain overflow-hidden bg-porcelain-deep py-24 lg:py-32">
+            {/* Ambient brand glows */}
+            <div
+                className="pointer-events-none absolute inset-0"
+                style={{
+                    background:
+                        "radial-gradient(42% 30% at 12% 6%, rgba(204,52,51,0.07), transparent 70%), radial-gradient(40% 30% at 90% 96%, rgba(224,137,46,0.08), transparent 70%)",
+                }}
+            />
 
-                    <div className="text-center mb-16 lg:mb-20 relative">
-                        {/* Background Elements */}
-                        <div className="absolute inset-0 opacity-5">
-                            <div className="absolute top-10 left-1/4 w-40 h-40 bg-secondary rounded-full blur-3xl"></div>
-                            <div className="absolute bottom-10 right-1/4 w-32 h-32 bg-primary rounded-full blur-3xl"></div>
-                        </div>
-
-                        {/* Main Heading */}
-                        <motion.div
-                            initial={{ opacity: 0, y: 30 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true, amount: 0.5 }}
-                            transition={{ duration: 0.8, ease: "easeOut" }}
-                            className="relative z-10 mb-12"
-                        >
-                            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-primary mb-6">
-                                What Our <span className="text-secondary">Clients Say</span>
-                            </h2>
-                            <div className="w-24 h-1.5 bg-secondary mx-auto rounded-full shadow-sm mb-6"></div>
-                        </motion.div>
-
-                        {/* Quote as Subtitle */}
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.6, delay: 0.3 }}
-                            className="text-center max-w-4xl mx-auto"
-                        >
-                            <blockquote className="text-lg lg:text-xl xl:text-2xl font-light text-foreground leading-relaxed mb-4">
-                                <span className="text-secondary font-medium">
-                                    "We simplify global sourcing
-                                </span>
-                                <span className="text-foreground/90">
-                                    {" "}by offering comprehensive end-to-end services that extend far beyond traditional procurement."
-                                </span>
-                            </blockquote>
-                            <div className="text-secondary font-bold text-sm tracking-wider opacity-80">
-                                — KAIZ LA TEAM
-                            </div>
-                        </motion.div>
+            <div className="relative z-10 container mx-auto px-5 sm:px-6 lg:px-8">
+                {/* Header */}
+                <motion.div
+                    initial={{ opacity: 0, y: 24 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-80px" }}
+                    transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+                    className="mx-auto mb-16 max-w-2xl text-center lg:mb-20"
+                >
+                    <div className="flex items-center justify-center gap-3">
+                        <span className="h-px w-8 bg-gold" />
+                        <span className="eyebrow text-ink/60">In their words</span>
+                        <span className="h-px w-8 bg-gold" />
                     </div>
+                    <h2 className="mt-5 font-display text-4xl font-medium leading-[1.1] text-ink sm:text-5xl lg:text-6xl">
+                        What our clients <span className="text-gradient-crimson italic">say.</span>
+                    </h2>
+                    <p className="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-ink-soft">
+                        Businesses across India and the Middle East trust Kaiz La to turn China
+                        sourcing from a gamble into a routine — here&apos;s what that feels like.
+                    </p>
+                </motion.div>
 
-                    {/* Testimonials Slider */}
-                    <div className="relative flex items-center justify-center">
-                        <motion.button
-                            onClick={prevTestimonial}
-                            className="absolute left-0 z-20 w-12 h-12 rounded-full bg-card/80 backdrop-blur-sm shadow-lg border border-border/20 text-primary hover:bg-secondary hover:text-white transition-all duration-300 hover:scale-110 active:scale-95 hidden md:flex items-center justify-center"
-                            aria-label="Previous testimonial"
-                        >
-                            <ChevronLeft className="h-6 w-6" />
-                        </motion.button>
+                {/* Slider */}
+                <div className="relative flex items-center justify-center">
+                    <button
+                        onClick={prevTestimonial}
+                        className="absolute left-0 z-20 hidden h-12 w-12 items-center justify-center rounded-full border border-border bg-paper text-crimson shadow-sm transition-all duration-300 hover:scale-110 hover:bg-crimson hover:text-white active:scale-95 md:flex"
+                        aria-label="Previous testimonial"
+                    >
+                        <ChevronLeft className="h-6 w-6" />
+                    </button>
 
-                        <div className="relative w-full max-w-sm md:max-w-6xl h-[28rem] sm:h-[26rem] md:h-[24rem] overflow-hidden">
-                            <AnimatePresence initial={false} custom={direction}>
-                                <motion.div
-                                    key={currentTestimonial}
-                                    variants={sliderVariants}
-                                    custom={direction}
-                                    initial="enter"
-                                    animate="center"
-                                    exit="exit"
-                                    transition={{ type: "spring", stiffness: 200, damping: 25 }}
-                                    drag="x"
-                                    dragConstraints={{ left: 0, right: 0 }}
-                                    onDragEnd={handleDragEnd}
-                                    className="absolute w-full h-full cursor-grab active:cursor-grabbing"
-                                >
-                                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 h-full">
-                                        {getVisibleTestimonials().map((testimonial) => {
-                                            const isActive = testimonial.position === 0;
-                                            return (
-                                                <div
-                                                    key={testimonial.id}
-                                                    className={`
-                            relative rounded-2xl p-6 sm:p-8 flex flex-col transition-all duration-500 ease-in-out h-full
+                    <div className="relative h-[26rem] w-full max-w-sm overflow-hidden sm:h-[24rem] md:max-w-6xl">
+                        <AnimatePresence initial={false} custom={direction}>
+                            <motion.div
+                                key={currentTestimonial}
+                                variants={sliderVariants}
+                                custom={direction}
+                                initial="enter"
+                                animate="center"
+                                exit="exit"
+                                transition={{ type: "spring", stiffness: 200, damping: 25 }}
+                                drag="x"
+                                dragConstraints={{ left: 0, right: 0 }}
+                                onDragEnd={handleDragEnd}
+                                className="absolute h-full w-full cursor-grab active:cursor-grabbing"
+                            >
+                                <div className="grid h-full grid-cols-1 gap-6 md:grid-cols-3 lg:gap-8">
+                                    {getVisibleTestimonials().map((testimonial) => {
+                                        const isActive = testimonial.position === 0;
+                                        return (
+                                            <div
+                                                key={testimonial.id}
+                                                className={`relative flex h-full flex-col rounded-3xl p-7 transition-all duration-500 ease-in-out sm:p-8
                             ${isActive
-                                                            ? 'bg-secondary text-white shadow-2xl'
-                                                            : 'bg-card text-foreground shadow-lg'}
-                            ${!isActive && 'hidden md:flex'}
-                          `}
-                                                >
-                                                    <div className="flex items-center justify-between mb-4">
-                                                        <Quote className={`h-10 w-10 ${isActive ? 'text-white/30' : 'text-secondary/20'}`} />
-                                                        <div className="flex">{renderStars(testimonial.rating, isActive)}</div>
+                                                        ? "bg-crimson text-white shadow-[0_30px_60px_-24px_rgba(204,52,51,0.55)]"
+                                                        : "card-lux text-ink"}
+                            ${!isActive && "hidden md:flex"}`}
+                                            >
+                                                <div className="flex items-start justify-between">
+                                                    <Quote
+                                                        className={`h-10 w-10 ${isActive ? "text-white/30" : "text-crimson/15"}`}
+                                                        strokeWidth={1.5}
+                                                    />
+                                                    <div className="flex gap-0.5">{renderStars(testimonial.rating, isActive)}</div>
+                                                </div>
+
+                                                <p className={`mt-5 flex-grow font-display text-lg leading-relaxed ${isActive ? "text-white/95" : "text-ink-soft"}`}>
+                                                    {testimonial.content}
+                                                </p>
+
+                                                <div
+                                                    className={`mt-6 h-px w-12 ${isActive ? "bg-white/30" : "rule-gold"}`}
+                                                />
+
+                                                <div className="mt-5 flex items-end justify-between">
+                                                    <div className={`font-display text-lg ${isActive ? "text-white" : "text-ink"}`}>
+                                                        {testimonial.name}
                                                     </div>
-                                                    <p className={`text-base leading-relaxed mb-6 flex-grow ${isActive ? 'text-white/90' : 'text-muted'}`}>
-                                                        {testimonial.content}
-                                                    </p>
-                                                    <div className="mt-auto flex items-end justify-between">
-                                                        <div className={`font-bold text-lg ${isActive ? 'text-white' : 'text-primary'}`}>
-                                                            {testimonial.name}
-                                                        </div>
-                                                        <div className="text-sm font-bold">
-                                                            {String(testimonial.id).padStart(2, '0')}
-                                                        </div>
+                                                    <div className={`eyebrow ${isActive ? "text-white/55" : "text-gold"}`}>
+                                                        {String(testimonial.id).padStart(2, "0")}
                                                     </div>
                                                 </div>
-                                            )
-                                        })}
-                                    </div>
-                                </motion.div>
-                            </AnimatePresence>
-                        </div>
-
-                        <motion.button
-                            onClick={nextTestimonial}
-                            className="absolute right-0 z-20 w-12 h-12 rounded-full bg-card/80 backdrop-blur-sm shadow-lg border border-border/20 text-primary hover:bg-secondary hover:text-white transition-all duration-300 hover:scale-110 active:scale-95 hidden md:flex items-center justify-center"
-                            aria-label="Next testimonial"
-                        >
-                            <ChevronRight className="h-6 w-6" />
-                        </motion.button>
-
-                        <div className="md:hidden absolute -bottom-12 flex w-full max-w-xs justify-between">
-                            <button onClick={prevTestimonial} className="p-2 rounded-full bg-card shadow-md" aria-label="Previous testimonial"><ChevronLeft /></button>
-                            <button onClick={nextTestimonial} className="p-2 rounded-full bg-card shadow-md" aria-label="Next testimonial"><ChevronRight /></button>
-                        </div>
+                                            </div>
+                                        )
+                                    })}
+                                </div>
+                            </motion.div>
+                        </AnimatePresence>
                     </div>
 
-                    <div className="flex justify-center mt-16 lg:mt-10 gap-2.5">
-                        {testimonials.map((_, index) => (
-                            <button
-                                key={index}
-                                onClick={() => handleDotClick(index)}
-                                className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ease-in-out
-                  ${index === currentTestimonial ? "bg-secondary scale-125 w-6" : "bg-muted/30 hover:bg-muted/60"}
-                `}
-                                aria-label={`Go to testimonial ${index + 1}`}
-                            />
-                        ))}
+                    <button
+                        onClick={nextTestimonial}
+                        className="absolute right-0 z-20 hidden h-12 w-12 items-center justify-center rounded-full border border-border bg-paper text-crimson shadow-sm transition-all duration-300 hover:scale-110 hover:bg-crimson hover:text-white active:scale-95 md:flex"
+                        aria-label="Next testimonial"
+                    >
+                        <ChevronRight className="h-6 w-6" />
+                    </button>
+
+                    <div className="absolute -bottom-12 flex w-full max-w-xs justify-between md:hidden">
+                        <button onClick={prevTestimonial} className="rounded-full border border-border bg-paper p-2 text-crimson shadow-sm" aria-label="Previous testimonial"><ChevronLeft /></button>
+                        <button onClick={nextTestimonial} className="rounded-full border border-border bg-paper p-2 text-crimson shadow-sm" aria-label="Next testimonial"><ChevronRight /></button>
                     </div>
                 </div>
-            </section>
-        </div>
+
+                {/* Dots */}
+                <div className="mt-20 flex justify-center gap-2.5 md:mt-12">
+                    {testimonials.map((_, index) => (
+                        <button
+                            key={index}
+                            onClick={() => handleDotClick(index)}
+                            className={`h-2 rounded-full transition-all duration-300 ease-in-out
+                  ${index === currentTestimonial ? "w-6 bg-crimson" : "w-2 bg-ink/15 hover:bg-ink/30"}`}
+                            aria-label={`Go to testimonial ${index + 1}`}
+                        />
+                    ))}
+                </div>
+            </div>
+        </section>
     )
 }
