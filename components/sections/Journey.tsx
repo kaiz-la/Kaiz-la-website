@@ -198,7 +198,7 @@ export default function Journey({ showHeader = true }: { showHeader?: boolean })
                 key={step.title}
                 onViewportEnter={() => setActive(i)}
                 viewport={{ margin: "-45% 0px -45% 0px" }}
-                className="flex min-h-[78vh] items-center"
+                className="flex min-h-[58vh] items-center"
               >
                 <motion.div
                   initial={{ opacity: 0, y: 40 }}

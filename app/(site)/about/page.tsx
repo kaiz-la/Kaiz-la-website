@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import PageHeader from "@/components/layout/PageHeader"
 import About from "@/components/sections/About"
+import AboutMore from "@/components/sections/AboutMore"
 import CTABand from "@/components/sections/CTABand"
 
 export const metadata: Metadata = {
@@ -30,6 +31,7 @@ export default function AboutPage() {
         ]}
       />
       <About showHeader={false} />
+      <AboutMore />
       <CTABand />
     </>
   )

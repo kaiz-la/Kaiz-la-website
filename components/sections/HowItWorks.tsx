@@ -1,7 +1,5 @@
 import {
-  Search,
   ShieldCheck,
-  Ship,
   FileCheck2,
   PackageCheck,
   FileText,
@@ -9,30 +7,6 @@ import {
   Radar,
   Plus,
 } from "lucide-react"
-
-const phases = [
-  {
-    step: "Phase 01",
-    icon: Search,
-    title: "Discover & verify",
-    body: "We translate your product brief into a shortlist of the right factories — not just any factories.",
-    points: ["Supplier discovery & vetting", "NDA-backed, confidential sourcing", "Negotiation & contracts in your interest"],
-  },
-  {
-    step: "Phase 02",
-    icon: ShieldCheck,
-    title: "Produce & inspect",
-    body: "We stay close to the production floor and check quality before anything is allowed to ship.",
-    points: ["Production oversight & updates", "QA at multiple production stages", "Pre-shipment inspection report"],
-  },
-  {
-    step: "Phase 03",
-    icon: Ship,
-    title: "Consolidate & deliver",
-    body: "We bring it all together, clear customs, and route it the fastest way to your door.",
-    points: ["Warehousing & consolidation", "Customs clearance & documentation", "Air or sea freight, fully tracked"],
-  },
-]
 
 const deliverables = [
   { icon: FileText, label: "Vetted supplier shortlist" },
@@ -73,50 +47,6 @@ export const faqs = [
 export default function HowItWorks() {
   return (
     <>
-      {/* Phases */}
-      <section className="relative grain overflow-hidden bg-porcelain py-20 lg:py-28">
-        <div className="relative z-10 container mx-auto px-5 sm:px-6 lg:px-8">
-          <div className="mx-auto mb-14 max-w-2xl text-center lg:mb-20">
-            <div className="flex items-center justify-center gap-3">
-              <span className="h-px w-8 bg-gold" />
-              <span className="eyebrow text-ink/60">How engagement works</span>
-              <span className="h-px w-8 bg-gold" />
-            </div>
-            <h2 className="mt-5 font-display text-4xl font-medium leading-[1.1] text-ink sm:text-5xl">
-              Three phases, <span className="text-gradient-crimson italic">one accountable partner.</span>
-            </h2>
-            <p className="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-ink-soft">
-              From first brief to final delivery, every stage sits with one team — so accountability
-              never falls through the gaps between agents, factories and freight forwarders.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 gap-5 lg:grid-cols-3">
-            {phases.map((p) => (
-              <div key={p.step} className="card-lux flex h-full flex-col rounded-3xl p-8">
-                <div className="flex items-center justify-between">
-                  <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-crimson/10 ring-1 ring-crimson/15">
-                    <p.icon className="h-7 w-7 text-crimson" />
-                  </div>
-                  <span className="eyebrow text-gold">{p.step}</span>
-                </div>
-                <h3 className="mt-6 font-display text-2xl font-medium text-ink">{p.title}</h3>
-                <div className="rule-gold my-4 w-14" />
-                <p className="text-[15px] leading-relaxed text-ink-soft">{p.body}</p>
-                <ul className="mt-5 space-y-2.5">
-                  {p.points.map((pt) => (
-                    <li key={pt} className="flex items-start gap-2.5 text-sm text-ink">
-                      <span className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-crimson" />
-                      {pt}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* What you receive */}
       <section className="bg-porcelain-deep py-20 lg:py-28">
         <div className="container mx-auto px-5 sm:px-6 lg:px-8">
