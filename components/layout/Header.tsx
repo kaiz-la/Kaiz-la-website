@@ -6,6 +6,7 @@ import Image from "next/image"
 import { usePathname } from "next/navigation"
 import { Menu, X, Mail, Phone, ArrowRight } from "lucide-react"
 import { navRoutes, siteConfig } from "@/lib/site"
+import { trackEvent } from "@/lib/analytics"
 
 const navigationItems = navRoutes
 
@@ -103,6 +104,7 @@ export function Header() {
               <div className="hidden lg:flex">
                 <Link
                   href="/chat"
+                  onClick={() => trackEvent("cta_start_sourcing", { location: "header" })}
                   className="group inline-flex items-center gap-2 rounded-full bg-crimson px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-[var(--color-crimson-deep)] hover:shadow-md"
                 >
                   Start Sourcing

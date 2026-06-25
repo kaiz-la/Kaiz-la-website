@@ -1,8 +1,10 @@
 import type { Metadata } from "next"
 import { Geist, Geist_Mono, Playfair_Display, Cinzel } from "next/font/google"
 import "./globals.css"
-import { siteConfig } from "@/lib/site"
+import { siteConfig, socialSameAs } from "@/lib/site"
 import { JsonLd } from "@/components/seo/JsonLd"
+import { Analytics } from "@vercel/analytics/next"
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -93,7 +95,7 @@ const organizationLd = {
     addressRegion: siteConfig.address.region,
     addressCountry: siteConfig.address.country,
   },
-  sameAs: siteConfig.sameAs,
+  ...(socialSameAs.length ? { sameAs: socialSameAs } : {}),
 }
 
 const localBusinessLd = {
@@ -127,6 +129,8 @@ export default function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable} ${playfair.variable} ${cinzel.variable} antialiased`}>
         {children}
         <JsonLd data={[organizationLd, localBusinessLd]} />
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   )

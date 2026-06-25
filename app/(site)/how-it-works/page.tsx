@@ -1,7 +1,18 @@
 import type { Metadata } from "next"
 import PageHeader from "@/components/layout/PageHeader"
-import HowItWorks from "@/components/sections/HowItWorks"
+import HowItWorks, { faqs } from "@/components/sections/HowItWorks"
 import CTABand from "@/components/sections/CTABand"
+import { JsonLd } from "@/components/seo/JsonLd"
+
+const faqLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqs.map((f) => ({
+    "@type": "Question",
+    name: f.q,
+    acceptedAnswer: { "@type": "Answer", text: f.a },
+  })),
+}
 
 export const metadata: Metadata = {
   title: "How It Works — The Kaiz La Sourcing Journey",
@@ -36,6 +47,7 @@ export default function HowItWorksPage() {
         primary={{ label: "Start sourcing", href: "/chat" }}
         secondary={{ label: "See our services", href: "/services" }}
       />
+      <JsonLd data={faqLd} />
     </>
   )
 }

@@ -16,12 +16,24 @@ export const siteConfig = {
     region: "Guangdong",
     country: "CN",
   },
-  sameAs: [
-    "https://www.linkedin.com/company/kaizla",
-    "https://twitter.com/kaizla",
-    "https://www.facebook.com/kaizla",
-  ],
+  // Direct messaging channels. whatsapp is an E.164 number without "+".
+  // wechatId is filled in once provided.
+  contact: {
+    whatsapp: "916282070175",
+    wechatId: "",
+  },
+  // Social profiles — set the real URLs here and they flow into the footer
+  // icons and the Organization sameAs. Empty string = link not live yet.
+  socials: {
+    facebook: "",
+    x: "",
+    instagram: "",
+    linkedin: "",
+  },
 } as const
+
+// Public, live social URLs only — used for the Organization sameAs (SEO).
+export const socialSameAs = Object.values(siteConfig.socials).filter(Boolean)
 
 // Marketing routes (used for nav + sitemap)
 export const navRoutes = [

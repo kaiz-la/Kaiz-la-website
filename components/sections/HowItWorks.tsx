@@ -43,7 +43,7 @@ const deliverables = [
   { icon: Radar, label: "Real-time tracking to your door" },
 ]
 
-const faqs = [
+export const faqs = [
   {
     q: "Do I have to travel to China?",
     a: "No. We handle the entire process remotely on your behalf — but if you'd like to see your goods before you buy, we host the trip: travel, factory visits and inspections, with a dedicated Success Expert alongside you.",
