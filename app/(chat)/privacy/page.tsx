@@ -11,7 +11,7 @@ export default function PrivacyPolicy() {
       <section id="introduction" className="mb-8">
         <h2 className="text-2xl font-semibold mb-4">1. Introduction</h2>
         <p>
-          Kaiz La International Co., Ltd (“Kaiz La”, “we”, “our”, “us”) respects your privacy and is committed
+          Kaiz La International Trade Co., Limited (“Kaiz La”, “we”, “our”, “us”) respects your privacy and is committed
           to protecting your personal data. This Privacy Policy explains how we collect, use, disclose, and
           safeguard information when you interact with our website, services, and business operations.
         </p>
@@ -114,9 +114,9 @@ export default function PrivacyPolicy() {
           For any questions about this Privacy Policy or our data practices, please contact us at:
         </p>
         <p className="mt-2">
-          Kaiz La International Co., Ltd<br />
+          Kaiz La International Trade Co., Limited<br />
           Email: privacy@kaizla.com<br />
-          Address: 2F, No. 3rd Building, Fufengda Industrial Park, Fu Yong, Bao’an District, Shenzhen City, China
+          Address: Unit A7, 12/F, Astoria Building, 34 Ashley Road, Tsim Sha Tsui, Kowloon, Hong Kong
         </p>
       </section>
     </div>

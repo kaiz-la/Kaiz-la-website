@@ -4,7 +4,7 @@ import { motion, type Variants } from "framer-motion"
 import { MapPin, Globe2, Layers, Award } from "lucide-react"
 
 const facts = [
-  { icon: MapPin, label: "Headquarters", value: "Shenzhen, China" },
+  { icon: MapPin, label: "Headquarters", value: "Hong Kong" },
   { icon: Globe2, label: "Markets served", value: "India, Middle East & SE Asia" },
   { icon: Layers, label: "Service model", value: "End-to-end sourcing & logistics" },
   { icon: Award, label: "Track record", value: "15+ years · 1,000+ projects" },
@@ -71,7 +71,7 @@ export default function About({ showHeader = true }: { showHeader?: boolean }) {
                 <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-ink/20 to-transparent" />
                 <div className="absolute bottom-5 left-5">
                   <div className="eyebrow text-white/75">On the ground in China</div>
-                  <div className="mt-1 font-display text-2xl text-white">Shenzhen · 深圳</div>
+                  <div className="mt-1 font-display text-2xl text-white">Hong Kong · 香港</div>
                 </div>
               </div>
 
@@ -112,7 +112,7 @@ export default function About({ showHeader = true }: { showHeader?: boolean }) {
               Kaiz La is your sourcing partner in the manufacturing heart of China.
             </p>
             <p className="mt-5 text-lg leading-relaxed text-ink-soft">
-              Headquartered in Shenzhen, we connect businesses across India, the Middle East and
+              Headquartered in Hong Kong, we connect businesses across India, the Middle East and
               Southeast Asia with vetted Chinese factories — and handle the hard parts of importing
               on your behalf.
             </p>

@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
-import Image from "next/image"
 import { usePathname } from "next/navigation"
 import { Menu, X, Mail, Phone, ArrowRight } from "lucide-react"
 import { navRoutes, siteConfig } from "@/lib/site"
@@ -69,13 +68,14 @@ export function Header() {
             <div className="flex h-16 items-center justify-between lg:h-20">
               <div className="flex-shrink-0">
                 <Link href="/" className="group flex items-center" aria-label="Kaiz La Home">
-                  <Image
-                    src="/logo.png"
-                    alt="Kaiz La Logo"
-                    width={170}
-                    height={94}
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="/brand/kaizla-horizontal.svg"
+                    alt="Kaiz La"
+                    width={123}
+                    height={40}
+                    fetchPriority="high"
                     className="h-9 w-auto transition-transform duration-300 group-hover:scale-[1.03] lg:h-10"
-                    priority
                   />
                 </Link>
               </div>

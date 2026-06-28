@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import { ogImageMeta } from "@/lib/site"
 import PageHeader from "@/components/layout/PageHeader"
 import TrackingLookup from "@/components/sections/TrackingLookup"
 
@@ -12,6 +13,7 @@ export const metadata: Metadata = {
     description:
       "Enter your tracking ID to see your shipment's live status, from the factory floor to your doorstep.",
     url: "/track",
+    images: [ogImageMeta],
     type: "website",
   },
 }

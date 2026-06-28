@@ -88,7 +88,7 @@ export default function Journey({ showHeader = true }: { showHeader?: boolean })
     <section
       id="journey"
       ref={sectionRef}
-      className="relative grain bg-porcelain-deep py-24 lg:py-32"
+      className="relative grain bg-porcelain-deep py-20 lg:py-24"
     >
       {/* Ambient */}
       <div
@@ -126,7 +126,7 @@ export default function Journey({ showHeader = true }: { showHeader?: boolean })
         )}
 
         {/* Desktop journey */}
-        <div className="hidden lg:grid lg:grid-cols-12 lg:gap-12">
+        <div className="mx-auto hidden max-w-6xl lg:grid lg:grid-cols-12 lg:gap-x-10">
           {/* Sticky route rail */}
           <div className="lg:col-span-4">
             <div className="sticky top-28">
@@ -198,7 +198,7 @@ export default function Journey({ showHeader = true }: { showHeader?: boolean })
                 key={step.title}
                 onViewportEnter={() => setActive(i)}
                 viewport={{ margin: "-45% 0px -45% 0px" }}
-                className="flex min-h-[58vh] items-center"
+                className="flex min-h-[44vh] items-center"
               >
                 <motion.div
                   initial={{ opacity: 0, y: 40 }}
@@ -221,7 +221,7 @@ export default function Journey({ showHeader = true }: { showHeader?: boolean })
                   </div>
                   <h3 className="font-display text-3xl font-medium text-ink">{step.title}</h3>
                   <div className="my-5 rule-gold w-16" />
-                  <p className="max-w-xl text-lg leading-relaxed text-ink-soft">
+                  <p className="max-w-2xl text-lg leading-relaxed text-ink-soft">
                     {step.description}
                   </p>
                 </motion.div>

@@ -3,7 +3,6 @@
 import React, { ReactNode } from 'react';
 import { Plus } from "lucide-react";
 import Link from 'next/link';
-import Image from 'next/image';
 
 export default function ChatLayout({
   children,
@@ -17,13 +16,13 @@ export default function ChatLayout({
           <div className="container mx-auto max-w-7xl flex items-center justify-between w-full">
             <div className="flex items-center gap-4">
               <Link href="/" className="flex items-center group" aria-label="Kaiz La Home">
-                <Image
-                  src="/logo.png"
-                  alt="Kaiz La Logo"
-                  width={150}
-                  height={84}
-                  className="h-auto w-auto transition-transform duration-300 group-hover:scale-105"
-                  priority
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/brand/kaizla-horizontal.svg"
+                  alt="Kaiz La"
+                  width={135}
+                  height={44}
+                  className="h-9 w-auto transition-transform duration-300 group-hover:scale-105 sm:h-10"
                 />
               </Link>
               <div className="hidden items-center gap-2 border-l border-border pl-4 sm:flex">

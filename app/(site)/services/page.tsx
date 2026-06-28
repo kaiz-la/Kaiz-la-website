@@ -1,6 +1,9 @@
 import type { Metadata } from "next"
+import { ogImageMeta } from "@/lib/site"
 import PageHeader from "@/components/layout/PageHeader"
 import Services from "@/components/sections/services"
+import ServicesDetail from "@/components/sections/ServicesDetail"
+import FreightBand from "@/components/sections/FreightBand"
 import CTABand from "@/components/sections/CTABand"
 
 export const metadata: Metadata = {
@@ -13,6 +16,7 @@ export const metadata: Metadata = {
     description:
       "End-to-end China sourcing: supplier discovery, quality control, warehousing, customs clearance, freight, and last-mile delivery.",
     url: "/services",
+    images: [ogImageMeta],
     type: "website",
   },
 }
@@ -30,10 +34,12 @@ export default function ServicesPage() {
         ]}
       />
       <Services showHeader={false} />
+      <ServicesDetail />
+      <FreightBand />
       <CTABand
         title="Need a service tailored to your supply chain?"
         subtitle="Tell us what you're sourcing and we'll map the fastest, most cost-effective route."
-        primary={{ label: "Get a quote", href: "/contact" }}
+        primary={{ label: "Get a quote", href: "/quote" }}
         secondary={{ label: "How it works", href: "/how-it-works" }}
       />
     </>

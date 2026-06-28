@@ -6,7 +6,7 @@ import PageHeader from "@/components/layout/PageHeader"
 import CTABand from "@/components/sections/CTABand"
 import { JsonLd } from "@/components/seo/JsonLd"
 import { getGuide, guideSlugs } from "@/lib/guides"
-import { siteConfig } from "@/lib/site"
+import { siteConfig, ogImageMeta } from "@/lib/site"
 
 export const dynamicParams = false
 
@@ -31,6 +31,7 @@ export async function generateMetadata({
       title: guide.metaTitle,
       description: guide.description,
       url: `/guides/${guide.slug}`,
+      images: [ogImageMeta],
       type: "article",
     },
   }

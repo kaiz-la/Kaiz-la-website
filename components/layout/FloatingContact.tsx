@@ -1,7 +1,7 @@
 "use client"
 
-import { useState } from "react"
-import { X } from "lucide-react"
+import Link from "next/link"
+import { Sparkles } from "lucide-react"
 import { siteConfig } from "@/lib/site"
 import { trackEvent } from "@/lib/analytics"
 
@@ -13,72 +13,32 @@ function WhatsAppIcon({ className }: { className?: string }) {
   )
 }
 
-function WeChatIcon({ className }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">
-      <path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 0 1 .213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.29.295a.326.326 0 0 0 .167-.054l1.903-1.114a.864.864 0 0 1 .717-.098 10.16 10.16 0 0 0 2.837.403c.276 0 .543-.027.811-.05-.857-2.578.157-4.972 1.932-6.446 1.703-1.415 3.882-1.98 5.853-1.838-.576-3.583-4.196-6.348-8.594-6.348zM5.785 5.991c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178A1.17 1.17 0 0 1 4.623 7.17c0-.651.52-1.18 1.162-1.18zm5.813 0c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178 1.17 1.17 0 0 1-1.162-1.178c0-.651.52-1.18 1.162-1.18zm5.34 2.867c-3.776 0-6.879 2.553-6.879 5.808 0 3.254 3.103 5.807 6.879 5.807a9.85 9.85 0 0 0 2.319-.298.74.74 0 0 1 .613.082l1.521.89a.26.26 0 0 0 .142.046c.139 0 .25-.115.25-.256 0-.062-.026-.123-.041-.184l-.312-1.185a.49.49 0 0 1-.024-.15.49.49 0 0 1 .201-.396C23.79 18.604 24 17.21 24 16.21c0-3.255-3.103-5.808-6.879-5.808zm-2.823 2.456a.97.97 0 0 1 .968.983.97.97 0 0 1-.968.982.97.97 0 0 1-.969-.982.97.97 0 0 1 .969-.983zm4.665 0a.97.97 0 0 1 .969.983.97.97 0 0 1-.969.982.97.97 0 0 1-.968-.982.97.97 0 0 1 .968-.983z" />
-    </svg>
-  )
-}
-
 export default function FloatingContact() {
-  const [wechatOpen, setWechatOpen] = useState(false)
-  const { whatsapp, wechatId } = siteConfig.contact
+  const { whatsapp } = siteConfig.contact
 
   return (
     <div className="fixed bottom-5 right-5 z-40 flex flex-col items-end gap-3 print:hidden">
-      {/* WeChat popover */}
-      {wechatOpen && (
-        <div className="w-64 rounded-2xl border border-border bg-white p-4 shadow-xl">
-          <div className="mb-2 flex items-center justify-between">
-            <span className="font-display text-base font-medium text-ink">Chat on WeChat</span>
-            <button
-              onClick={() => setWechatOpen(false)}
-              aria-label="Close"
-              className="text-ink-soft hover:text-ink"
-            >
-              <X className="h-4 w-4" />
-            </button>
-          </div>
-          <p className="text-sm leading-relaxed text-ink-soft">
-            {wechatId ? (
-              <>
-                Add us on WeChat — ID:{" "}
-                <span className="font-semibold text-ink">{wechatId}</span>
-              </>
-            ) : (
-              <>Our WeChat ID is coming soon. Reach us on WhatsApp or email in the meantime.</>
-            )}
-          </p>
-        </div>
-      )}
+      {/* KaiExpert — our primary lead tool */}
+      <Link
+        href="/chat"
+        onClick={() => trackEvent("kaiexpert_click", { location: "floating" })}
+        aria-label="Chat with KaiExpert, our AI sourcing assistant"
+        className="group flex h-14 w-14 items-center justify-center rounded-full bg-crimson text-white shadow-lg ring-1 ring-black/5 transition-transform duration-200 hover:scale-105 active:scale-95"
+      >
+        <Sparkles className="h-6 w-6" />
+      </Link>
 
-      <div className="flex flex-col gap-3">
-        {/* WeChat button */}
-        <button
-          onClick={() => {
-            setWechatOpen((v) => !v)
-            trackEvent("wechat_click")
-          }}
-          aria-label="Contact us on WeChat"
-          aria-expanded={wechatOpen}
-          className="group flex h-14 w-14 items-center justify-center rounded-full bg-[#07C160] text-white shadow-lg ring-1 ring-black/5 transition-transform duration-200 hover:scale-105 active:scale-95"
-        >
-          <WeChatIcon className="h-7 w-7" />
-        </button>
-
-        {/* WhatsApp button */}
-        <a
-          href={`https://wa.me/${whatsapp}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          onClick={() => trackEvent("whatsapp_click")}
-          aria-label="Chat with us on WhatsApp"
-          className="group flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg ring-1 ring-black/5 transition-transform duration-200 hover:scale-105 active:scale-95"
-        >
-          <WhatsAppIcon className="h-7 w-7" />
-        </a>
-      </div>
+      {/* WhatsApp */}
+      <a
+        href={whatsapp}
+        target="_blank"
+        rel="noopener noreferrer"
+        onClick={() => trackEvent("whatsapp_click")}
+        aria-label="Chat with us on WhatsApp"
+        className="group flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg ring-1 ring-black/5 transition-transform duration-200 hover:scale-105 active:scale-95"
+      >
+        <WhatsAppIcon className="h-7 w-7" />
+      </a>
     </div>
   )
 }

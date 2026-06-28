@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
 import { Geist, Geist_Mono, Playfair_Display, Cinzel } from "next/font/google"
 import "./globals.css"
-import { siteConfig, socialSameAs } from "@/lib/site"
+import { siteConfig, socialSameAs, ogImageMeta } from "@/lib/site"
 import { JsonLd } from "@/components/seo/JsonLd"
 import { Analytics } from "@vercel/analytics/next"
 import { SpeedInsights } from "@vercel/speed-insights/next"
@@ -59,7 +59,7 @@ export const metadata: Metadata = {
     description: siteConfig.description,
     url: siteConfig.url,
     siteName: siteConfig.name,
-    images: [{ url: siteConfig.ogImage, width: 1200, height: 630, alt: siteConfig.name }],
+    images: [ogImageMeta],
     locale: "en_US",
     type: "website",
   },
@@ -74,7 +74,13 @@ export const metadata: Metadata = {
     follow: true,
     googleBot: { index: true, follow: true, "max-image-preview": "large" },
   },
-  icons: { icon: "/favicon.ico" },
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "64x64", type: "image/x-icon" },
+      { url: "/icon.svg", type: "image/svg+xml" },
+    ],
+    apple: "/apple-icon.png",
+  },
 }
 
 const organizationLd = {
