@@ -8,7 +8,7 @@ import { guides } from "@/lib/guides"
 import { siteConfig, ogImageMeta } from "@/lib/site"
 
 export const metadata: Metadata = {
-  title: "Sourcing Guides — Importing & Manufacturing in China",
+  title: "Sourcing Guides | Importing & Manufacturing in China",
   description:
     "Free, practical guides to sourcing from China: how to find and verify suppliers, work with a sourcing agent, manage quality, and import to India and the Middle East.",
   keywords: [
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Kaiz La Sourcing Guides",
     description:
-      "Practical guides to sourcing, importing and shipping from China — for businesses across India and the Middle East.",
+      "Practical guides to sourcing, importing and shipping from China, for businesses across India and the Middle East.",
     url: "/guides",
     images: [ogImageMeta],
     type: "website",
@@ -55,7 +55,7 @@ export default function GuidesHubPage() {
       <PageHeader
         eyebrow="Knowledge Hub"
         title="China sourcing guides & resources"
-        subtitle="Everything you need to source, verify, import and ship from China with confidence — practical playbooks distilled from 15+ years on the ground across India, the Middle East and Southeast Asia."
+        subtitle="Everything you need to source, verify, import and ship from China with confidence: practical playbooks distilled from 15+ years on the ground across India, the Middle East and Southeast Asia."
         crumbs={[
           { name: "Home", href: "/" },
           { name: "Guides", href: "/guides" },
@@ -65,7 +65,7 @@ export default function GuidesHubPage() {
       <GuidesExtras />
       <CTABand
         title="Have a sourcing question?"
-        subtitle="Skip the research — ask KaiExpert and get tailored answers for your product, volume and destination."
+        subtitle="Skip the research. Ask KaiExpert and get tailored answers for your product, volume and destination."
         primary={{ label: "Ask KaiExpert", href: "/chat" }}
         secondary={{ label: "See our services", href: "/services" }}
       />

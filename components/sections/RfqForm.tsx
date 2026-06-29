@@ -36,14 +36,14 @@ const categories = [
 ]
 
 const timelines = [
-  "ASAP — within a month",
+  "ASAP (within a month)",
   "1–3 months",
   "3–6 months",
   "Just exploring",
 ]
 
 const assurances = [
-  { icon: FileText, text: "You get an itemised landed-cost quote — product, freight, duties and our fee, all broken out." },
+  { icon: FileText, text: "You get an itemised landed-cost quote: product, freight, duties and our fee, all broken out." },
   { icon: ShieldCheck, text: "No markup on freight or inspections, and nothing starts until you approve the quote." },
   { icon: Clock, text: "A sourcing specialist replies within 24 hours, usually with a shortlist of factories." },
 ]
@@ -105,7 +105,7 @@ export default function RfqForm() {
               <span className="text-gradient-crimson italic">we&apos;ll price it out.</span>
             </h2>
             <p className="mt-4 text-lg leading-relaxed text-ink-soft">
-              The more detail you share, the sharper your quote. No obligation — just a clear,
+              The more detail you share, the sharper your quote. No obligation, just a clear,
               factory-direct breakdown of what your order will cost to land.
             </p>
 
@@ -128,7 +128,7 @@ export default function RfqForm() {
                 <div className="flex min-h-[28rem] flex-col items-center justify-center text-center">
                   <CheckCircle2 className="mb-4 h-12 w-12 text-crimson" />
                   <h3 className="font-display text-2xl font-medium text-ink">
-                    Your request is in — thank you!
+                    Your request is in. Thank you!
                   </h3>
                   <p className="mt-3 max-w-sm text-ink-soft">
                     A sourcing specialist will review your requirements and get back to you within
@@ -218,7 +218,7 @@ export default function RfqForm() {
 
                   <div>
                     <label htmlFor="details" className={labelCls}>Specs & other details</label>
-                    <textarea id="details" name="details" value={form.details} onChange={update("details")} rows={4} placeholder="Materials, dimensions, certifications, packaging, customisation — anything that helps us quote accurately." className={`${inputCls} resize-none`} />
+                    <textarea id="details" name="details" value={form.details} onChange={update("details")} rows={4} placeholder="Materials, dimensions, certifications, packaging, customisation, anything that helps us quote accurately." className={`${inputCls} resize-none`} />
                   </div>
 
                   {/* Honeypot */}
@@ -241,7 +241,7 @@ export default function RfqForm() {
                   </button>
                   <p className="text-xs leading-relaxed text-ink/45">
                     By submitting you agree to be contacted about your enquiry. We never share your
-                    details — see our{" "}
+                    details. See our{" "}
                     <a href="/privacy" className="underline hover:text-crimson">privacy policy</a>.
                   </p>
                 </form>

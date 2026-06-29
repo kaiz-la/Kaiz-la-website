@@ -38,8 +38,8 @@ export function WelcomeCelebration({ onContinue, returning = false }: WelcomeCel
           </h1>
           <p className="mx-auto max-w-md text-base leading-relaxed text-white/90">
             {returning
-              ? "Your sourcing desk is open. Pick up where you left off or start a new request — your dedicated expert is just a message away."
-              : "Your request is in. A dedicated Kaiz La sourcing expert will reach out shortly with tailored next steps — keep an eye on your inbox or phone."}
+              ? "Your sourcing desk is open. Pick up where you left off or start a new request; your dedicated expert is just a message away."
+              : "Your request is in. A dedicated Kaiz La sourcing expert will reach out shortly with tailored next steps, so keep an eye on your inbox or phone."}
           </p>
         </div>
 

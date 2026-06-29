@@ -4,7 +4,7 @@ const principles = [
   {
     icon: Eye,
     title: "Transparency",
-    body: "You see real factories, real pricing and real inspection reports — no markups hidden in the middle.",
+    body: "You see real factories, real pricing and real inspection reports, with no markups hidden in the middle.",
   },
   {
     icon: Handshake,
@@ -26,7 +26,7 @@ const principles = [
 const markets = [
   {
     region: "India",
-    body: "Our largest market — importers and brands sourcing electronics, lighting, textiles, machinery and more.",
+    body: "Our largest market: importers and brands sourcing electronics, lighting, textiles, machinery and more.",
   },
   {
     region: "The Middle East",
@@ -61,13 +61,13 @@ export default function AboutMore() {
             <span className="text-gradient-crimson italic">simple, safe and transparent.</span>
           </h2>
           <p className="mt-6 text-lg leading-relaxed text-ink-soft">
-            Importing from China has always rewarded the well-connected and punished everyone else —
+            Importing from China has always rewarded the well-connected and punished everyone else:
             opaque pricing, language barriers, quality gambles and logistics chaos. Kaiz La exists to
             erase that gap.
           </p>
           <p className="mt-4 text-base leading-relaxed text-ink-soft">
             We put 15 years of on-the-ground expertise, a vetted factory network and modern tooling
-            behind every order — so a business of any size can buy direct, with the confidence of a
+            behind every order, so a business of any size can buy direct, with the confidence of a
             partner standing beside them in China.
           </p>
         </div>

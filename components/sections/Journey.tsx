@@ -28,7 +28,7 @@ const steps: Step[] = [
     title: "Supplier Discovery",
     place: "Across China",
     description:
-      "We begin with your product and your goals. Blending AI tooling with on-ground specialists, we scout and vet manufacturers for quality, compliance, and price — so you reach the right factory, not just any factory.",
+      "We begin with your product and your goals. Blending AI tooling with on-ground specialists, we scout and vet manufacturers for quality, compliance and price, so you reach the right factory, not just any factory.",
   },
   {
     icon: Handshake,
@@ -36,7 +36,7 @@ const steps: Step[] = [
     title: "Negotiation & Contracts",
     place: "On the ground",
     description:
-      "Our local procurement team negotiates terms in your interest — language, pricing, timelines, and risk. Accountability is written in from day one, protecting your business at every turn.",
+      "Our local procurement team negotiates terms in your interest: language, pricing, timelines and risk. Accountability is written in from day one, protecting your business at every turn.",
   },
   {
     icon: ShieldCheck,
@@ -44,7 +44,7 @@ const steps: Step[] = [
     title: "Quality Control",
     place: "At the factory",
     description:
-      "Before a shipment ever leaves the floor, our QA specialists inspect at multiple stages — from raw material to finished goods — with a detailed report in hand, minimising costly errors and returns.",
+      "Before a shipment ever leaves the floor, our QA specialists inspect at multiple stages, from raw material to finished goods, with a detailed report in hand, minimising costly errors and returns.",
   },
   {
     icon: Warehouse,
@@ -52,7 +52,7 @@ const steps: Step[] = [
     title: "Warehousing & Consolidation",
     place: "Secure warehouses",
     description:
-      "Goods from many suppliers rest in our secure warehouses, then consolidate into unified shipments — fewer fragmented logistics, lower freight, and a cleaner intake of inventory.",
+      "Goods from many suppliers rest in our secure warehouses, then consolidate into unified shipments: fewer fragmented logistics, lower freight and a cleaner intake of inventory.",
   },
   {
     icon: PackageCheck,
@@ -60,7 +60,7 @@ const steps: Step[] = [
     title: "Customs Clearance",
     place: "Export gateway",
     description:
-      "We prepare every export document and declaration for smooth clearance — ensuring compliance with destination regulations across India, the Middle East, and Southeast Asia. No delays, no penalties.",
+      "We prepare every export document and declaration for smooth clearance, ensuring compliance with destination regulations across India, the Middle East and Southeast Asia. No delays, no penalties.",
   },
   {
     icon: Ship,
@@ -68,7 +68,7 @@ const steps: Step[] = [
     title: "Final Delivery",
     place: "India & the Middle East",
     description:
-      "Dispatched by the most efficient route — air or sea — with full tracking visibility and coordinated handoffs, all the way to your door or distribution centre.",
+      "Dispatched by the most efficient route, air or sea, with full tracking visibility and coordinated handoffs, all the way to your door or distribution centre.",
   },
 ]
 
@@ -119,7 +119,7 @@ export default function Journey({ showHeader = true }: { showHeader?: boolean })
               <span className="text-gradient-crimson italic">your doorstep.</span>
             </h2>
             <p className="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-ink-soft">
-              Six deliberate steps — one seamless passage across continents. Follow the route as
+              Six deliberate steps, one seamless passage across continents. Follow the route as
               your order travels from China to India and the Middle East.
             </p>
           </motion.div>

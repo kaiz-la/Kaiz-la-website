@@ -18,9 +18,9 @@ const faqLd = {
 }
 
 export const metadata: Metadata = {
-  title: "How It Works — The Kaiz La Sourcing Journey",
+  title: "How It Works | The Kaiz La Sourcing Journey",
   description:
-    "One accountable partner from factory floor to doorstep. See the six-step Kaiz La sourcing journey — supplier discovery, negotiation, quality control, warehousing, customs clearance and delivery — at transparent, factory-direct pricing.",
+    "One accountable partner from factory floor to doorstep. See the six-step Kaiz La sourcing journey, from supplier discovery, negotiation, quality control and warehousing to customs clearance and delivery, at transparent, factory-direct pricing.",
   alternates: { canonical: "/how-it-works" },
   openGraph: {
     title: "How Kaiz La Sourcing Works",
@@ -38,7 +38,7 @@ export default function HowItWorksPage() {
       <PageHeader
         eyebrow="The Sourcing Journey"
         title="From the factory floor to your doorstep"
-        subtitle="One accountable partner from start to finish. Follow exactly how we source, negotiate, inspect, consolidate and deliver — at transparent, factory-direct pricing, every step from China to India and the Middle East."
+        subtitle="One accountable partner from start to finish. Follow exactly how we source, negotiate, inspect, consolidate and deliver, at transparent, factory-direct pricing, every step from China to India and the Middle East."
         crumbs={[
           { name: "Home", href: "/" },
           { name: "How It Works", href: "/how-it-works" },

@@ -6,7 +6,7 @@ import AboutMore from "@/components/sections/AboutMore"
 import CTABand from "@/components/sections/CTABand"
 
 export const metadata: Metadata = {
-  title: "About Kaiz La — 15+ Years of Global Sourcing",
+  title: "About Kaiz La | 15+ Years of Global Sourcing",
   description:
     "Kaiz La is a sourcing-as-a-service company headquartered in Hong Kong, with 15+ years of expertise connecting businesses across India and the Middle East with vetted Chinese suppliers.",
   alternates: { canonical: "/about" },

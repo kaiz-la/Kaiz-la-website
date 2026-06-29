@@ -204,7 +204,7 @@ export function ChatWindow({ conversationId: currentConversationId }: ChatWindow
                 How can we help you <span className="text-gradient-sun italic">source?</span>
               </h1>
               <p className="mt-4 max-w-md px-4 text-base leading-relaxed text-ink-soft sm:text-lg">
-                Tell me what you’re looking to source from China — I’ll guide you on suppliers,
+                Tell me what you’re looking to source from China and I’ll guide you on suppliers,
                 quality, pricing and delivery, then connect you with our sourcing team.
               </p>
             </div>

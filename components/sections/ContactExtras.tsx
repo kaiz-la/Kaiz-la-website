@@ -33,7 +33,7 @@ const channels: Channel[] = [
     icon: Sparkles,
     brand: "bg-crimson",
     title: "Ask KaiExpert",
-    desc: "Our AI sourcing assistant scopes your product and points you the right way — the fastest way to get started.",
+    desc: "Our AI sourcing assistant scopes your product and points you the right way. The fastest way to get started.",
     cta: "Start a chat",
     href: "/chat",
   },
@@ -67,7 +67,7 @@ export default function ContactExtras() {
               Prefer to talk now?
             </h2>
             <p className="mt-4 text-lg leading-relaxed text-ink-soft">
-              Skip the form — reach us on the channel that suits you and we&apos;ll pick it up fast.
+              Skip the form and reach us on the channel that suits you; we&apos;ll pick it up fast.
             </p>
           </div>
 

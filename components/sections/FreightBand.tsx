@@ -33,11 +33,11 @@ export default function FreightBand() {
         <div className="max-w-2xl">
           <div className="eyebrow text-white/80">Freight &amp; Logistics</div>
           <h2 className="mt-3 text-3xl font-extrabold leading-[1.08] tracking-tight text-white sm:text-4xl lg:text-5xl">
-            Air and sea freight — fully tracked, door to door.
+            Air and sea freight, fully tracked, door to door.
           </h2>
           <p className="mt-5 max-w-xl text-lg leading-relaxed text-white/85">
             We consolidate your goods, pick the fastest route, and clear customs across India and
-            the Middle East — so a shipment leaving a Chinese factory arrives at your door without
+            the Middle East, so a shipment leaving a Chinese factory arrives at your door without
             the chaos in between.
           </p>
 

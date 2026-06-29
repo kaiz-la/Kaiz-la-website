@@ -48,7 +48,7 @@ export default function Footer() {
               />
             </Link>
             <p className="mt-5 max-w-sm text-sm leading-relaxed text-white/70">
-              Your sourcing partner on the ground in China — vetted suppliers, quality control,
+              Your sourcing partner on the ground in China: vetted suppliers, quality control,
               freight and customs for businesses across India and the Middle East.
             </p>
             <p className="mt-5 text-xs leading-relaxed text-white/55">

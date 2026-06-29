@@ -57,7 +57,7 @@ export async function processChatRequest(
   } catch (error) {
     console.error('Chat processing error:', error);
     return new NextResponse(
-      "I'm sorry — I ran into a brief hiccup on my end. Could you try sending that again?"
+      "I'm sorry, I ran into a brief hiccup on my end. Could you try sending that again?"
     );
   }
 }

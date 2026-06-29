@@ -12,24 +12,24 @@ const components = [
   {
     icon: Factory,
     title: "Factory-direct product cost",
-    body: "You pay the factory's real quote — we show you the original pricing. No inflated unit prices, no hidden agent margin baked into the goods.",
+    body: "You pay the factory's real quote, and we show you the original pricing. No inflated unit prices, no hidden agent margin baked into the goods.",
   },
   {
     icon: Receipt,
     title: "One transparent service fee",
-    body: "A single, clearly stated fee for managing your project — agreed and confirmed in your quote before anything starts. No surprises mid-order.",
+    body: "A single, clearly stated fee for managing your project, agreed and confirmed in your quote before anything starts. No surprises mid-order.",
   },
   {
     icon: Ship,
     title: "Logistics & duties at cost",
-    body: "Freight, inspections, customs and last-mile are billed at actual cost, with the supporting invoices — never marked up.",
+    body: "Freight, inspections, customs and last-mile are billed at actual cost, with the supporting invoices, never marked up.",
   },
 ]
 
 const guarantees = [
-  "A full landed-cost quote up front — product, fee, freight and duties broken out line by line.",
+  "A full landed-cost quote up front: product, fee, freight and duties broken out line by line.",
   "Nothing is ordered until you review and approve the quote.",
-  "No markup on freight, inspections or customs — those are passed through at cost.",
+  "No markup on freight, inspections or customs; those are passed through at cost.",
   "Fees are fixed to the agreed scope; if the scope changes, we re-quote before proceeding.",
 ]
 
@@ -48,7 +48,7 @@ export default function PricingModel() {
           </h2>
           <p className="mt-4 text-lg leading-relaxed text-ink-soft">
             Sourcing should never feel like a black box. Here&apos;s exactly what you pay for when
-            you work with Kaiz La — and what you&apos;ll never be surprised by.
+            you work with Kaiz La, and what you&apos;ll never be surprised by.
           </p>
         </div>
 
@@ -77,10 +77,10 @@ export default function PricingModel() {
               <div className="lg:col-span-5">
                 <div className="eyebrow text-crimson">What you&apos;ll always get</div>
                 <h3 className="mt-2 font-display text-2xl font-medium leading-snug text-ink">
-                  A quote you can actually read — before you commit a cent.
+                  A quote you can actually read, before you commit a cent.
                 </h3>
                 <p className="mt-3 text-sm leading-relaxed text-ink-soft">
-                  Every engagement is priced individually — the exact fee depends on the product,
+                  Every engagement is priced individually; the exact fee depends on the product,
                   volume and scope. Send us your requirements and we&apos;ll come back with a full
                   breakdown.
                 </p>

@@ -25,7 +25,7 @@ export default function WhatWeSource() {
               If it&apos;s made in China, we can source it.
             </h2>
             <p className="mt-4 text-lg leading-relaxed text-ink-soft">
-              From consumer electronics to industrial machinery — these are the categories our
+              From consumer electronics to industrial machinery, these are the categories our
               buyers move every week. Don&apos;t see yours? It&apos;s almost certainly covered.
             </p>
           </div>

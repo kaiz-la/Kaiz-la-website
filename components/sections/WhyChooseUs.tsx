@@ -17,7 +17,7 @@ const advantages: Advantage[] = [
     icon: ShieldCheck,
     title: "Your designs stay yours.",
     description:
-      "NDA-backed suppliers, locked-in pricing, and zero IP leakage — from first enquiry to final delivery. Your designs, costs and strategy stay protected.",
+      "NDA-backed suppliers, locked-in pricing and zero IP leakage, from first enquiry to final delivery. Your designs, costs and strategy stay protected.",
     stat: "NDA-backed supplier network",
     image: "/media/adv-confidentiality.jpg",
   },
@@ -26,7 +26,7 @@ const advantages: Advantage[] = [
     title: "Inspect your goods in person.",
     description: (
       <>
-        We fly you in and handle the whole trip — travel, factory visits, and inspections. A
+        We fly you in and handle the whole trip: travel, factory visits and inspections. A
         dedicated <span className="font-semibold text-crimson">Kaiz La Success Expert</span> stays
         with you start to finish.
       </>
@@ -38,7 +38,7 @@ const advantages: Advantage[] = [
     icon: Award,
     title: "We've made the mistakes so you won't.",
     description:
-      "Fifteen years navigating Chinese manufacturing, customs and freight across India and the Middle East. We've seen what goes wrong — and we keep it from reaching you.",
+      "Fifteen years navigating Chinese manufacturing, customs and freight across India and the Middle East. We've seen what goes wrong, and we keep it from reaching you.",
     stat: "1,000+ projects delivered",
     image: "/media/adv-experience.jpg",
   },
@@ -54,7 +54,7 @@ const advantages: Advantage[] = [
     icon: Clock,
     title: "Less waiting, fewer surprises.",
     description:
-      "Local teams and a fully integrated supply chain cut the delays that usually stall China orders — dispatched by the fastest route, air or sea.",
+      "Local teams and a fully integrated supply chain cut the delays that usually stall China orders, with dispatch by the fastest route, air or sea.",
     stat: "Air & sea, fully tracked",
     image: "/media/adv-delivery.jpg",
   },
@@ -112,7 +112,7 @@ export default function WhyChooseUs() {
           </h2>
           <p className="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-ink-soft">
             Fifteen years on the ground in China, an elite vetted factory network, and technology
-            that keeps you in the loop — six reasons sourcing with us simply works.
+            that keeps you in the loop. Six reasons sourcing with us simply works.
           </p>
         </motion.div>
 

@@ -28,11 +28,11 @@ const coreServices = [
     icon: Globe,
     step: "01",
     title: "Supplier Discovery & Negotiation",
-    lead: "We find the factory that fits your spec, your volume and your budget — and we negotiate as if it were our own money.",
+    lead: "We find the factory that fits your spec, your volume and your budget, and we negotiate as if it were our own money.",
     includes: [
       "A short brief on specs, target price, volumes and certifications",
       "A shortlist of 3–5 vetted factories with side-by-side quotes",
-      "Direct factory pricing — no hidden agent markup in the middle",
+      "Direct factory pricing, with no hidden agent markup in the middle",
       "MOQ, payment terms and lead-time negotiated on your behalf",
     ],
   },
@@ -40,7 +40,7 @@ const coreServices = [
     icon: ShieldCheck,
     step: "02",
     title: "Quality Control & Production Tracking",
-    lead: "Catch problems on the factory floor in China — not after the goods land at your door.",
+    lead: "Catch problems on the factory floor in China, not after the goods land at your door.",
     includes: [
       "Pre-production sample signed off before the line starts",
       "In-line (DUPRO) and pre-shipment (PSI) inspections to AQL standards",
@@ -102,7 +102,7 @@ const specialized = [
   {
     icon: Tag,
     title: "Private Label & OEM",
-    body: "Custom branding, packaging and product modifications — turn a stock product into your own line.",
+    body: "Custom branding, packaging and product modifications that turn a stock product into your own line.",
   },
   {
     icon: FlaskConical,
@@ -148,12 +148,12 @@ export default function ServicesDetail() {
           </h2>
           <p className="mt-6 text-lg leading-relaxed text-ink-soft">
             Most importers stitch their supply chain together from agents, inspectors, freight
-            forwarders and brokers who never speak to each other — and every gap between them is
+            forwarders and brokers who never speak to each other, and every gap between them is
             where orders go wrong.
           </p>
           <p className="mt-4 text-base leading-relaxed text-ink-soft">
             Kaiz La runs every stage under one roof. The same team that negotiates your price
-            inspects your goods, consolidates your shipment and clears your customs — so nothing
+            inspects your goods, consolidates your shipment and clears your customs, so nothing
             falls through the cracks, and there&apos;s always one person who can answer for your
             order.
           </p>
@@ -169,7 +169,7 @@ export default function ServicesDetail() {
               Every core service, in detail.
             </h2>
             <p className="mt-4 text-lg leading-relaxed text-ink-soft">
-              Six services that cover the full journey from factory floor to your doorstep — here&apos;s
+              Six services that cover the full journey from factory floor to your doorstep. Here&apos;s
               exactly what each one puts on the table.
             </p>
           </div>

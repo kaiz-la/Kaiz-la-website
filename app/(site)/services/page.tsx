@@ -7,7 +7,7 @@ import FreightBand from "@/components/sections/FreightBand"
 import CTABand from "@/components/sections/CTABand"
 
 export const metadata: Metadata = {
-  title: "Sourcing Services — China to India & the Middle East",
+  title: "Sourcing Services | China to India & the Middle East",
   description:
     "End-to-end China sourcing services from Kaiz La: supplier discovery & negotiation, quality control, warehousing, customs clearance, international freight, and last-mile delivery.",
   alternates: { canonical: "/services" },
@@ -27,7 +27,7 @@ export default function ServicesPage() {
       <PageHeader
         eyebrow="Our Services"
         title="End-to-end sourcing, handled with precision"
-        subtitle="We manage the entire procurement lifecycle so you can focus on growth — from finding the right factory to delivery at your door."
+        subtitle="We manage the entire procurement lifecycle so you can focus on growth, from finding the right factory to delivery at your door."
         crumbs={[
           { name: "Home", href: "/" },
           { name: "Services", href: "/services" },

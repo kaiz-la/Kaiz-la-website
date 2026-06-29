@@ -131,13 +131,6 @@ export default function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
             >
-              <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-4 py-1.5 backdrop-blur-sm">
-                <span className="h-1.5 w-1.5 rounded-full bg-sun-amber" />
-                <span className="text-xs font-semibold uppercase tracking-[0.18em] text-white/90">
-                  15+ Years · China Sourcing Experts
-                </span>
-              </div>
-
               <h1 className="text-4xl font-extrabold leading-[1.04] tracking-tight text-white sm:text-5xl lg:text-6xl">
                 Your sourcing partner
                 <br />
@@ -145,9 +138,23 @@ export default function Hero() {
               </h1>
 
               <p className="mt-5 max-w-xl text-lg leading-relaxed text-white/85">
-                We find the factory, check the quality, and ship it to your door — across India
+                We find the factory, check the quality, and ship it to your door across India
                 &amp; the Middle East. You stay in control; we handle China.
               </p>
+
+              {/* Credential lockup — a custom, editorial "15+ years" mark */}
+              <div className="mt-7 flex items-center gap-4">
+                <div className="flex items-baseline leading-none">
+                  <span className="font-display text-4xl font-semibold text-white sm:text-5xl">15</span>
+                  <span className="font-display text-2xl font-semibold text-sun-amber sm:text-3xl">+</span>
+                </div>
+                <span className="h-10 w-px bg-white/30" />
+                <span className="text-[11px] font-semibold uppercase leading-snug tracking-[0.22em] text-white/85 sm:text-xs">
+                  Years on the ground
+                  <br />
+                  sourcing across China
+                </span>
+              </div>
 
               <div className="mt-8 flex flex-wrap items-center gap-4">
                 <Link

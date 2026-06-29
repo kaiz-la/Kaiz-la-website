@@ -11,7 +11,7 @@ const glossary: { term: string; abbr?: string; def: string }[] = [
   {
     term: "Minimum Order Quantity",
     abbr: "MOQ",
-    def: "The smallest quantity a factory will produce for one order. Often negotiable — especially against a higher unit price or a trial run.",
+    def: "The smallest quantity a factory will produce for one order. Often negotiable, especially against a higher unit price or a trial run.",
   },
   {
     term: "Incoterms",
@@ -25,11 +25,11 @@ const glossary: { term: string; abbr?: string; def: string }[] = [
   {
     term: "Delivered Duty Paid",
     abbr: "DDP",
-    def: "The seller or your sourcing partner handles everything — freight, export, import, duties and final delivery to your door.",
+    def: "The seller or your sourcing partner handles everything: freight, export, import, duties and final delivery to your door.",
   },
   {
     term: "FCL vs LCL",
-    def: "Full Container Load books a whole container for your goods; Less than Container Load shares one with other shippers — cheaper for small volumes.",
+    def: "Full Container Load books a whole container for your goods; Less than Container Load shares one with other shippers, which is cheaper for small volumes.",
   },
   {
     term: "HS Code",
@@ -38,11 +38,11 @@ const glossary: { term: string; abbr?: string; def: string }[] = [
   {
     term: "Pre-Shipment Inspection",
     abbr: "PSI",
-    def: "An independent quality check on finished goods before they leave the factory — your last chance to catch defects in China.",
+    def: "An independent quality check on finished goods before they leave the factory; your last chance to catch defects in China.",
   },
   {
     term: "Landed Cost",
-    def: "The true all-in cost of a product at your door: unit price plus freight, insurance, duty, taxes and clearance — not just the factory quote.",
+    def: "The true all-in cost of a product at your door: unit price plus freight, insurance, duty, taxes and clearance, not just the factory quote.",
   },
   {
     term: "Lead Time",
@@ -53,7 +53,7 @@ const glossary: { term: string; abbr?: string; def: string }[] = [
 export const guideHubFaqs: { q: string; a: string }[] = [
   {
     q: "Where do I start if I've never imported from China?",
-    a: "Start by writing a clear product specification and a realistic budget, then shortlist three to five suppliers, order samples, and arrange an independent inspection before paying the balance. If that sounds like a lot, a sourcing partner can run the whole process for you — from vetting factories to delivering to your door.",
+    a: "Start by writing a clear product specification and a realistic budget, then shortlist three to five suppliers, order samples, and arrange an independent inspection before paying the balance. If that sounds like a lot, a sourcing partner can run the whole process for you, from vetting factories to delivering to your door.",
   },
   {
     q: "How much does it cost to import from China?",
@@ -73,7 +73,7 @@ export const guideHubFaqs: { q: string; a: string }[] = [
   },
   {
     q: "Is a sourcing agent cheaper than buying direct from the factory?",
-    a: "Buying direct can offer the lowest sticker price, but a good agent often recovers their fee through better-negotiated pricing, fewer defects and avoided mistakes — while saving you the time and risk of managing it all yourself. The right choice depends on your volume, product complexity and experience.",
+    a: "Buying direct can offer the lowest sticker price, but a good agent often recovers their fee through better-negotiated pricing, fewer defects and avoided mistakes, while saving you the time and risk of managing it all yourself. The right choice depends on your volume, product complexity and experience.",
   },
   {
     q: "How long does a first order take, end to end?",
@@ -93,7 +93,7 @@ export default function GuidesExtras() {
               The sourcing vocabulary, in plain English.
             </h2>
             <p className="mt-4 text-lg leading-relaxed text-ink-soft">
-              MOQ, FOB, DDP, HS codes — importing comes with its own alphabet. Here are the terms
+              MOQ, FOB, DDP, HS codes: importing comes with its own alphabet. Here are the terms
               you&apos;ll meet most, explained without the jargon.
             </p>
           </div>
@@ -126,8 +126,8 @@ export default function GuidesExtras() {
               Common questions about sourcing from China.
             </h2>
             <p className="mt-4 text-lg leading-relaxed text-ink-soft">
-              The questions importers ask us most — quick, straight answers before you dive into the
-              full guides.
+              The questions importers ask us most, with quick, straight answers before you dive into
+              the full guides.
             </p>
           </div>
 

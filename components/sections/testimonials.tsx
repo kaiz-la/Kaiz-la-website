@@ -108,7 +108,7 @@ export default function Testimonials() {
                     </h2>
                     <p className="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-ink-soft">
                         Businesses across India and the Middle East trust Kaiz La to turn China
-                        sourcing from a gamble into a routine — here&apos;s what that feels like.
+                        sourcing from a gamble into a routine. Here&apos;s what that feels like.
                     </p>
                 </motion.div>
 

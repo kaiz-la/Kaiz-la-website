@@ -1,6 +1,7 @@
 "use client"
 
-import { motion, type Variants } from "framer-motion"
+import { motion, AnimatePresence, type Variants } from "framer-motion"
+import { useState, useEffect } from "react"
 import { MapPin, Globe2, Layers, Award } from "lucide-react"
 
 const facts = [
@@ -9,6 +10,46 @@ const facts = [
   { icon: Layers, label: "Service model", value: "End-to-end sourcing & logistics" },
   { icon: Award, label: "Track record", value: "15+ years · 1,000+ projects" },
 ]
+
+// Cities where we have boots on the ground — revolves through the image-card
+// caption so the "on the ground in China" claim feels alive.
+const groundCities = [
+  { en: "Guangzhou", zh: "广州" },
+  { en: "Shenzhen", zh: "深圳" },
+  { en: "Yiwu", zh: "义乌" },
+  { en: "Foshan", zh: "佛山" },
+  { en: "Dongguan", zh: "东莞" },
+  { en: "Shanghai", zh: "上海" },
+  { en: "Ningbo", zh: "宁波" },
+  { en: "Hangzhou", zh: "杭州" },
+  { en: "Xiamen", zh: "厦门" },
+  { en: "Hong Kong", zh: "香港" },
+]
+
+function GroundCities() {
+  const [i, setI] = useState(0)
+  useEffect(() => {
+    const t = setInterval(() => setI((p) => (p + 1) % groundCities.length), 2000)
+    return () => clearInterval(t)
+  }, [])
+  const c = groundCities[i]
+  return (
+    <div className="relative mt-1 h-9 w-64 overflow-hidden">
+      <AnimatePresence initial={false}>
+        <motion.div
+          key={i}
+          initial={{ y: "100%", opacity: 0 }}
+          animate={{ y: "0%", opacity: 1 }}
+          exit={{ y: "-100%", opacity: 0 }}
+          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          className="absolute left-0 top-0 whitespace-nowrap font-display text-2xl leading-9 text-white"
+        >
+          {c.en} <span className="text-white/65">· {c.zh}</span>
+        </motion.div>
+      </AnimatePresence>
+    </div>
+  )
+}
 
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
@@ -71,7 +112,7 @@ export default function About({ showHeader = true }: { showHeader?: boolean }) {
                 <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-ink/20 to-transparent" />
                 <div className="absolute bottom-5 left-5">
                   <div className="eyebrow text-white/75">On the ground in China</div>
-                  <div className="mt-1 font-display text-2xl text-white">Hong Kong · 香港</div>
+                  <GroundCities />
                 </div>
               </div>
 
@@ -113,12 +154,12 @@ export default function About({ showHeader = true }: { showHeader?: boolean }) {
             </p>
             <p className="mt-5 text-lg leading-relaxed text-ink-soft">
               Headquartered in Hong Kong, we connect businesses across India, the Middle East and
-              Southeast Asia with vetted Chinese factories — and handle the hard parts of importing
+              Southeast Asia with vetted Chinese factories, then handle the hard parts of importing
               on your behalf.
             </p>
             <p className="mt-4 text-base leading-relaxed text-ink-soft">
               For over 15 years we&apos;ve managed supplier discovery, negotiation, quality control,
-              consolidation, customs and last-mile delivery — so you can buy direct at factory MOQs,
+              consolidation, customs and last-mile delivery, so you can buy direct at factory MOQs,
               with full transparency, without the usual risk and guesswork.
             </p>
 

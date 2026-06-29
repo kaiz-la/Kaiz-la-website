@@ -31,7 +31,7 @@ export default function Error({
         Something went wrong
       </h1>
       <p className="mt-4 max-w-md text-lg leading-relaxed text-ink-soft">
-        An unexpected error occurred on our end. Please try again — if it keeps happening, reach us
+        An unexpected error occurred on our end. Please try again. If it keeps happening, reach us
         at{" "}
         <a href="mailto:hello@kaizla.com" className="font-medium text-crimson hover:underline">
           hello@kaizla.com

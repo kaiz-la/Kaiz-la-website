@@ -33,7 +33,7 @@ export default function SourcingGuides({
                 Learn to source from China like a pro
               </h2>
               <p className="mt-4 text-lg leading-relaxed text-ink-soft">
-                Practical, no-fluff guides on suppliers, quality, customs and freight — written by a
+                Practical, no-fluff guides on suppliers, quality, customs and freight, written by a
                 team that does this every day across India and the Middle East.
               </p>
             </div>
@@ -88,7 +88,7 @@ export default function SourcingGuides({
                   Ask KaiExpert your sourcing question
                 </h3>
                 <p className="mt-2 text-sm leading-relaxed text-ink-soft">
-                  Get tailored answers for your exact product, volume and destination — in minutes,
+                  Get tailored answers for your exact product, volume and destination in minutes,
                   not days of research.
                 </p>
               </div>

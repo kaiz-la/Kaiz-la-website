@@ -154,7 +154,7 @@ export default function Contact({ showHeader = true }: { showHeader?: boolean })
               {status === "success" ? (
                 <div className="flex h-full min-h-[20rem] flex-col items-center justify-center rounded-xl border border-secondary/20 bg-secondary/[0.04] p-8 text-center">
                   <CheckCircle2 className="mb-4 h-12 w-12 text-secondary" />
-                  <h4 className="text-xl font-bold text-primary">Message received — thank you!</h4>
+                  <h4 className="text-xl font-bold text-primary">Message received. Thank you!</h4>
                   <p className="mt-2 max-w-sm text-muted-foreground">
                     Your enquiry is now with our team and we&apos;ll get back to you within 24 hours.
                   </p>

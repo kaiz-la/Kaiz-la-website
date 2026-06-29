@@ -20,11 +20,11 @@ const deliverables = [
 export const faqs = [
   {
     q: "Do I have to travel to China?",
-    a: "No. We handle the entire process remotely on your behalf — but if you'd like to see your goods before you buy, we host the trip: travel, factory visits and inspections, with a dedicated Success Expert alongside you.",
+    a: "No. We handle the entire process remotely on your behalf. If you'd like to see your goods before you buy, we host the trip: travel, factory visits and inspections, with a dedicated Success Expert alongside you.",
   },
   {
     q: "Can I order at the factory's MOQ?",
-    a: "Yes. You buy direct at the supplier's minimum order quantity and factory-direct pricing — Kaiz La manages the sourcing, quality and logistics around it.",
+    a: "Yes. You buy direct at the supplier's minimum order quantity and factory-direct pricing, and Kaiz La manages the sourcing, quality and logistics around it.",
   },
   {
     q: "Who handles quality control?",
@@ -36,7 +36,7 @@ export const faqs = [
   },
   {
     q: "Is my product idea kept confidential?",
-    a: "Yes. Our supplier and partner network operates under strict, NDA-backed confidentiality protocols — your designs, pricing and strategy stay protected with zero IP leakage.",
+    a: "Yes. Our supplier and partner network operates under strict, NDA-backed confidentiality protocols, so your designs, pricing and strategy stay protected with zero IP leakage.",
   },
   {
     q: "How do I get started?",
@@ -59,7 +59,7 @@ export function Deliverables() {
             Tangible deliverables, not vague promises.
           </h2>
           <p className="mt-4 text-lg leading-relaxed text-ink-soft">
-            From first quote to final delivery, every stage hands you something concrete —
+            From first quote to final delivery, every stage hands you something concrete:
             transparent pricing, inspection reports and live tracking that keep you in control of
             your order, start to finish.
           </p>

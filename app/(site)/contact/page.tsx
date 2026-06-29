@@ -5,7 +5,7 @@ import Contact from "@/components/sections/Contact"
 import ContactExtras from "@/components/sections/ContactExtras"
 
 export const metadata: Metadata = {
-  title: "Contact Kaiz La — Start Your Sourcing Conversation",
+  title: "Contact Kaiz La | Start Your Sourcing Conversation",
   description:
     "Get in touch with Kaiz La. Reach our team by email, phone, WhatsApp, or KaiExpert to discuss supplier discovery, quality control, logistics, and customs clearance from China.",
   alternates: { canonical: "/contact" },
