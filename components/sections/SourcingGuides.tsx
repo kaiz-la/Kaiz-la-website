@@ -78,20 +78,16 @@ export default function SourcingGuides({
         )}
 
         {carousel ? (
-          <div className="relative">
-            {/* Swipeable rail — bleeds to the container edge so a peeking card
-                signals there's more to scroll. */}
-            <div className="-mx-5 flex snap-x snap-mandatory gap-5 overflow-x-auto scroll-px-5 px-5 pb-4 [scrollbar-width:thin] sm:-mx-6 sm:scroll-px-6 sm:px-6 lg:-mx-8 lg:scroll-px-8 lg:px-8">
-              {guides.map((guide) => (
-                <GuideCard
-                  key={guide.slug}
-                  guide={guide}
-                  className="w-[80vw] max-w-[320px] flex-shrink-0 snap-start sm:w-[320px]"
-                />
-              ))}
-            </div>
-            {/* Soft fade hinting more cards on the right (desktop). */}
-            <div className="pointer-events-none absolute inset-y-0 right-0 hidden w-12 bg-gradient-to-l from-porcelain to-transparent lg:block" />
+          /* Swipeable rail — bleeds to the container edge so a peeking card
+             signals there's more to scroll. */
+          <div className="-mx-5 flex snap-x snap-mandatory gap-5 overflow-x-auto scroll-px-5 px-5 pb-4 [scrollbar-width:thin] sm:-mx-6 sm:scroll-px-6 sm:px-6 lg:-mx-8 lg:scroll-px-8 lg:px-8">
+            {guides.map((guide) => (
+              <GuideCard
+                key={guide.slug}
+                guide={guide}
+                className="w-[80vw] max-w-[320px] flex-shrink-0 snap-start sm:w-[320px]"
+              />
+            ))}
           </div>
         ) : (
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
