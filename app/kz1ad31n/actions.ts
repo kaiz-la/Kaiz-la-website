@@ -18,7 +18,7 @@ export async function loginAction(_prev: ActionState, formData: FormData): Promi
   if (!process.env.ADMIN_PASSWORD) return { error: "Admin login is not configured." }
   if (!verifyPassword(password)) return { error: "Incorrect password." }
   await setAdminCookie()
-  redirect("/admin")
+  redirect("/kz1ad31n")
 }
 
 export async function createShipmentAction(
@@ -42,8 +42,8 @@ export async function createShipmentAction(
   })
 
   if (!result.ok) return { error: result.error }
-  revalidatePath("/admin")
-  redirect(`/admin/shipments/${encodeURIComponent(result.data.trackingId)}`)
+  revalidatePath("/kz1ad31n")
+  redirect(`/kz1ad31n/shipments/${encodeURIComponent(result.data.trackingId)}`)
 }
 
 export async function updateShipmentAction(
@@ -67,8 +67,8 @@ export async function updateShipmentAction(
   })
 
   if (!result.ok) return { error: result.error }
-  revalidatePath(`/admin/shipments/${trackingId}`)
-  revalidatePath("/admin")
+  revalidatePath(`/kz1ad31n/shipments/${trackingId}`)
+  revalidatePath("/kz1ad31n")
   return { ok: true }
 }
 
@@ -89,7 +89,7 @@ export async function addEventAction(
   })
 
   if (!result.ok) return { error: result.error }
-  revalidatePath(`/admin/shipments/${trackingId}`)
-  revalidatePath("/admin")
+  revalidatePath(`/kz1ad31n/shipments/${trackingId}`)
+  revalidatePath("/kz1ad31n")
   return {}
 }

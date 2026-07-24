@@ -8,8 +8,8 @@ const points = [
 ]
 
 /**
- * Full-width freight visual band. Sits between the Journey and Testimonials
- * to give the page a cinematic logistics moment with real imagery.
+ * Full-width freight visual band — a cinematic logistics moment with real
+ * imagery, bridging the sourcing sections and the closing CTA.
  */
 export default function FreightBand() {
   return (

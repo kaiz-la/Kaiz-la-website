@@ -2,7 +2,7 @@
 
 import { motion, type Variants } from "framer-motion"
 import type { ReactNode } from "react"
-import { Award, ShieldCheck, Clock, UserCheck, BadgeCheck, Radar } from "lucide-react"
+import { Award, ShieldCheck, UserCheck, Radar } from "lucide-react"
 
 type Advantage = {
   icon: typeof Award
@@ -41,22 +41,6 @@ const advantages: Advantage[] = [
       "Fifteen years navigating Chinese manufacturing, customs and freight across India and the Middle East. We've seen what goes wrong, and we keep it from reaching you.",
     stat: "1,000+ projects delivered",
     image: "/media/adv-experience.jpg",
-  },
-  {
-    icon: BadgeCheck,
-    title: "Factory-direct, rigorously vetted.",
-    description:
-      "Every supplier passes our in-house QA at multiple production stages, and you get a detailed inspection report before anything ships.",
-    stat: "500+ vetted partners",
-    image: "/media/adv-network.jpg",
-  },
-  {
-    icon: Clock,
-    title: "Less waiting, fewer surprises.",
-    description:
-      "Local teams and a fully integrated supply chain cut the delays that usually stall China orders, with dispatch by the fastest route, air or sea.",
-    stat: "Air & sea, fully tracked",
-    image: "/media/adv-delivery.jpg",
   },
   {
     icon: Radar,
@@ -111,8 +95,8 @@ export default function WhyChooseUs() {
             The Kaiz La <span className="text-gradient-crimson italic">Advantage.</span>
           </h2>
           <p className="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-ink-soft">
-            Fifteen years on the ground in China, an elite vetted factory network, and technology
-            that keeps you in the loop. Six reasons sourcing with us simply works.
+            Fifteen years on the ground in China, a vetted factory network, and technology that
+            keeps you in the loop, from first enquiry to final delivery.
           </p>
         </motion.div>
 
@@ -122,7 +106,7 @@ export default function WhyChooseUs() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-60px" }}
-          className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3"
+          className="mx-auto grid max-w-5xl grid-cols-1 gap-5 sm:grid-cols-2"
         >
           {advantages.map((a, i) => (
             <motion.div

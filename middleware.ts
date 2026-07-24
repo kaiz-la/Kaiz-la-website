@@ -1,12 +1,12 @@
 import { NextRequest, NextResponse } from "next/server"
 import { SESSION_COOKIE, verifySession } from "@/lib/admin-auth"
 
-// Guard /admin/* — unauthenticated users are sent to the login page.
-// /admin/login and /admin/logout are intentionally left open.
+// Guard /kz1ad31n/* — unauthenticated users are sent to the login page.
+// /kz1ad31n/login and /kz1ad31n/logout are intentionally left open.
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl
 
-  if (pathname.startsWith("/admin/login") || pathname.startsWith("/admin/logout")) {
+  if (pathname.startsWith("/kz1ad31n/login") || pathname.startsWith("/kz1ad31n/logout")) {
     return NextResponse.next()
   }
 
@@ -14,7 +14,7 @@ export async function middleware(req: NextRequest) {
   const { valid } = await verifySession(token)
 
   if (!valid) {
-    const loginUrl = new URL("/admin/login", req.url)
+    const loginUrl = new URL("/kz1ad31n/login", req.url)
     return NextResponse.redirect(loginUrl)
   }
 
@@ -22,5 +22,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/admin/:path*"],
+  matcher: ["/kz1ad31n/:path*"],
 }

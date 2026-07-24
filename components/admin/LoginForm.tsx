@@ -2,7 +2,7 @@
 
 import { useActionState } from "react"
 import { Loader2 } from "lucide-react"
-import { loginAction, type ActionState } from "@/app/admin/actions"
+import { loginAction, type ActionState } from "@/app/kz1ad31n/actions"
 
 export default function LoginForm() {
   const [state, action, pending] = useActionState<ActionState, FormData>(loginAction, {})

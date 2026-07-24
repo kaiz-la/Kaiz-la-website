@@ -9,7 +9,7 @@ export default async function NewShipmentPage() {
   return (
     <div className="mx-auto max-w-2xl">
       <Link
-        href="/admin"
+        href="/kz1ad31n"
         className="mb-6 inline-flex items-center gap-1.5 text-sm font-semibold text-muted-foreground hover:text-crimson"
       >
         <ArrowLeft className="h-4 w-4" />

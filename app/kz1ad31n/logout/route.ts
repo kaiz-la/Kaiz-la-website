@@ -3,5 +3,5 @@ import { clearAdminCookie } from "@/lib/admin-session"
 
 export async function GET(req: Request) {
   await clearAdminCookie()
-  return NextResponse.redirect(new URL("/admin/login", req.url))
+  return NextResponse.redirect(new URL("/kz1ad31n/login", req.url))
 }

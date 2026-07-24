@@ -11,7 +11,7 @@ export async function getAdminSession() {
 /** Use at the top of admin server components / mutating actions. */
 export async function requireAdmin() {
   const { valid } = await getAdminSession()
-  if (!valid) redirect("/admin/login")
+  if (!valid) redirect("/kz1ad31n/login")
 }
 
 export async function setAdminCookie() {

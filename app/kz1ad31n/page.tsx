@@ -18,7 +18,7 @@ export default async function AdminHome() {
           <h1 className="mt-1 font-display text-3xl font-medium text-ink">Tracking dashboard</h1>
         </div>
         <Link
-          href="/admin/shipments/new"
+          href="/kz1ad31n/shipments/new"
           className="inline-flex items-center gap-2 rounded-xl bg-crimson px-5 py-3 text-sm font-bold text-white transition-colors hover:bg-[var(--color-crimson-deep)]"
         >
           <Plus className="h-4 w-4" />
@@ -60,11 +60,14 @@ export default async function AdminHome() {
                       {s._count.events}
                     </td>
                     <td className="hidden px-5 py-4 text-muted-foreground md:table-cell">
-                      {new Date(s.updatedAt).toLocaleDateString("en-US", { dateStyle: "medium" })}
+                      {new Date(s.updatedAt).toLocaleDateString("en-US", {
+                        dateStyle: "medium",
+                        timeZone: "Asia/Kolkata",
+                      })}
                     </td>
                     <td className="px-5 py-4 text-right">
                       <Link
-                        href={`/admin/shipments/${encodeURIComponent(s.trackingId)}`}
+                        href={`/kz1ad31n/shipments/${encodeURIComponent(s.trackingId)}`}
                         className="font-semibold text-crimson hover:underline"
                       >
                         Manage

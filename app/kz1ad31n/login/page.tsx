@@ -4,7 +4,7 @@ import LoginForm from "@/components/admin/LoginForm"
 
 export default async function AdminLoginPage() {
   const { valid } = await getAdminSession()
-  if (valid) redirect("/admin")
+  if (valid) redirect("/kz1ad31n")
 
   return (
     <div className="mx-auto max-w-md pt-6">

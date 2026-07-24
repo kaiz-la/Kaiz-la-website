@@ -1,21 +1,4 @@
-import {
-  ShieldCheck,
-  FileCheck2,
-  PackageCheck,
-  FileText,
-  Boxes,
-  Radar,
-  Plus,
-} from "lucide-react"
-
-const deliverables = [
-  { icon: FileText, label: "Vetted supplier shortlist" },
-  { icon: FileCheck2, label: "Transparent factory-direct quote" },
-  { icon: ShieldCheck, label: "Multi-stage QA & inspection report" },
-  { icon: Boxes, label: "Consolidated, optimised shipment" },
-  { icon: PackageCheck, label: "Customs & export documentation" },
-  { icon: Radar, label: "Real-time tracking to your door" },
-]
+import { Plus } from "lucide-react"
 
 export const faqs = [
   {
@@ -43,42 +26,6 @@ export const faqs = [
     a: "Tell KaiExpert what you want to source. We'll scope the requirement, come back with vetted options and a transparent quote, and take it from there.",
   },
 ]
-
-/**
- * "What you receive" deliverables grid. Rendered high on the How It Works page
- * (above the Journey) so the page opens on something concrete and visual rather
- * than the tall, scroll-driven journey rail.
- */
-export function Deliverables() {
-  return (
-    <section className="bg-porcelain py-20 lg:py-28">
-      <div className="container mx-auto px-5 sm:px-6 lg:px-8">
-        <div className="mb-12 max-w-2xl">
-          <div className="eyebrow text-crimson">What you receive</div>
-          <h2 className="mt-2 font-display text-3xl font-medium tracking-tight text-ink sm:text-4xl">
-            Tangible deliverables, not vague promises.
-          </h2>
-          <p className="mt-4 text-lg leading-relaxed text-ink-soft">
-            From first quote to final delivery, every stage hands you something concrete:
-            transparent pricing, inspection reports and live tracking that keep you in control of
-            your order, start to finish.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {deliverables.map((d) => (
-            <div key={d.label} className="card-lux flex items-center gap-4 rounded-2xl p-5">
-              <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-crimson/10 ring-1 ring-crimson/15">
-                <d.icon className="h-6 w-6 text-crimson" />
-              </div>
-              <span className="text-base font-semibold text-ink">{d.label}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  )
-}
 
 export default function HowItWorks() {
   return (

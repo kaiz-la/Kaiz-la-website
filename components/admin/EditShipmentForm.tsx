@@ -2,7 +2,7 @@
 
 import { useActionState } from "react"
 import { Loader2, Check } from "lucide-react"
-import { updateShipmentAction, type ActionState } from "@/app/admin/actions"
+import { updateShipmentAction, type ActionState } from "@/app/kz1ad31n/actions"
 import { SHIPMENT_STATUSES } from "@/lib/tracking"
 
 const inputCls =

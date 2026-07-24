@@ -23,7 +23,15 @@ export type Guide = {
   /** One-line card summary on the home page / hub. */
   summary: string
   /** lucide-react icon name, mapped in the UI. */
-  icon: "Compass" | "Handshake" | "Globe2" | "ShieldCheck" | "Ship"
+  icon:
+    | "Compass"
+    | "Handshake"
+    | "Globe2"
+    | "ShieldCheck"
+    | "Ship"
+    | "ShoppingCart"
+    | "Store"
+    | "Boxes"
   keywords: string[]
   readTime: string
   intro: string[]
@@ -116,7 +124,7 @@ export const guides: Guide[] = [
         a: "Not always, but a good agent saves time and reduces risk by verifying factories, managing communication and quality control on the ground, and handling logistics — particularly valuable for first-time importers and complex products.",
       },
     ],
-    related: ["china-sourcing-agent", "supplier-verification-factory-audits"],
+    related: ["china-sourcing-agent", "buy-from-alibaba-safely", "reduce-moq-small-orders-china"],
   },
   {
     slug: "china-sourcing-agent",
@@ -356,7 +364,7 @@ export const guides: Guide[] = [
         a: "Verify the company, use secure staged payments to the registered account, never pay 100% upfront to a new supplier, and be wary of prices that look too good to be true.",
       },
     ],
-    related: ["how-to-source-products-from-china", "china-sourcing-agent"],
+    related: ["buy-from-alibaba-safely", "how-to-source-products-from-china", "china-sourcing-agent"],
   },
   {
     slug: "shipping-freight-from-china",
@@ -434,6 +442,259 @@ export const guides: Guide[] = [
       },
     ],
     related: ["importing-from-china-to-india-middle-east", "how-to-source-products-from-china"],
+  },
+  {
+    slug: "buy-from-alibaba-safely",
+    eyebrow: "Marketplaces",
+    title: "How to Buy from Alibaba Safely: Avoiding Scams & When to Use an Agent",
+    metaTitle: "How to Buy from Alibaba Safely (Scam-Proof Guide)",
+    description:
+      "A practical guide to buying from Alibaba safely: how to vet suppliers, use Trade Assurance, spot scams, order samples, and know when a sourcing agent beats going it alone.",
+    summary:
+      "Vet Alibaba suppliers, use Trade Assurance and avoid the classic scams.",
+    icon: "ShoppingCart",
+    keywords: [
+      "how to buy from alibaba safely",
+      "is alibaba safe",
+      "alibaba scams",
+      "alibaba trade assurance",
+      "buy from alibaba india",
+    ],
+    readTime: "7 min read",
+    intro: [
+      "Alibaba is the largest B2B marketplace in the world and, for many businesses in India and the Middle East, the first stop when sourcing from China. It is a powerful tool — but it is a directory of suppliers, not a guarantee of quality. The platform is broadly safe when you use its protections and vet suppliers properly; most losses come from buyers skipping those steps, not from Alibaba itself.",
+      "This guide shows you how to buy from Alibaba safely: how to separate real manufacturers from middlemen, use Trade Assurance and secure payment, spot the classic scams, and recognise when a sourcing agent will save you more than it costs.",
+    ],
+    sections: [
+      {
+        heading: "Verify the supplier before you message a price",
+        body: [
+          "The listings that look cheapest are often trading companies or, occasionally, outright scams. A few minutes of verification up front removes most of the risk of buying from Alibaba.",
+        ],
+        bullets: [
+          "Prefer Verified Supplier and Gold Supplier accounts with multiple active years",
+          "Check that the registered company name matches the product and the bank account",
+          "Ask for a live video walkthrough of the factory floor and production line",
+          "Cross-check the company on other directories and a quick web search",
+          "Be wary of listings with rock-bottom prices far below the market",
+        ],
+      },
+      {
+        heading: "Use Trade Assurance and secure payment",
+        body: [
+          "Trade Assurance is Alibaba's built-in order protection — it holds you covered on product quality and on-time shipment when you keep the order and payment on the platform. Paying inside Trade Assurance, rather than by direct bank transfer to a personal account, is the single biggest safety upgrade you can make.",
+          "Never pay 100% upfront to a new supplier, and never send money to a personal account or one whose name does not match the company. A staged structure — a deposit with the balance against a pre-shipment inspection — protects your cash.",
+        ],
+      },
+      {
+        heading: "Order samples before you commit",
+        body: [
+          "A sample is cheap insurance. It confirms the supplier can actually make your product to specification and gives you a physical benchmark to inspect bulk production against. Test the sample against the exact requirements of your market before you place a large order.",
+        ],
+      },
+      {
+        heading: "Know the classic Alibaba scams",
+        body: [
+          "Most fraud on the platform follows a familiar script. Recognising the pattern is usually enough to avoid it.",
+        ],
+        bullets: [
+          "Off-platform payment requests to dodge Trade Assurance protection",
+          "A 'factory' that is really a broker reselling another supplier's goods",
+          "Bait-and-switch: a perfect sample followed by a lower-quality bulk order",
+          "Prices too good to be true, then endless reasons for extra fees",
+          "Pressure to decide immediately before you can verify anything",
+        ],
+      },
+      {
+        heading: "When a sourcing agent beats going direct",
+        body: [
+          "Alibaba works well for straightforward, low-risk products once you know the process. For higher-value orders, custom or branded products, or when you cannot inspect the factory yourself, a sourcing agent on the ground verifies suppliers, negotiates in Mandarin, runs quality inspections and consolidates freight — usually paying for itself in better pricing and avoided mistakes.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        q: "Is Alibaba safe to buy from?",
+        a: "Yes, for most buyers, provided you use Verified suppliers, keep the order and payment inside Trade Assurance, order samples and arrange an inspection before final payment. The risk comes from skipping these steps, not the platform itself.",
+      },
+      {
+        q: "What is Alibaba Trade Assurance?",
+        a: "It is Alibaba's free order-protection service that covers product quality and on-time shipment when you place and pay for the order through the platform. It gives you recourse if the supplier fails to deliver as agreed.",
+      },
+      {
+        q: "How do I avoid Alibaba scams?",
+        a: "Verify the company and its bank account, keep payments on-platform, never pay a personal account or 100% upfront, order a sample, and be sceptical of prices far below the market.",
+      },
+      {
+        q: "Should I use a sourcing agent instead of Alibaba?",
+        a: "For simple, low-risk products, buying direct is fine. For higher-value, custom or branded orders — or when you cannot visit the factory — an agent reduces risk and often saves money through better pricing and quality control.",
+      },
+    ],
+    related: ["supplier-verification-factory-audits", "china-sourcing-agent", "how-to-source-products-from-china"],
+  },
+  {
+    slug: "private-label-manufacturing-china",
+    eyebrow: "Brand Building",
+    title: "OEM & Private Label Manufacturing in China: How to Build Your Own Brand",
+    metaTitle: "OEM & Private Label Manufacturing in China",
+    description:
+      "A guide to OEM and private label manufacturing in China: the difference between OEM and ODM, how to develop and brand your product, protect your IP, and manage MOQ and quality.",
+    summary:
+      "Turn a product idea into your own branded line with an OEM or ODM factory.",
+    icon: "Store",
+    keywords: [
+      "private label manufacturing china",
+      "oem manufacturing china",
+      "oem vs odm",
+      "china private label supplier",
+      "build a brand manufacturing china",
+    ],
+    readTime: "8 min read",
+    intro: [
+      "Private label and OEM manufacturing is how most modern brands are built: instead of inventing a product from nothing, you work with a Chinese factory to make goods to your specification, under your brand. It is the fastest route from idea to a shelf-ready product line — if you understand the models and manage the risks.",
+      "This guide explains the difference between OEM and ODM, how to develop and brand your product, protect your intellectual property, and keep quality consistent as you scale.",
+    ],
+    sections: [
+      {
+        heading: "OEM vs. ODM: which model fits your product?",
+        body: [
+          "OEM (Original Equipment Manufacturer) means the factory builds a product to your own design and specification — you own the concept. ODM (Original Design Manufacturer) means you brand and lightly customise a product the factory has already developed. OEM gives you a unique product but costs more time and tooling; ODM is faster and cheaper but less differentiated.",
+          "Many brands start with ODM to get to market quickly, then move to OEM as volumes and ambitions grow.",
+        ],
+      },
+      {
+        heading: "Develop the product and a clear specification",
+        body: [
+          "A branded product lives or dies on its specification. Before tooling begins, lock down every detail so the factory has nothing to guess at and your quotes are comparable.",
+        ],
+        bullets: [
+          "Materials, dimensions, tolerances, colours and finish",
+          "Branding: logo placement, custom packaging and inserts",
+          "Certifications required for your target markets (CE, BIS, RoHS, ESMA)",
+          "Tooling or moulds required, and who owns them",
+          "A signed golden sample to benchmark all production against",
+        ],
+      },
+      {
+        heading: "Protect your brand and intellectual property",
+        body: [
+          "Your brand is an asset worth protecting from day one. Register your trademark in your home market and, where relevant, in China, since Chinese trademark rights are first-to-file. Use a manufacturing agreement and, for novel designs, an NNN agreement (non-use, non-disclosure, non-circumvention) rather than a standard Western NDA.",
+          "Spreading production and keeping ownership of tooling and moulds also reduces the risk of a supplier copying or reselling your product.",
+        ],
+      },
+      {
+        heading: "Manage MOQ, tooling costs and unit price",
+        body: [
+          "Private label orders carry higher minimums than buying stock products, because the factory sets up tooling and custom materials for you. Expect to negotiate MOQ, tooling fees and unit price together — a higher unit price can often buy a lower first-order MOQ while you validate demand.",
+        ],
+      },
+      {
+        heading: "Lock in quality before you scale",
+        body: [
+          "Consistency is the hardest part of a private label. Approve a golden sample, run inspections during and before shipment, and hold the balance payment against a passing pre-shipment inspection. Getting your quality process right on the first production run is far cheaper than fixing brand damage later.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        q: "What is the difference between OEM and ODM?",
+        a: "OEM factories build a product to your own design and specification, while ODM factories let you brand and customise a product they already make. OEM is more unique but slower and costlier; ODM is faster and cheaper but less differentiated.",
+      },
+      {
+        q: "What is the MOQ for private label products in China?",
+        a: "It is usually higher than for stock products because of tooling and custom materials, but it is negotiable. Agreeing a higher unit price, simpler customisation or a trial run can often lower the first-order MOQ.",
+      },
+      {
+        q: "How do I protect my brand when manufacturing in China?",
+        a: "Register your trademark (China is first-to-file), use a manufacturing agreement and an NNN agreement for novel designs, retain ownership of tooling and moulds, and avoid concentrating all knowledge with a single supplier.",
+      },
+      {
+        q: "Can I put my own logo and packaging on the product?",
+        a: "Yes — that is the core of private label. You supply your logo, artwork and packaging specification, and the factory produces the goods branded and packaged as your own.",
+      },
+    ],
+    related: ["reduce-moq-small-orders-china", "supplier-verification-factory-audits", "how-to-source-products-from-china"],
+  },
+  {
+    slug: "reduce-moq-small-orders-china",
+    eyebrow: "Small Orders",
+    title: "How to Reduce MOQ: Ordering Small Quantities from Chinese Factories",
+    metaTitle: "How to Reduce MOQ & Order Small Quantities from China",
+    description:
+      "Practical tactics to reduce MOQ and order small quantities from Chinese suppliers: why MOQs exist, how to negotiate them down, and how to test products without huge upfront orders.",
+    summary:
+      "Negotiate lower minimums and test products without committing to huge orders.",
+    icon: "Boxes",
+    keywords: [
+      "how to reduce moq",
+      "minimum order quantity china",
+      "small order quantity china",
+      "negotiate moq supplier",
+      "low moq suppliers china",
+    ],
+    readTime: "6 min read",
+    intro: [
+      "Minimum order quantity (MOQ) is the wall most new importers hit first: a factory that only wants to make 5,000 units when you want to test 300. For small businesses and first-time buyers in India and the Middle East, MOQ can feel like the difference between launching and giving up — but it is almost always more negotiable than it looks.",
+      "This guide explains why MOQs exist and gives you practical, proven tactics to reduce them so you can test a product without tying up your cash in a mountain of stock.",
+    ],
+    sections: [
+      {
+        heading: "Why factories set an MOQ",
+        body: [
+          "MOQs are not arbitrary. Factories set them to cover setup costs — machine changeovers, material purchasing minimums, tooling and labour scheduling. Understanding the driver behind a specific MOQ tells you where there is room to negotiate: a materials-driven minimum flexes differently from a tooling-driven one.",
+        ],
+      },
+      {
+        heading: "Negotiate the MOQ down",
+        body: [
+          "MOQ is a starting position, not a fixed rule. Suppliers would rather win a smaller order — and a future relationship — than lose the customer entirely, especially outside peak season.",
+        ],
+        bullets: [
+          "Offer a higher unit price in exchange for a lower quantity",
+          "Simplify the order: fewer colours, sizes or custom options",
+          "Frame the first order as a trial ahead of larger, repeat volumes",
+          "Use standard rather than custom materials and packaging",
+          "Order in the factory's slower season when it wants to fill capacity",
+        ],
+      },
+      {
+        heading: "Ways to test a product without a huge order",
+        body: [
+          "If a factory truly cannot go lower, there are other routes to a small first run. Each trades a little unit cost or uniqueness for a much smaller commitment.",
+        ],
+        bullets: [
+          "Buy stock or ODM products that need no custom tooling",
+          "Choose trading companies or agents that consolidate small orders",
+          "Split an MOQ with another buyer sourcing a similar product",
+          "Start with a sample or pre-production run to validate demand",
+        ],
+      },
+      {
+        heading: "How a sourcing agent helps with small orders",
+        body: [
+          "A sourcing agent with existing factory relationships can often secure a lower MOQ than a first-time buyer messaging cold, because the factory values the agent's repeat volume across many clients. Agents also consolidate several small orders into one shipment, which keeps your per-unit freight cost sensible even at low quantities.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        q: "Can you negotiate MOQ with Chinese suppliers?",
+        a: "Almost always. MOQ is a starting position: offering a higher unit price, simplifying the specification, framing a trial order or ordering in the slow season will frequently bring it down.",
+      },
+      {
+        q: "How do I find low-MOQ suppliers in China?",
+        a: "Look for suppliers offering stock or ODM products, trading companies and agents that consolidate small orders, and factories in their off-season. A sourcing agent with existing relationships can also unlock lower minimums.",
+      },
+      {
+        q: "Why do factories have a minimum order quantity?",
+        a: "To cover setup costs — machine changeovers, minimum material purchases, tooling and labour scheduling. Knowing which cost drives the MOQ shows you where there is room to negotiate.",
+      },
+      {
+        q: "What is a good way to test a product with a small order?",
+        a: "Start with stock or ODM goods that need no tooling, split an MOQ with another buyer, or place a small pre-production run through an agent to validate demand before committing to bulk.",
+      },
+    ],
+    related: ["private-label-manufacturing-china", "china-sourcing-agent", "how-to-source-products-from-china"],
   },
 ]
 

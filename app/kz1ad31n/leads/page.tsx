@@ -48,6 +48,7 @@ export default async function AdminLeads() {
                       {new Date(lead.createdAt).toLocaleString("en-US", {
                         dateStyle: "medium",
                         timeStyle: "short",
+                        timeZone: "Asia/Kolkata",
                       })}
                     </p>
                   </div>
