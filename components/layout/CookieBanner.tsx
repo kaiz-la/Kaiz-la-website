@@ -2,12 +2,15 @@
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
+import { usePathname } from "next/navigation"
 import { Cookie } from "lucide-react"
+import { isArabicChrome, chromeAr } from "@/lib/chrome-i18n"
 
 const COOKIE_NAME = "kaizla_cookies_choice"
 
 export default function CookieBanner() {
   const [show, setShow] = useState(false)
+  const ar = isArabicChrome(usePathname())
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -32,17 +35,34 @@ export default function CookieBanner() {
               <Cookie className="h-6 w-6 text-crimson" />
             </div>
             <div>
-              <p className="font-display text-base font-medium text-ink">We value your privacy</p>
+              <p className="font-display text-base font-medium text-ink">
+                {ar ? chromeAr.cookieTitle : "We value your privacy"}
+              </p>
               <p className="mt-1 text-sm leading-relaxed text-ink-soft">
-                We use cookies to improve your experience and understand how our site is used. By
-                clicking &ldquo;Accept&rdquo;, you consent to our use of cookies and agree to our{" "}
-                <Link
-                  href="/terms"
-                  className="font-semibold text-crimson underline underline-offset-2 transition-colors hover:text-[var(--color-crimson-deep)]"
-                >
-                  Terms of Use
-                </Link>
-                .
+                {ar ? (
+                  <>
+                    {chromeAr.cookieBody}{" "}
+                    <Link
+                      href="/terms"
+                      className="font-semibold text-crimson underline underline-offset-2 transition-colors hover:text-[var(--color-crimson-deep)]"
+                    >
+                      {chromeAr.cookieTerms}
+                    </Link>
+                    .
+                  </>
+                ) : (
+                  <>
+                    We use cookies to improve your experience and understand how our site is used. By
+                    clicking &ldquo;Accept&rdquo;, you consent to our use of cookies and agree to our{" "}
+                    <Link
+                      href="/terms"
+                      className="font-semibold text-crimson underline underline-offset-2 transition-colors hover:text-[var(--color-crimson-deep)]"
+                    >
+                      Terms of Use
+                    </Link>
+                    .
+                  </>
+                )}
               </p>
             </div>
           </div>
@@ -51,13 +71,13 @@ export default function CookieBanner() {
               onClick={() => decide("declined")}
               className="flex-1 rounded-full border border-border px-5 py-2.5 text-sm font-semibold text-ink-soft transition-colors hover:bg-porcelain-deep sm:flex-none"
             >
-              Decline
+              {ar ? chromeAr.decline : "Decline"}
             </button>
             <button
               onClick={() => decide("accepted")}
               className="flex-1 rounded-full bg-crimson px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[var(--color-crimson-deep)] sm:flex-none"
             >
-              Accept
+              {ar ? chromeAr.accept : "Accept"}
             </button>
           </div>
         </div>
