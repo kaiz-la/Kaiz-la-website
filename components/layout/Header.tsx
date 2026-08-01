@@ -6,13 +6,11 @@ import { usePathname } from "next/navigation"
 import { Menu, X, Mail, Phone, ArrowRight } from "lucide-react"
 import { navRoutes, siteConfig } from "@/lib/site"
 import { trackEvent } from "@/lib/analytics"
-import { isArabicChrome, chromeAr } from "@/lib/chrome-i18n"
 
 const navigationItems = navRoutes
 
 export function Header() {
   const pathname = usePathname()
-  const ar = isArabicChrome(pathname)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
 
@@ -39,9 +37,7 @@ export function Header() {
         <div className="hidden border-b border-white/10 bg-ink text-white lg:block">
           <div className="container mx-auto flex h-9 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
             <span className="text-xs tracking-wide text-white/70">
-              {ar
-                ? chromeAr.headerTagline
-                : "15+ years sourcing from China for India & the Middle East"}
+              15+ years sourcing from China for India &amp; the Middle East
             </span>
             <div className="flex items-center gap-6">
               <a
@@ -111,7 +107,7 @@ export function Header() {
                   onClick={() => trackEvent("cta_start_sourcing", { location: "header" })}
                   className="group inline-flex items-center gap-2 rounded-full bg-crimson px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-[var(--color-crimson-deep)] hover:shadow-md"
                 >
-                  {ar ? chromeAr.startSourcing : "Start Sourcing"}
+                  Start Sourcing
                   <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
                 </Link>
               </div>
@@ -171,7 +167,7 @@ export function Header() {
                   onClick={toggleMobileMenu}
                   className="flex items-center justify-center gap-2 rounded-full bg-crimson px-4 py-3 font-semibold text-white transition-colors hover:bg-[var(--color-crimson-deep)]"
                 >
-                  {ar ? chromeAr.startSourcing : "Start Sourcing"}
+                  Start Sourcing
                   <ArrowRight className="h-4 w-4" />
                 </Link>
                 <div className="flex flex-col gap-2 px-1 pt-1 text-sm text-ink-soft">

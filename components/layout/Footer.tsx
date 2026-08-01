@@ -1,10 +1,6 @@
-"use client"
-
 import Link from "next/link"
-import { usePathname } from "next/navigation"
 import { Instagram, Linkedin, Mail, Phone, MapPin } from "lucide-react"
 import { siteConfig } from "@/lib/site"
-import { isArabicChrome, chromeAr } from "@/lib/chrome-i18n"
 
 function WhatsAppGlyph({ className }: { className?: string }) {
   return (
@@ -16,7 +12,6 @@ function WhatsAppGlyph({ className }: { className?: string }) {
 
 const explore = [
   { name: "Services", href: "/services" },
-  { name: "China → Middle East", href: "/china-to-middle-east-shipping" },
   { name: "Request a Quote", href: "/quote" },
   { name: "How It Works", href: "/how-it-works" },
   { name: "Sourcing Guides", href: "/guides" },
@@ -36,7 +31,6 @@ const socials = [
 ]
 
 export default function Footer() {
-  const ar = isArabicChrome(usePathname())
   return (
     <footer className="bg-ink text-white/80">
       <div className="container mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
@@ -54,14 +48,11 @@ export default function Footer() {
               />
             </Link>
             <p className="mt-5 max-w-sm text-sm leading-relaxed text-white/70">
-              {ar
-                ? chromeAr.footerTagline
-                : "Your sourcing partner on the ground in China: vetted suppliers, quality control, freight and customs for businesses across India and the Middle East."}
+              Your sourcing partner on the ground in China: vetted suppliers, quality control,
+              freight and customs for businesses across India and the Middle East.
             </p>
             <p className="mt-5 text-xs leading-relaxed text-white/55">
-              <span className="font-semibold text-white/70">
-                {ar ? chromeAr.offices : "Global Offices & Partner Network:"}
-              </span>{" "}
+              <span className="font-semibold text-white/70">Global Offices &amp; Partner Network:</span>{" "}
               {siteConfig.offices.join(" · ")}
             </p>
             <div className="mt-6 flex gap-3">
@@ -82,7 +73,7 @@ export default function Footer() {
 
           {/* Explore */}
           <div className="md:col-span-2">
-            <h4 className="eyebrow text-white/50">{ar ? chromeAr.explore : "Explore"}</h4>
+            <h4 className="eyebrow text-white/50">Explore</h4>
             <ul className="mt-5 space-y-3">
               {explore.map((l) => (
                 <li key={l.name}>
@@ -99,7 +90,7 @@ export default function Footer() {
 
           {/* Company */}
           <div className="md:col-span-2">
-            <h4 className="eyebrow text-white/50">{ar ? chromeAr.company : "Company"}</h4>
+            <h4 className="eyebrow text-white/50">Company</h4>
             <ul className="mt-5 space-y-3">
               {company.map((l) => (
                 <li key={l.name}>
@@ -116,7 +107,7 @@ export default function Footer() {
 
           {/* Contact */}
           <div className="md:col-span-3">
-            <h4 className="eyebrow text-white/50">{ar ? chromeAr.getInTouch : "Get in touch"}</h4>
+            <h4 className="eyebrow text-white/50">Get in touch</h4>
             <ul className="mt-5 space-y-3 text-sm text-white/75">
               <li>
                 <a
@@ -144,7 +135,7 @@ export default function Footer() {
                   className="flex items-start gap-2.5 transition-colors hover:text-white"
                 >
                   <WhatsAppGlyph className="mt-0.5 h-4 w-4 flex-shrink-0 text-crimson-bright" />
-                  {ar ? chromeAr.whatsapp : "Message us on WhatsApp"}
+                  Message us on WhatsApp
                 </a>
               </li>
               <li className="flex items-start gap-2.5">
@@ -160,10 +151,9 @@ export default function Footer() {
 
         <div className="flex flex-col items-center justify-between gap-3 border-t border-white/10 py-6 text-xs text-white/55 sm:flex-row">
           <p>
-            © {new Date().getFullYear()} {siteConfig.legalName}.{" "}
-            {ar ? chromeAr.rights : "All rights reserved."}
+            © {new Date().getFullYear()} {siteConfig.legalName}. All rights reserved.
           </p>
-          <p>{ar ? chromeAr.saas : "Sourcing-as-a-service · Hong Kong"}</p>
+          <p>Sourcing-as-a-service · Hong Kong</p>
         </div>
       </div>
     </footer>

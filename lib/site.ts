@@ -53,7 +53,6 @@ export const ogImageMeta = {
 export const navRoutes = [
   { name: "Home", href: "/" },
   { name: "Services", href: "/services" },
-  { name: "Middle East", href: "/china-to-middle-east-shipping" },
   { name: "How It Works", href: "/how-it-works" },
   { name: "Guides", href: "/guides" },
   { name: "About", href: "/about" },
