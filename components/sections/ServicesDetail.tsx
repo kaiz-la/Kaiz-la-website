@@ -165,7 +165,7 @@ export default function ServicesDetail() {
         <div className="container mx-auto px-5 sm:px-6 lg:px-8">
           <div className="mb-12 max-w-2xl">
             <div className="eyebrow text-crimson">What&apos;s included</div>
-            <h2 className="mt-2 font-display text-3xl font-medium tracking-tight text-ink sm:text-4xl">
+            <h2 className="mt-2 font-display text-3xl font-medium tracking-display-3xl sm:tracking-display-4xl text-ink sm:text-4xl">
               Every core service, in detail.
             </h2>
             <p className="mt-4 text-lg leading-relaxed text-ink-soft">
@@ -206,7 +206,7 @@ export default function ServicesDetail() {
           <div className="mb-12 flex flex-wrap items-end justify-between gap-4">
             <div className="max-w-2xl">
               <div className="eyebrow text-crimson">Beyond the basics</div>
-              <h2 className="mt-2 font-display text-3xl font-medium tracking-tight text-ink sm:text-4xl">
+              <h2 className="mt-2 font-display text-3xl font-medium tracking-display-3xl sm:tracking-display-4xl text-ink sm:text-4xl">
                 Specialised services when you need more.
               </h2>
               <p className="mt-4 text-lg leading-relaxed text-ink-soft">

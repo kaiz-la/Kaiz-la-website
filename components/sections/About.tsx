@@ -1,6 +1,6 @@
 "use client"
 
-import { motion, AnimatePresence, type Variants } from "framer-motion"
+import { motion, AnimatePresence, useReducedMotion, type Variants } from "framer-motion"
 import { useState, useEffect } from "react"
 import { MapPin, Globe2, Layers, Award } from "lucide-react"
 
@@ -28,10 +28,15 @@ const groundCities = [
 
 function GroundCities() {
   const [i, setI] = useState(0)
+  // A 0.5 Hz loop that never ends is exactly the kind of persistent
+  // oscillation reduced-motion users ask to be spared, and MotionConfig can
+  // only flatten the slide, not stop the cycling. Freeze on the first city.
+  const reduceMotion = useReducedMotion()
   useEffect(() => {
+    if (reduceMotion) return
     const t = setInterval(() => setI((p) => (p + 1) % groundCities.length), 2000)
     return () => clearInterval(t)
-  }, [])
+  }, [reduceMotion])
   const c = groundCities[i]
   return (
     <div className="relative mt-1 h-9 w-64 overflow-hidden">
@@ -167,7 +172,7 @@ export default function About({ showHeader = true }: { showHeader?: boolean }) {
               {facts.map((f) => (
                 <div
                   key={f.label}
-                  className="card-lux flex items-center gap-4 rounded-2xl p-4 transition-shadow duration-300 hover:shadow-md"
+                  className="card-lux flex items-center gap-4 rounded-2xl p-4 transition-shadow duration-200 hover:shadow-md"
                 >
                   <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-crimson/10 ring-1 ring-crimson/15">
                     <f.icon className="h-5 w-5 text-crimson" />

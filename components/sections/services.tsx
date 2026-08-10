@@ -114,10 +114,10 @@ export default function Services({ showHeader = true }: { showHeader?: boolean }
                 onMouseMove={handleMouseMove}
                 onMouseEnter={() => setHoveredService(service.step)}
                 onMouseLeave={() => setHoveredService(null)}
-                className="group relative rounded-xl bg-card p-4 lg:p-6 shadow-lg hover:shadow-xl transition-all duration-300 h-full overflow-hidden cursor-pointer"
+                className="group relative rounded-xl bg-card p-4 lg:p-6 shadow-lg hover:shadow-xl transition duration-200 h-full overflow-hidden cursor-pointer"
               >
                 <div
-                  className="pointer-events-none absolute -inset-px rounded-xl opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                  className="pointer-events-none absolute -inset-px rounded-xl opacity-0 transition-opacity duration-200 group-hover:opacity-100"
                   style={{
                     background:
                       "radial-gradient(400px circle at var(--mouse-x) var(--mouse-y), theme(colors.secondary / 0.15), transparent 80%)",
@@ -131,7 +131,7 @@ export default function Services({ showHeader = true }: { showHeader?: boolean }
 
                   <div className="mb-5 flex-shrink-0">
                     <motion.div 
-                      className="w-16 h-16 bg-secondary/10 rounded-lg flex items-center justify-center group-hover:bg-secondary/20 transition-colors duration-300"
+                      className="w-16 h-16 bg-secondary/10 rounded-lg flex items-center justify-center group-hover:bg-secondary/20 transition-colors duration-200"
                       animate={{
                         rotate: hoveredService === service.step ? [0, -10, 10, 0] : 0,
                         scale: hoveredService === service.step ? 1.1 : 1,
@@ -159,14 +159,14 @@ export default function Services({ showHeader = true }: { showHeader?: boolean }
                   </div>
 
                   {/* <motion.div
-                    className="mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    className="mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-200"
                     initial={{ y: 10 }}
                     animate={{ y: hoveredService === service.step ? 0 : 10 }}
                     transition={{ duration: 0.3 }}
                   >
                     <div className="flex items-center text-secondary text-sm font-medium">
                       Learn More
-                      <ArrowRight className="ml-1 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+                      <ArrowRight className="ml-1 h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
                     </div>
                   </motion.div> */}
                 </div>
@@ -183,7 +183,7 @@ export default function Services({ showHeader = true }: { showHeader?: boolean }
               initial="initial"
               whileHover="hover"
               whileTap="tap"
-              className="group inline-flex items-center justify-center rounded-lg bg-secondary px-8 py-4 text-lg font-semibold text-white shadow-lg transition-all duration-300 ease-in-out hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-secondary focus:ring-offset-2 focus:ring-offset-background relative overflow-hidden"
+              className="group inline-flex items-center justify-center rounded-lg bg-secondary px-8 py-4 text-lg font-semibold text-white shadow-lg transition duration-200 ease-in-out hover:shadow-xl active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary focus-visible:ring-offset-2 focus-visible:ring-offset-background relative overflow-hidden"
             >
               <motion.div
                 className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full"
@@ -198,7 +198,7 @@ export default function Services({ showHeader = true }: { showHeader?: boolean }
                 }}
               />
               <span className="relative z-10">Explore All Services</span>
-              <ArrowRight className="relative z-10 ml-2 h-5 w-5 shrink-0 transition-transform duration-300 group-hover:translate-x-1" />
+              <ArrowRight className="relative z-10 ml-2 h-5 w-5 shrink-0 transition-transform duration-200 group-hover:translate-x-1" />
             </motion.button>
           </motion.div> */}
         </motion.div>

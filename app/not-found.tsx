@@ -32,7 +32,7 @@ export default function NotFound() {
       <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
         <Link
           href="/"
-          className="group inline-flex items-center gap-2 rounded-full bg-crimson px-6 py-3 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-[var(--color-crimson-deep)] hover:shadow-md"
+          className="group inline-flex items-center gap-2 rounded-full bg-crimson px-6 py-3 text-sm font-semibold text-white shadow-sm transition duration-200 hover:bg-[var(--color-crimson-deep)] hover:shadow-md"
         >
           Back to home
           <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />

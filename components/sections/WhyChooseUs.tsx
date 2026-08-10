@@ -112,7 +112,7 @@ export default function WhyChooseUs() {
             <motion.div
               key={i}
               variants={cardVariants}
-              className="group card-lux relative flex h-full flex-col overflow-hidden rounded-3xl transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_30px_60px_-24px_rgba(204,52,51,0.35)]"
+              className="group card-lux relative flex h-full flex-col overflow-hidden rounded-3xl transition duration-200 hover:-translate-y-1 hover:shadow-[0_30px_60px_-24px_rgba(204,52,51,0.35)]"
             >
               {/* Photo banner */}
               <div className="relative h-44 overflow-hidden">
@@ -127,7 +127,7 @@ export default function WhyChooseUs() {
                   {String(i + 1).padStart(2, "0")}
                 </span>
                 {/* Sun-gradient top accent on hover */}
-                <span className="absolute inset-x-0 top-0 h-1 origin-left scale-x-0 bg-sun-gradient transition-transform duration-300 group-hover:scale-x-100" />
+                <span className="absolute inset-x-0 top-0 h-1 origin-left scale-x-0 bg-sun-gradient transition-transform duration-200 group-hover:scale-x-100" />
               </div>
 
               <div className="relative flex flex-1 flex-col px-8 pb-8">

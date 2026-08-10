@@ -106,7 +106,8 @@ export default function TrackingLookup() {
         onSubmit={handleSubmit}
         className="card-lux flex flex-col gap-3 rounded-2xl p-3 sm:flex-row sm:items-center"
       >
-        <div className="flex flex-1 items-center gap-3 rounded-xl bg-porcelain px-4 py-3.5">
+        {/* Ring on the wrapper — the input clears its own outline. */}
+        <div className="flex flex-1 items-center gap-3 rounded-xl bg-porcelain px-4 py-3.5 transition-shadow focus-within:ring-2 focus-within:ring-crimson focus-within:ring-offset-2">
           <Search className="h-5 w-5 flex-shrink-0 text-crimson" />
           <input
             type="text"
@@ -120,14 +121,14 @@ export default function TrackingLookup() {
         <button
           type="submit"
           disabled={state.kind === "loading" || !query.trim()}
-          className="group inline-flex items-center justify-center rounded-xl bg-crimson px-7 py-3.5 text-base font-bold text-white transition-all duration-300 hover:bg-[var(--color-crimson-deep)] disabled:opacity-50"
+          className="focus-ring group inline-flex items-center justify-center rounded-xl bg-crimson px-7 py-3.5 text-base font-bold text-white transition duration-200 hover:bg-[var(--color-crimson-deep)] active:scale-[0.97] disabled:opacity-50 disabled:active:scale-100"
         >
           {state.kind === "loading" ? (
             <Loader2 className="h-5 w-5 animate-spin" />
           ) : (
             <>
               Track
-              <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+              <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
             </>
           )}
         </button>
@@ -142,7 +143,10 @@ export default function TrackingLookup() {
             <p className="mt-2 text-ink-soft">
               We couldn&apos;t find a shipment for{" "}
               <span className="font-semibold text-ink">{state.id}</span>. Double-check the ID, or{" "}
-              <a href="/contact" className="font-semibold text-crimson hover:underline">
+              <a
+                href="/contact"
+                className="focus-ring rounded-sm font-semibold text-crimson hover:underline"
+              >
                 contact us
               </a>{" "}
               and we&apos;ll help.

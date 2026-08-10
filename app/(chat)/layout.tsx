@@ -12,7 +12,7 @@ export default function ChatLayout({
   return (
     <div className="flex h-screen w-full bg-background">
       <main className="flex flex-1 flex-col h-full min-w-0">
-        <header className="flex h-16 sm:h-18 lg:h-20 shrink-0 items-center gap-4 border-b border-border bg-white/90 px-4 sm:px-6 lg:px-8 backdrop-blur-md">
+        <header className="material-chrome flex h-16 sm:h-18 lg:h-20 shrink-0 items-center gap-4 border-b border-border px-4 sm:px-6 lg:px-8">
           <div className="container mx-auto max-w-7xl flex items-center justify-between w-full">
             <div className="flex items-center gap-4">
               <Link href="/" className="flex items-center group" aria-label="Kaiz La Home">
@@ -22,7 +22,7 @@ export default function ChatLayout({
                   alt="Kaiz La"
                   width={135}
                   height={44}
-                  className="h-9 w-auto transition-transform duration-300 group-hover:scale-105 sm:h-10"
+                  className="h-9 w-auto transition-transform duration-200 group-hover:scale-105 sm:h-10"
                 />
               </Link>
               <div className="hidden items-center gap-2 border-l border-border pl-4 sm:flex">
@@ -42,7 +42,7 @@ export default function ChatLayout({
                   flex items-center gap-2 px-4 py-2 xl:px-5 xl:py-2.5
                   bg-crimson text-white rounded-full
                   hover:bg-[var(--color-crimson-deep)] hover:shadow-md
-                  transition-all duration-200 font-semibold
+                  transition duration-200 font-semibold
                   text-sm xl:text-base
                   focus:outline-none focus:ring-2 focus:ring-crimson focus:ring-offset-2
                 ">

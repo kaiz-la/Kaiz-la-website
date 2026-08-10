@@ -33,7 +33,7 @@ export function WelcomeCelebration({ onContinue, returning = false }: WelcomeCel
           <div className="eyebrow text-white/80">
             {returning ? "Good to see you again" : "You're all set"}
           </div>
-          <h1 className="font-display text-4xl font-medium tracking-tight text-white sm:text-5xl">
+          <h1 className="font-display text-4xl font-medium tracking-display-4xl sm:tracking-display-5xl text-white sm:text-5xl">
             {returning ? "Welcome back to Kaiz La" : "Welcome to Kaiz La"}
           </h1>
           <p className="mx-auto max-w-md text-base leading-relaxed text-white/90">
@@ -58,7 +58,7 @@ export function WelcomeCelebration({ onContinue, returning = false }: WelcomeCel
 
         <button
           onClick={onContinue}
-          className="animate-celebrate-in mt-2 rounded-full bg-white px-7 py-3 text-sm font-semibold text-crimson shadow-lg transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xl"
+          className="animate-celebrate-in mt-2 rounded-full bg-white px-7 py-3 text-sm font-semibold text-crimson shadow-lg transition duration-200 hover:-translate-y-0.5 hover:shadow-xl"
           style={{ animationDelay: returning ? "0.32s" : "0.38s" }}
         >
           {returning ? "Continue the conversation" : "Keep chatting with KaiExpert"}

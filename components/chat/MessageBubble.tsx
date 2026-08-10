@@ -19,7 +19,7 @@ function CalendlyButton({ payload }: { payload: any }) {
         href={payload.url}
         target="_blank"
         rel="noopener noreferrer"
-        className="group inline-flex items-center gap-2.5 rounded-full bg-crimson px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all duration-150 hover:bg-[var(--color-crimson-deep)] hover:shadow-md"
+        className="group inline-flex items-center gap-2.5 rounded-full bg-crimson px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition duration-150 hover:bg-[var(--color-crimson-deep)] hover:shadow-md"
       >
         <Calendar className="h-4 w-4" />
         Schedule Your Call
@@ -45,7 +45,7 @@ function WhatsAppButton({ payload }: { payload: any }) {
         href={payload.url}
         target="_blank"
         rel="noopener noreferrer"
-        className="group inline-flex items-center gap-2.5 rounded-full bg-[#25D366] px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all duration-150 hover:bg-[#1ebe5b] hover:shadow-md"
+        className="group inline-flex items-center gap-2.5 rounded-full bg-[#25D366] px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition duration-150 hover:bg-[#1ebe5b] hover:shadow-md"
       >
         <MessageCircle className="h-4 w-4" />
         Continue on WhatsApp

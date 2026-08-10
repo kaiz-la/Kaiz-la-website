@@ -54,7 +54,10 @@ export default function PageHeader({
               <li key={c.href} className="flex items-center gap-1">
                 {i > 0 && <ChevronRight className="h-3.5 w-3.5 text-white/50" />}
                 {i < crumbs.length - 1 ? (
-                  <Link href={c.href} className="transition-colors hover:text-white">
+                  <Link
+                    href={c.href}
+                    className="focus-ring-light rounded-sm transition-colors hover:text-white"
+                  >
                     {c.name}
                   </Link>
                 ) : (
@@ -74,7 +77,7 @@ export default function PageHeader({
           </div>
         )}
 
-        <h1 className="max-w-3xl text-3xl font-extrabold leading-[1.06] tracking-tight text-white sm:text-4xl lg:text-5xl">
+        <h1 className="max-w-3xl text-3xl font-extrabold leading-[1.06] tracking-display-3xl sm:tracking-display-4xl lg:tracking-display-5xl text-white sm:text-4xl lg:text-5xl">
           {title}
         </h1>
 

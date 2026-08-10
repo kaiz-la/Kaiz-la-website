@@ -21,7 +21,7 @@ export default function WhatWeSource() {
         <div className="mb-12 flex flex-wrap items-end justify-between gap-4">
           <div className="max-w-2xl">
             <div className="eyebrow text-crimson">What we source</div>
-            <h2 className="mt-2 text-3xl font-bold tracking-tight text-ink sm:text-4xl">
+            <h2 className="mt-2 text-3xl font-bold tracking-display-3xl sm:tracking-display-4xl text-ink sm:text-4xl">
               If it&apos;s made in China, we can source it.
             </h2>
             <p className="mt-4 text-lg leading-relaxed text-ink-soft">
@@ -31,7 +31,7 @@ export default function WhatWeSource() {
           </div>
           <Link
             href="/chat"
-            className="hidden items-center gap-1 text-sm font-semibold text-crimson hover:underline sm:inline-flex"
+            className="focus-ring hidden items-center gap-1 rounded-sm text-sm font-semibold text-crimson hover:underline sm:inline-flex"
           >
             Source your product
             <ArrowRight className="h-4 w-4" />
@@ -43,7 +43,7 @@ export default function WhatWeSource() {
             <Link
               key={cat.label}
               href="/chat"
-              className="group relative aspect-[4/5] overflow-hidden rounded-2xl border border-border"
+              className="focus-ring group relative aspect-[4/5] overflow-hidden rounded-2xl border border-border transition-transform duration-200 active:scale-[0.98]"
             >
               <img
                 src={cat.image}
@@ -54,7 +54,7 @@ export default function WhatWeSource() {
               <span className="absolute inset-x-0 bottom-0 p-3 text-sm font-bold leading-tight text-white">
                 {cat.label}
               </span>
-              <span className="absolute inset-x-0 top-0 h-1 origin-left scale-x-0 bg-sun-gradient transition-transform duration-300 group-hover:scale-x-100" />
+              <span className="absolute inset-x-0 top-0 h-1 origin-left scale-x-0 bg-sun-gradient transition-transform duration-200 group-hover:scale-x-100" />
             </Link>
           ))}
         </div>

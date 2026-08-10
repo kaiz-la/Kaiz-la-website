@@ -89,7 +89,7 @@ export default function GuidesExtras() {
         <div className="container mx-auto px-5 sm:px-6 lg:px-8">
           <div className="mb-12 max-w-2xl">
             <div className="eyebrow text-crimson">Jargon, decoded</div>
-            <h2 className="mt-2 font-display text-3xl font-medium tracking-tight text-ink sm:text-4xl">
+            <h2 className="mt-2 font-display text-3xl font-medium tracking-display-3xl sm:tracking-display-4xl text-ink sm:text-4xl">
               The sourcing vocabulary, in plain English.
             </h2>
             <p className="mt-4 text-lg leading-relaxed text-ink-soft">
@@ -122,7 +122,7 @@ export default function GuidesExtras() {
         <div className="container mx-auto max-w-3xl px-5 sm:px-6 lg:px-8">
           <div className="mb-12 text-center">
             <div className="eyebrow text-crimson">Sourcing FAQ</div>
-            <h2 className="mt-2 font-display text-3xl font-medium tracking-tight text-ink sm:text-4xl">
+            <h2 className="mt-2 font-display text-3xl font-medium tracking-display-3xl sm:tracking-display-4xl text-ink sm:text-4xl">
               Common questions about sourcing from China.
             </h2>
             <p className="mt-4 text-lg leading-relaxed text-ink-soft">

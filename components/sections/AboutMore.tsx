@@ -78,7 +78,7 @@ export default function AboutMore() {
         <div className="container mx-auto px-5 sm:px-6 lg:px-8">
           <div className="mb-12 max-w-2xl">
             <div className="eyebrow text-crimson">How we work</div>
-            <h2 className="mt-2 font-display text-3xl font-medium tracking-tight text-ink sm:text-4xl">
+            <h2 className="mt-2 font-display text-3xl font-medium tracking-display-3xl sm:tracking-display-4xl text-ink sm:text-4xl">
               Principles we don&apos;t compromise on.
             </h2>
           </div>
@@ -102,7 +102,7 @@ export default function AboutMore() {
         <div className="container mx-auto px-5 sm:px-6 lg:px-8">
           <div className="mb-12 max-w-2xl">
             <div className="eyebrow text-crimson">Where we work</div>
-            <h2 className="mt-2 font-display text-3xl font-medium tracking-tight text-ink sm:text-4xl">
+            <h2 className="mt-2 font-display text-3xl font-medium tracking-display-3xl sm:tracking-display-4xl text-ink sm:text-4xl">
               Built for India, the Middle East &amp; Southeast Asia.
             </h2>
           </div>

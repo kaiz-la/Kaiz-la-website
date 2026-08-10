@@ -38,7 +38,7 @@ export default function CookieBanner() {
                 clicking &ldquo;Accept&rdquo;, you consent to our use of cookies and agree to our{" "}
                 <Link
                   href="/terms"
-                  className="font-semibold text-crimson underline underline-offset-2 transition-colors hover:text-[var(--color-crimson-deep)]"
+                  className="focus-ring rounded-sm font-semibold text-crimson underline underline-offset-2 transition-colors hover:text-[var(--color-crimson-deep)]"
                 >
                   Terms of Use
                 </Link>
@@ -49,13 +49,13 @@ export default function CookieBanner() {
           <div className="flex flex-shrink-0 gap-3">
             <button
               onClick={() => decide("declined")}
-              className="flex-1 rounded-full border border-border px-5 py-2.5 text-sm font-semibold text-ink-soft transition-colors hover:bg-porcelain-deep sm:flex-none"
+              className="focus-ring flex-1 rounded-full border border-border px-5 py-2.5 text-sm font-semibold text-ink-soft transition hover:bg-porcelain-deep active:scale-[0.97] sm:flex-none"
             >
               Decline
             </button>
             <button
               onClick={() => decide("accepted")}
-              className="flex-1 rounded-full bg-crimson px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[var(--color-crimson-deep)] sm:flex-none"
+              className="focus-ring flex-1 rounded-full bg-crimson px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[var(--color-crimson-deep)] active:scale-[0.97] sm:flex-none"
             >
               Accept
             </button>

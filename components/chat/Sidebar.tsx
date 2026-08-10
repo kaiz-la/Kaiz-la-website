@@ -102,7 +102,7 @@ export function AppSidebar() {
                             isActive={isActive} 
                             tooltip={conversation.title}
                             className={`
-                              h-11 px-3 py-2 rounded-lg transition-all duration-200 group/item relative
+                              h-11 px-3 py-2 rounded-lg transition duration-200 group/item relative
                               ${isActive 
                                 ? 'bg-primary/8 text-primary shadow-sm' 
                                 : 'hover:bg-secondary/8 hover:shadow-sm'
@@ -134,7 +134,7 @@ export function AppSidebar() {
                           <SidebarMenuAction
                             onClick={(e) => openDeleteDialog(conversation.id, e)}
                             className={`
-                              size-8 flex items-center justify-center rounded-md transition-all duration-200
+                              size-8 flex items-center justify-center rounded-md transition duration-200
                               hover:bg-destructive/10 hover:text-destructive 
                               group-data-[collapsible=icon]:hidden cursor-pointer
                               opacity-0 group-hover/item:opacity-100

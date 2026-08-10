@@ -124,7 +124,7 @@ export default function Contact({ showHeader = true }: { showHeader?: boolean })
           {/* Unified Contact Section */}
           <motion.div
             variants={itemVariants}
-            className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 bg-card/50 backdrop-blur-md border border-border/10 rounded-2xl p-8 lg:p-12 shadow-xl"
+            className="material-panel grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 rounded-2xl p-8 lg:p-12"
           >
             {/* Left Side: Contact Information */}
             <div className="lg:col-span-5">
@@ -196,7 +196,7 @@ export default function Contact({ showHeader = true }: { showHeader?: boolean })
                     disabled={status === "submitting"}
                     whileHover={{ scale: status === "submitting" ? 1 : 1.02 }}
                     whileTap={{ scale: status === "submitting" ? 1 : 0.98 }}
-                    className="w-full inline-flex items-center justify-center bg-secondary text-background px-6 py-4 rounded-lg text-lg font-semibold transition-all duration-200 shadow-lg hover:shadow-xl group disabled:cursor-not-allowed disabled:opacity-70"
+                    className="focus-ring w-full inline-flex items-center justify-center bg-secondary text-background px-6 py-4 rounded-lg text-lg font-semibold transition duration-200 shadow-lg hover:shadow-xl active:scale-[0.98] group disabled:cursor-not-allowed disabled:opacity-70 disabled:active:scale-100"
                   >
                     {status === "submitting" ? (
                       <>

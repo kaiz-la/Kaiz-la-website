@@ -131,7 +131,7 @@ export default function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
             >
-              <h1 className="text-4xl font-extrabold leading-[1.04] tracking-tight text-white sm:text-5xl lg:text-6xl">
+              <h1 className="text-4xl font-extrabold leading-[1.04] tracking-display-4xl sm:tracking-display-5xl lg:tracking-display-6xl text-white sm:text-5xl lg:text-6xl">
                 Your sourcing partner
                 <br />
                 on the ground in China.
@@ -159,14 +159,14 @@ export default function Hero() {
               <div className="mt-8 flex flex-wrap items-center gap-4">
                 <Link
                   href="/chat"
-                  className="group inline-flex items-center justify-center rounded-full bg-white px-7 py-3.5 text-base font-bold text-crimson shadow-lg transition-all duration-300 hover:bg-porcelain hover:shadow-xl"
+                  className="focus-ring-light group inline-flex items-center justify-center rounded-full bg-white px-7 py-3.5 text-base font-bold text-crimson shadow-lg transition duration-200 hover:bg-porcelain hover:shadow-xl active:scale-[0.97]"
                 >
                   Start Sourcing
-                  <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1.5" />
+                  <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-200 group-hover:translate-x-1.5" />
                 </Link>
                 <Link
                   href="/services"
-                  className="inline-flex items-center justify-center rounded-full border-2 border-white/70 px-7 py-3.5 text-base font-bold text-white transition-all duration-300 hover:bg-white/10"
+                  className="focus-ring-light inline-flex items-center justify-center rounded-full border-2 border-white/70 px-7 py-3.5 text-base font-bold text-white transition duration-200 hover:bg-white/10 active:scale-[0.97]"
                 >
                   Explore Services
                 </Link>
@@ -198,7 +198,7 @@ export default function Hero() {
                   setActive(t.id)
                   setQuery("")
                 }}
-                className={`relative px-4 py-3 text-sm font-semibold transition-colors sm:text-base ${
+                className={`focus-ring relative rounded-md px-4 py-3 text-sm font-semibold transition-colors sm:text-base ${
                   active === t.id ? "text-crimson" : "text-muted-foreground hover:text-ink"
                 }`}
               >
@@ -218,7 +218,9 @@ export default function Hero() {
             onSubmit={handleWidgetSubmit}
             className="flex flex-col gap-3 p-3 sm:flex-row sm:items-center"
           >
-            <div className="flex flex-1 items-center gap-3 rounded-xl bg-porcelain px-4 py-3.5">
+            {/* The input clears its own outline, so the ring lives on the
+                wrapper — otherwise keyboard focus is invisible here. */}
+            <div className="flex flex-1 items-center gap-3 rounded-xl bg-porcelain px-4 py-3.5 transition-shadow focus-within:ring-2 focus-within:ring-crimson focus-within:ring-offset-2">
               <activeTab.icon className="h-5 w-5 flex-shrink-0 text-crimson" />
               <input
                 type="text"
@@ -231,10 +233,10 @@ export default function Hero() {
             </div>
             <button
               type="submit"
-              className="group inline-flex items-center justify-center rounded-xl bg-crimson px-7 py-3.5 text-base font-bold text-white transition-all duration-300 hover:bg-[var(--color-crimson-deep)]"
+              className="focus-ring group inline-flex items-center justify-center rounded-xl bg-crimson px-7 py-3.5 text-base font-bold text-white transition duration-200 hover:bg-[var(--color-crimson-deep)] active:scale-[0.97]"
             >
               {activeTab.cta}
-              <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+              <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
             </button>
           </form>
         </motion.div>
@@ -245,13 +247,13 @@ export default function Hero() {
         <div className="mb-7 flex items-end justify-between">
           <div>
             <div className="eyebrow text-crimson">What we handle</div>
-            <h2 className="mt-2 text-2xl font-bold tracking-tight text-ink sm:text-3xl">
+            <h2 className="mt-2 text-2xl font-bold tracking-display-2xl sm:tracking-display-3xl text-ink sm:text-3xl">
               Everything you need to source from China
             </h2>
           </div>
           <Link
             href="/services"
-            className="hidden items-center gap-1 text-sm font-semibold text-crimson hover:underline sm:inline-flex"
+            className="focus-ring hidden items-center gap-1 rounded-sm text-sm font-semibold text-crimson hover:underline sm:inline-flex"
           >
             All services
             <ArrowRight className="h-4 w-4" />
@@ -269,11 +271,11 @@ export default function Hero() {
             >
               <Link
                 href={tile.href}
-                className="group relative flex h-full flex-col rounded-2xl border border-border bg-card p-6 transition-all duration-300 hover:-translate-y-1 hover:border-crimson/40 hover:shadow-[0_24px_48px_-24px_rgba(204,52,51,0.45)]"
+                className="focus-ring group relative flex h-full flex-col rounded-2xl border border-border bg-card p-6 transition duration-200 hover:-translate-y-1 hover:border-crimson/40 hover:shadow-[0_24px_48px_-24px_rgba(204,52,51,0.45)] active:translate-y-0 active:scale-[0.99]"
               >
                 {/* top accent on hover */}
-                <span className="absolute inset-x-0 top-0 h-1 origin-left scale-x-0 rounded-t-2xl bg-sun-gradient transition-transform duration-300 group-hover:scale-x-100" />
-                <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-crimson/10 transition-colors duration-300 group-hover:bg-crimson/15">
+                <span className="absolute inset-x-0 top-0 h-1 origin-left scale-x-0 rounded-t-2xl bg-sun-gradient transition-transform duration-200 group-hover:scale-x-100" />
+                <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-crimson/10 transition-colors duration-200 group-hover:bg-crimson/15">
                   <tile.icon className="h-6 w-6 text-crimson" />
                 </div>
                 <h3 className="text-lg font-bold text-ink">{tile.title}</h3>
@@ -282,7 +284,7 @@ export default function Hero() {
                 </p>
                 <div className="mt-4 inline-flex items-center text-sm font-semibold text-crimson">
                   Learn more
-                  <ArrowRight className="ml-1 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+                  <ArrowRight className="ml-1 h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
                 </div>
               </Link>
             </motion.div>
