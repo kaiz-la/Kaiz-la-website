@@ -200,7 +200,7 @@ export function ChatWindow({ conversationId: currentConversationId }: ChatWindow
             <div className="flex flex-col items-center justify-center text-center min-h-[calc(100vh-28rem)] sm:min-h-[calc(100vh-24rem)] md:min-h-[calc(100vh-22rem)]">
               <Seal size={76} label="KaiExpert" />
               <div className="eyebrow mt-6 text-crimson">Kaiz La · Sourcing Desk</div>
-              <h1 className="mt-3 font-display text-3xl font-medium tracking-tight text-ink sm:text-4xl md:text-5xl">
+              <h1 className="mt-3 font-display text-3xl font-medium tracking-display-3xl sm:tracking-display-4xl md:tracking-display-5xl text-ink sm:text-4xl md:text-5xl">
                 How can we help you <span className="text-gradient-sun italic">source?</span>
               </h1>
               <p className="mt-4 max-w-md px-4 text-base leading-relaxed text-ink-soft sm:text-lg">
@@ -230,7 +230,7 @@ export function ChatWindow({ conversationId: currentConversationId }: ChatWindow
               <button
                 key={label}
                 onClick={() => setInput(prompt)}
-                className="group inline-flex items-center justify-center gap-2 rounded-full border border-border bg-white px-5 py-2.5 text-sm font-medium text-ink shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-crimson/40 hover:text-crimson hover:shadow-md"
+                className="group inline-flex items-center justify-center gap-2 rounded-full border border-border bg-white px-5 py-2.5 text-sm font-medium text-ink shadow-sm transition duration-200 hover:-translate-y-0.5 hover:border-crimson/40 hover:text-crimson hover:shadow-md"
               >
                 <Icon className="size-4 text-crimson" />
                 {label}
@@ -240,7 +240,7 @@ export function ChatWindow({ conversationId: currentConversationId }: ChatWindow
         </div>
       )}
 
-      <div className="border-t border-border bg-porcelain/80 backdrop-blur-sm">
+      <div className="material-chrome border-t border-border">
         <div className="max-w-4xl mx-auto p-4 sm:p-6">
           <form onSubmit={handleSubmit} className="relative">
             <div className="flex items-center gap-2 rounded-full border border-border bg-white p-1.5 pl-5 shadow-[0_8px_30px_-12px_rgba(26,20,19,0.2)] transition-shadow duration-150 focus-within:border-crimson/40 focus-within:shadow-[0_8px_30px_-10px_rgba(204,52,51,0.3)]">
@@ -254,7 +254,7 @@ export function ChatWindow({ conversationId: currentConversationId }: ChatWindow
               <Button
                 type="submit"
                 disabled={isLoading || !input.trim()}
-                className={`h-11 w-11 rounded-full transition-all duration-150 ${input.trim() && !isLoading
+                className={`h-11 w-11 rounded-full transition duration-150 ${input.trim() && !isLoading
                     ? 'bg-crimson text-white hover:bg-[var(--color-crimson-deep)] hover:shadow-md'
                     : 'bg-crimson/40 text-white/70'
                   }`}

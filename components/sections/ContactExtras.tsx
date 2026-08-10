@@ -63,7 +63,7 @@ export default function ContactExtras() {
         <div className="container mx-auto px-5 sm:px-6 lg:px-8">
           <div className="mb-12 max-w-2xl">
             <div className="eyebrow text-crimson">More ways to reach us</div>
-            <h2 className="mt-2 font-display text-3xl font-medium tracking-tight text-ink sm:text-4xl">
+            <h2 className="mt-2 font-display text-3xl font-medium tracking-display-3xl sm:tracking-display-4xl text-ink sm:text-4xl">
               Prefer to talk now?
             </h2>
             <p className="mt-4 text-lg leading-relaxed text-ink-soft">
@@ -98,7 +98,7 @@ export default function ContactExtras() {
               )
 
               const className =
-                "group card-lux flex h-full flex-col rounded-3xl p-6 transition-all duration-300 hover:-translate-y-1 hover:border-crimson/40"
+                "group card-lux flex h-full flex-col rounded-3xl p-6 transition duration-200 hover:-translate-y-1 hover:border-crimson/40"
 
               return c.href ? (
                 <Link

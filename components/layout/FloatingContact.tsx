@@ -23,7 +23,7 @@ export default function FloatingContact() {
         href="/chat"
         onClick={() => trackEvent("kaiexpert_click", { location: "floating" })}
         aria-label="Chat with KaiExpert, our AI sourcing assistant"
-        className="group flex h-14 w-14 items-center justify-center rounded-full bg-crimson text-white shadow-lg ring-1 ring-black/5 transition-transform duration-200 hover:scale-105 active:scale-95"
+        className="focus-ring group flex h-14 w-14 items-center justify-center rounded-full bg-crimson text-white shadow-lg ring-1 ring-black/5 transition-transform duration-200 hover:scale-105 active:scale-95"
       >
         <Sparkles className="h-6 w-6" />
       </Link>
@@ -35,7 +35,7 @@ export default function FloatingContact() {
         rel="noopener noreferrer"
         onClick={() => trackEvent("whatsapp_click")}
         aria-label="Chat with us on WhatsApp"
-        className="group flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg ring-1 ring-black/5 transition-transform duration-200 hover:scale-105 active:scale-95"
+        className="focus-ring group flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg ring-1 ring-black/5 transition-transform duration-200 hover:scale-105 active:scale-95"
       >
         <WhatsAppIcon className="h-7 w-7" />
       </a>

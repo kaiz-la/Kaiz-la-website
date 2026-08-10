@@ -231,7 +231,7 @@ export default function RfqForm() {
                   <button
                     type="submit"
                     disabled={status === "submitting"}
-                    className="group inline-flex w-full items-center justify-center rounded-full bg-crimson px-6 py-3.5 text-base font-semibold text-white shadow-sm transition-all duration-200 hover:bg-[var(--color-crimson-deep)] hover:shadow-md disabled:cursor-not-allowed disabled:opacity-70 sm:w-auto"
+                    className="focus-ring group inline-flex w-full items-center justify-center rounded-full bg-crimson px-6 py-3.5 text-base font-semibold text-white shadow-sm transition duration-200 hover:bg-[var(--color-crimson-deep)] hover:shadow-md active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-70 disabled:active:scale-100 sm:w-auto"
                   >
                     {status === "submitting" ? (
                       <>Sending…<Loader2 className="ml-2 h-5 w-5 animate-spin" /></>
@@ -242,7 +242,10 @@ export default function RfqForm() {
                   <p className="text-xs leading-relaxed text-ink/45">
                     By submitting you agree to be contacted about your enquiry. We never share your
                     details. See our{" "}
-                    <a href="/privacy" className="underline hover:text-crimson">privacy policy</a>.
+                    <a href="/privacy" className="focus-ring rounded-sm underline hover:text-crimson">
+                      privacy policy
+                    </a>
+                    .
                   </p>
                 </form>
               )}

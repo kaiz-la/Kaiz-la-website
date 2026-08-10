@@ -80,7 +80,10 @@ export default function Journey({ showHeader = true }: { showHeader?: boolean })
     target: sectionRef,
     offset: ["start 0.4", "end 0.85"],
   })
-  const fill = useSpring(scrollYProgress, { stiffness: 90, damping: 24, mass: 0.4 })
+  // Critically damped: damping = 2·√(stiffness · mass) = 2·√(90 · 0.4) = 12.
+  // At the previous 24 the ratio was 2.0 — twice overdamped, which made the
+  // rail fill visibly lag the scroll position.
+  const fill = useSpring(scrollYProgress, { stiffness: 90, damping: 12, mass: 0.4 })
   const fillHeight = useTransform(fill, [0, 1], ["0%", "100%"])
   const markerTop = useTransform(fill, [0, 1], ["0%", "100%"])
 
@@ -129,7 +132,9 @@ export default function Journey({ showHeader = true }: { showHeader?: boolean })
         <div className="mx-auto hidden max-w-6xl lg:grid lg:grid-cols-12 lg:gap-x-10">
           {/* Sticky route rail */}
           <div className="lg:col-span-4">
-            <div className="sticky top-28">
+            {/* Parks clear of the fixed header — the bar is translucent, so an
+                offset that overlaps it leaves this rail showing through. */}
+            <div className="sticky top-[calc(var(--header-h)+2rem)]">
               <div className="relative flex gap-6">
                 {/* Rail */}
                 <div className="relative w-10 flex-shrink-0">
@@ -143,7 +148,7 @@ export default function Journey({ showHeader = true }: { showHeader?: boolean })
                     {steps.map((_, i) => (
                       <div
                         key={i}
-                        className={`relative left-1/2 z-10 h-3 w-3 -translate-x-1/2 rounded-full border-2 transition-all duration-300 ${
+                        className={`relative left-1/2 z-10 h-3 w-3 -translate-x-1/2 rounded-full border-2 transition duration-300 ${
                           active >= i
                             ? "border-crimson bg-crimson"
                             : "border-ink/25 bg-porcelain-deep"

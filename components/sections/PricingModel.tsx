@@ -86,7 +86,7 @@ export default function PricingModel() {
                 </p>
                 <Link
                   href="/quote"
-                  className="group mt-6 inline-flex items-center gap-2 rounded-full bg-crimson px-6 py-3 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-[var(--color-crimson-deep)] hover:shadow-md"
+                  className="focus-ring group mt-6 inline-flex items-center gap-2 rounded-full bg-crimson px-6 py-3 text-sm font-semibold text-white shadow-sm transition duration-200 hover:bg-[var(--color-crimson-deep)] hover:shadow-md active:scale-[0.97]"
                 >
                   Request a quote
                   <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />

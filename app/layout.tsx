@@ -3,6 +3,7 @@ import { Geist, Geist_Mono, Playfair_Display, Cinzel } from "next/font/google"
 import "./globals.css"
 import { siteConfig, socialSameAs, ogImageMeta } from "@/lib/site"
 import { JsonLd } from "@/components/seo/JsonLd"
+import MotionProvider from "@/components/providers/MotionProvider"
 import { Analytics } from "@vercel/analytics/next"
 import { SpeedInsights } from "@vercel/speed-insights/next"
 
@@ -133,7 +134,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} ${playfair.variable} ${cinzel.variable} antialiased`}>
-        {children}
+        <MotionProvider>{children}</MotionProvider>
         <JsonLd data={[organizationLd, localBusinessLd]} />
         <Analytics />
         <SpeedInsights />

@@ -18,10 +18,10 @@ function GuideCard({ guide, className = "" }: { guide: Guide; className?: string
   return (
     <Link
       href={`/guides/${guide.slug}`}
-      className={`group relative flex h-full flex-col rounded-2xl border border-border bg-card p-6 transition-all duration-300 hover:-translate-y-1 hover:border-crimson/40 hover:shadow-[0_24px_48px_-24px_rgba(204,52,51,0.45)] ${className}`}
+      className={`focus-ring group relative flex h-full flex-col rounded-2xl border border-border bg-card p-6 transition duration-200 hover:-translate-y-1 hover:border-crimson/40 hover:shadow-[0_24px_48px_-24px_rgba(204,52,51,0.45)] active:translate-y-0 active:scale-[0.99] ${className}`}
     >
-      <span className="absolute inset-x-0 top-0 h-1 origin-left scale-x-0 rounded-t-2xl bg-sun-gradient transition-transform duration-300 group-hover:scale-x-100" />
-      <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-crimson/10 transition-colors duration-300 group-hover:bg-crimson/15">
+      <span className="absolute inset-x-0 top-0 h-1 origin-left scale-x-0 rounded-t-2xl bg-sun-gradient transition-transform duration-200 group-hover:scale-x-100" />
+      <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-crimson/10 transition-colors duration-200 group-hover:bg-crimson/15">
         <Icon className="h-6 w-6 text-crimson" />
       </div>
       <div className="eyebrow text-crimson">{guide.eyebrow}</div>
@@ -29,7 +29,7 @@ function GuideCard({ guide, className = "" }: { guide: Guide; className?: string
       <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">{guide.summary}</p>
       <div className="mt-4 inline-flex items-center text-sm font-semibold text-crimson">
         Read guide
-        <ArrowRight className="ml-1 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+        <ArrowRight className="ml-1 h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
       </div>
     </Link>
   )
@@ -59,7 +59,7 @@ export default function SourcingGuides({
           <div className="mb-12 flex flex-wrap items-end justify-between gap-4">
             <div className="max-w-2xl">
               <div className="eyebrow text-crimson">Sourcing Knowledge Hub</div>
-              <h2 className="mt-2 font-display text-3xl font-medium tracking-tight text-ink sm:text-4xl">
+              <h2 className="mt-2 font-display text-3xl font-medium tracking-display-3xl sm:tracking-display-4xl text-ink sm:text-4xl">
                 Learn to source from China like a pro
               </h2>
               <p className="mt-4 text-lg leading-relaxed text-ink-soft">
@@ -69,7 +69,7 @@ export default function SourcingGuides({
             </div>
             <Link
               href="/guides"
-              className="inline-flex flex-shrink-0 items-center gap-1 text-sm font-semibold text-crimson hover:underline"
+              className="focus-ring inline-flex flex-shrink-0 items-center gap-1 rounded-sm text-sm font-semibold text-crimson hover:underline"
             >
               All guides
               <ArrowRight className="h-4 w-4" />
@@ -98,7 +98,7 @@ export default function SourcingGuides({
             {showAskCard && (
               <Link
                 href="/chat"
-                className="group relative flex h-full flex-col justify-between overflow-hidden rounded-2xl border border-crimson/25 bg-crimson/[0.04] p-6 transition-all duration-300 hover:-translate-y-1 hover:border-crimson/45 hover:shadow-[0_24px_48px_-24px_rgba(204,52,51,0.45)]"
+                className="focus-ring group relative flex h-full flex-col justify-between overflow-hidden rounded-2xl border border-crimson/25 bg-crimson/[0.04] p-6 transition duration-200 hover:-translate-y-1 hover:border-crimson/45 hover:shadow-[0_24px_48px_-24px_rgba(204,52,51,0.45)] active:translate-y-0 active:scale-[0.99]"
               >
                 <span className="absolute inset-x-0 top-0 h-1 bg-sun-gradient" />
                 <div>
@@ -116,7 +116,7 @@ export default function SourcingGuides({
                 </div>
                 <div className="mt-4 inline-flex items-center text-sm font-semibold text-crimson">
                   Start a chat
-                  <ArrowRight className="ml-1 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+                  <ArrowRight className="ml-1 h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
                 </div>
               </Link>
             )}

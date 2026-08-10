@@ -46,7 +46,7 @@ export default function Error({
       <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
         <button
           onClick={reset}
-          className="group inline-flex items-center gap-2 rounded-full bg-crimson px-6 py-3 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-[var(--color-crimson-deep)] hover:shadow-md"
+          className="group inline-flex items-center gap-2 rounded-full bg-crimson px-6 py-3 text-sm font-semibold text-white shadow-sm transition duration-200 hover:bg-[var(--color-crimson-deep)] hover:shadow-md"
         >
           <RotateCcw className="h-4 w-4" />
           Try again

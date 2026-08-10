@@ -32,7 +32,7 @@ export default function FreightBand() {
       <div className="relative container mx-auto px-5 py-20 sm:px-6 lg:px-8 lg:py-28">
         <div className="max-w-2xl">
           <div className="eyebrow text-white/80">Freight &amp; Logistics</div>
-          <h2 className="mt-3 text-3xl font-extrabold leading-[1.08] tracking-tight text-white sm:text-4xl lg:text-5xl">
+          <h2 className="mt-3 text-3xl font-extrabold leading-[1.08] tracking-display-3xl sm:tracking-display-4xl lg:tracking-display-5xl text-white sm:text-4xl lg:text-5xl">
             Air and sea freight, fully tracked, door to door.
           </h2>
           <p className="mt-5 max-w-xl text-lg leading-relaxed text-white/85">
@@ -45,7 +45,7 @@ export default function FreightBand() {
             {points.map((p) => (
               <div
                 key={p.label}
-                className="rounded-2xl border border-white/20 bg-white/10 p-4 backdrop-blur-sm"
+                className="material-chip rounded-2xl p-4"
               >
                 <p.icon className="h-6 w-6 text-white" />
                 <div className="mt-3 text-base font-bold text-white">{p.label}</div>
@@ -56,10 +56,10 @@ export default function FreightBand() {
 
           <Link
             href="/track"
-            className="group mt-9 inline-flex items-center justify-center rounded-full bg-white px-7 py-3.5 text-base font-bold text-crimson shadow-lg transition-all duration-300 hover:bg-porcelain hover:shadow-xl"
+            className="focus-ring-light group mt-9 inline-flex items-center justify-center rounded-full bg-white px-7 py-3.5 text-base font-bold text-crimson shadow-lg transition duration-200 hover:bg-porcelain hover:shadow-xl active:scale-[0.97]"
           >
             Track a shipment
-            <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1.5" />
+            <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-200 group-hover:translate-x-1.5" />
           </Link>
         </div>
       </div>

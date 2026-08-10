@@ -108,7 +108,7 @@ export default async function GuidePage({
           <div className="mt-12 space-y-12">
             {guide.sections.map((section) => (
               <section key={section.heading}>
-                <h2 className="font-display text-2xl font-medium tracking-tight text-ink sm:text-3xl">
+                <h2 className="font-display text-2xl font-medium tracking-display-2xl sm:tracking-display-3xl text-ink sm:text-3xl">
                   {section.heading}
                 </h2>
                 <div className="mt-4 space-y-4 text-base leading-relaxed text-ink-soft">
@@ -134,7 +134,7 @@ export default async function GuidePage({
 
           {/* FAQ */}
           <section className="mt-16 border-t border-border pt-10">
-            <h2 className="font-display text-2xl font-medium tracking-tight text-ink sm:text-3xl">
+            <h2 className="font-display text-2xl font-medium tracking-display-2xl sm:tracking-display-3xl text-ink sm:text-3xl">
               Frequently asked questions
             </h2>
             <div className="mt-6 divide-y divide-border">
@@ -154,7 +154,7 @@ export default async function GuidePage({
           {related.length > 0 && (
             <section className="mt-16 border-t border-border pt-10">
               <div className="eyebrow text-crimson">Keep reading</div>
-              <h2 className="mt-2 font-display text-2xl font-medium tracking-tight text-ink">
+              <h2 className="mt-2 font-display text-2xl font-medium tracking-display-2xl text-ink">
                 Related sourcing guides
               </h2>
               <div className="mt-6 grid gap-4 sm:grid-cols-2">
@@ -162,13 +162,13 @@ export default async function GuidePage({
                   <Link
                     key={r.slug}
                     href={`/guides/${r.slug}`}
-                    className="group rounded-2xl border border-border bg-card p-5 transition-all duration-300 hover:-translate-y-1 hover:border-crimson/40 hover:shadow-[0_24px_48px_-24px_rgba(204,52,51,0.45)]"
+                    className="group rounded-2xl border border-border bg-card p-5 transition duration-200 hover:-translate-y-1 hover:border-crimson/40 hover:shadow-[0_24px_48px_-24px_rgba(204,52,51,0.45)]"
                   >
                     <div className="eyebrow text-crimson">{r.eyebrow}</div>
                     <h3 className="mt-2 font-semibold text-ink">{r.title}</h3>
                     <div className="mt-3 inline-flex items-center text-sm font-semibold text-crimson">
                       Read guide
-                      <ArrowRight className="ml-1 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+                      <ArrowRight className="ml-1 h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
                     </div>
                   </Link>
                 ))}
