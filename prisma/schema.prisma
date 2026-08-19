@@ -143,6 +143,10 @@ model SourcingRequest {
   customerNotifiedAt DateTime?
 
   // The customer asked to continue on WhatsApp.
+  /// The customer said they have no product photo. Stops the prompt nagging,
+  /// and tells the specialist to expect a written spec rather than an image.
+  photoPromptDismissedAt DateTime?
+
   whatsappRequestedAt    DateTime?
   /// Set by the Meta webhook when they actually send — until then we cannot
   /// observe the 24h service window opening. Nothing writes this yet.
