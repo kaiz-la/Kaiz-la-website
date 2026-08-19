@@ -1,7 +1,11 @@
 "use server"
 
 import { revalidatePath } from "next/cache"
-import { answerOpenItem, getRequestByRef } from "@/lib/sourcing"
+import { answerOpenItem, getRequestByRef, ensureThreadConversation, markCustomerRead } from "@/lib/sourcing"
+import { prisma } from "@/lib/prisma"
+import { saveUIMessage } from "@/components/chatLogic/services/database"
+import { maybeAlertTeam } from "@/lib/notify/internal"
+import { after } from "next/server"
 import { hasRoomAccess } from "@/lib/room-session"
 
 export type RoomActionState = { error?: string; ok?: boolean }
@@ -38,4 +42,81 @@ export async function answerOpenItemAction(
   revalidatePath(`/r/${encodeURIComponent(ref)}`)
   revalidatePath(`/kz1ad31n/requests/${encodeURIComponent(ref)}`)
   return { ok: true }
+}
+
+const MAX_MESSAGE_CHARS = 4000
+
+/**
+ * The customer writing to their specialist.
+ *
+ * Authorised by the Room cookie, not requireAdmin. The message id is minted by
+ * the client and passed in so the optimistic bubble and the persisted row share
+ * an id — saveUIMessage upserts, so a retry with the same id is idempotent and
+ * the poller can never render a duplicate.
+ */
+export async function sendRoomMessageAction(
+  _prev: RoomActionState,
+  formData: FormData
+): Promise<RoomActionState> {
+  const ref = formData.get("ref")?.toString() ?? ""
+  const messageId = formData.get("messageId")?.toString() ?? ""
+  const body = formData.get("body")?.toString().trim() ?? ""
+
+  if (!ref || !messageId) return { error: "Something went wrong. Please reload the page." }
+  if (!body) return { error: "Write a message first." }
+  if (body.length > MAX_MESSAGE_CHARS) {
+    return { error: "That message is too long — please shorten it." }
+  }
+
+  if (!(await hasRoomAccess(ref))) {
+    return { error: "Your link has expired. Please request a new one." }
+  }
+
+  const thread = await ensureThreadConversation(ref)
+  if (!thread.ok) return { error: thread.error }
+
+  try {
+    await saveUIMessage(
+      { id: messageId, role: "user", parts: [{ type: "text", text: body }] },
+      thread.data.threadConversationId,
+      "customer"
+    )
+    await prisma.sourcingRequest.update({
+      where: { id: thread.data.requestId },
+      data: { lastCustomerMessageAt: new Date() },
+    })
+
+    // Alert the team, debounced. via after() so the customer's send never waits
+    // on Resend — a slow mail provider must not look like a slow product.
+    const request = await prisma.sourcingRequest.findUnique({
+      where: { id: thread.data.requestId },
+      select: { ref: true, lead: { select: { name: true, phone: true } } },
+    })
+    if (request) {
+      after(() =>
+        maybeAlertTeam({
+          requestId: thread.data.requestId,
+          ref: request.ref,
+          kind: "message",
+          headline: "Customer sent a message",
+          body,
+          customerName: request.lead?.name,
+        })
+      )
+    }
+  } catch (e) {
+    console.error("[room] sendRoomMessage failed:", e)
+    return { error: "Could not send that. Please try again." }
+  }
+
+  revalidatePath(`/r/${encodeURIComponent(ref)}`)
+  revalidatePath(`/kz1ad31n/requests/${encodeURIComponent(ref)}`)
+  return { ok: true }
+}
+
+/** Mirror of the staff version — records that the customer has seen the replies. */
+export async function markRoomReadAction(ref: string): Promise<void> {
+  if (!ref) return
+  if (!(await hasRoomAccess(ref))) return
+  await markCustomerRead(ref)
 }

@@ -1,8 +1,13 @@
 import Link from "next/link"
 import { notFound } from "next/navigation"
-import { AlertTriangle, ArrowLeft, ExternalLink, Eye, EyeOff, HelpCircle } from "lucide-react"
+import { AlertTriangle, ArrowLeft, ExternalLink, Eye, EyeOff, HelpCircle, MessageCircle } from "lucide-react"
 import { requireAdmin } from "@/lib/admin-session"
-import { getRequestByRef } from "@/lib/sourcing"
+import { getRequestByRef, isUnreadByStaff } from "@/lib/sourcing"
+import { toUIMessage } from "@/lib/messages"
+import ThreadPanel from "@/components/admin/ThreadPanel"
+import { MarkRead } from "@/components/MarkRead"
+import { markThreadReadAction } from "@/app/kz1ad31n/actions"
+import { MessageBubble } from "@/components/chat/MessageBubble"
 import { getSourcingStatusMeta, expectedBy, isStalled } from "@/lib/sourcing-status"
 import { roomUrl } from "@/lib/notify"
 import RequestEventForm from "@/components/admin/RequestEventForm"
@@ -51,6 +56,21 @@ export default async function RequestWorkbench({
       moq: x.quote!.moq,
       published: x.quote!.published,
     }))
+
+  const threadMessages = (request.threadConversation?.messages ?? []).map(toUIMessage)
+  const originMessages = (request.conversation?.messages ?? []).map(toUIMessage)
+
+  // Photos and specs can arrive on either conversation — the origin chat or the
+  // Room thread. Reading only `conversation` would make Room uploads invisible
+  // to staff while working perfectly for the customer.
+  const attachments = [
+    ...(request.conversation?.attachments ?? []),
+    ...(request.threadConversation?.attachments ?? []),
+  ]
+  const productSpecs = [
+    ...(request.conversation?.productSpecs ?? []),
+    ...(request.threadConversation?.productSpecs ?? []),
+  ]
 
   const openItems = request.openItems.filter((i) => !i.answer)
   const answeredItems = request.openItems.filter((i) => i.answer)
@@ -108,12 +128,36 @@ export default async function RequestWorkbench({
         </div>
       </div>
 
+      <MarkRead action={markThreadReadAction} reference={request.ref} />
+
+      {request.whatsappRequestedAt && (
+        <div className="mt-6 rounded-2xl border border-[#25D366]/40 bg-[#25D366]/[0.07] p-5">
+          <div className="flex items-center gap-2">
+            <MessageCircle className="h-5 w-5 text-[#1ebe5b]" />
+            <h2 className="font-semibold text-ink">Customer is moving to WhatsApp</h2>
+          </div>
+          <p className="mt-2 text-sm text-ink-soft">
+            They tapped through at {fmt(request.whatsappRequestedAt, true)}
+            {request.lead.phone ? ` — expect a message from ${request.lead.phone}` : ""}. Check the
+            business inbox. We can&apos;t see the 24-hour window open from here; it starts when they
+            actually send, and replying inside it needs no approved template.
+          </p>
+        </div>
+      )}
+
+      <ThreadPanel
+        reference={request.ref}
+        ownerName={request.ownerName}
+        messages={threadMessages}
+        unread={isUnreadByStaff(request)}
+      />
+
       {/* What the customer showed us */}
-      {request.conversation?.attachments?.length ? (
+      {attachments.length ? (
         <section className="mt-8">
           <h2 className="mb-3 font-display text-xl font-medium text-ink">Photos shared</h2>
           <div className="flex flex-wrap gap-3">
-            {request.conversation.attachments.map((a) => (
+            {attachments.map((a) => (
               <a key={a.id} href={a.url} target="_blank" rel="noopener noreferrer">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
@@ -128,11 +172,11 @@ export default async function RequestWorkbench({
       ) : null}
 
       {/* Machine-read product spec */}
-      {request.conversation?.productSpecs?.length ? (
+      {productSpecs.length ? (
         <section className="mt-8">
           <h2 className="mb-3 font-display text-xl font-medium text-ink">Product spec</h2>
           <div className="space-y-4">
-            {request.conversation.productSpecs.map((ps) => {
+            {productSpecs.map((ps) => {
               const spec = ps.spec as Record<string, any>
               return (
                 <div key={ps.id} className="card-lux rounded-2xl p-5">
@@ -329,6 +373,21 @@ export default async function RequestWorkbench({
         <h2 className="mb-3 font-display text-xl font-medium text-ink">Add an update</h2>
         <RequestEventForm reference={request.ref} currentStatus={request.status} />
       </section>
+
+      {originMessages.length > 0 && (
+        <section className="mt-8">
+          <details className="group">
+            <summary className="cursor-pointer text-sm font-semibold text-muted-foreground hover:text-crimson">
+              Original KaiExpert conversation ({originMessages.length} messages)
+            </summary>
+            <div className="card-lux mt-3 space-y-5 rounded-2xl p-6">
+              {originMessages.map((m) => (
+                <MessageBubble key={m.id} message={m} />
+              ))}
+            </div>
+          </details>
+        </section>
+      )}
 
       {/* Timeline */}
       <section className="mt-8">

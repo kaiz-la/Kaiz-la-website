@@ -1,10 +1,21 @@
 import Link from "next/link"
-import { AlertTriangle, Inbox } from "lucide-react"
+import { AlertTriangle, Inbox, MessageCircle } from "lucide-react"
 import { requireAdmin } from "@/lib/admin-session"
-import { listRequests, listStalledRequests } from "@/lib/sourcing"
+import { listRequests, listStalledRequests, isUnreadByStaff } from "@/lib/sourcing"
 import { getSourcingStatusMeta, expectedBy } from "@/lib/sourcing-status"
 
 export const dynamic = "force-dynamic"
+
+/** Coarse relative time — "12m ago". Precision beyond this is noise here. */
+function fmtRelative(value: Date | null) {
+  if (!value) return "—"
+  const mins = Math.round((Date.now() - new Date(value).getTime()) / 60000)
+  if (mins < 1) return "just now"
+  if (mins < 60) return `${mins}m ago`
+  const hours = Math.round(mins / 60)
+  if (hours < 24) return `${hours}h ago`
+  return `${Math.round(hours / 24)}d ago`
+}
 
 function fmt(value: Date | string | null) {
   if (!value) return "—"
@@ -18,6 +29,7 @@ export default async function AdminRequests() {
   await requireAdmin()
   const [requests, stalled] = await Promise.all([listRequests(), listStalledRequests()])
   const stalledIds = new Set(stalled.map((r) => r.id))
+  const waiting = requests.filter(isUnreadByStaff)
 
   return (
     <div>
@@ -29,8 +41,36 @@ export default async function AdminRequests() {
         </p>
       </div>
 
-      {/* The real failure mode isn't a customer complaining. It's a request
-          quietly forgotten past the date we promised. */}
+      {waiting.length > 0 && (
+        <div className="mb-6 rounded-2xl border border-crimson/30 bg-crimson/5 p-5">
+          <div className="flex items-center gap-2">
+            <MessageCircle className="h-5 w-5 text-crimson" />
+            <h2 className="font-semibold text-ink">
+              {waiting.length} customer{waiting.length > 1 ? "s are" : " is"} waiting on a reply
+            </h2>
+          </div>
+          <ul className="mt-3 space-y-1.5">
+            {waiting.map((r) => (
+              <li key={r.id} className="text-sm">
+                <Link
+                  href={`/kz1ad31n/requests/${encodeURIComponent(r.ref)}`}
+                  className="font-semibold text-crimson hover:underline"
+                >
+                  {r.ref}
+                </Link>
+                <span className="text-ink-soft">
+                  {" — "}
+                  {r.lead?.name || r.lead?.company || "Unknown contact"} · messaged{" "}
+                  {fmtRelative(r.lastCustomerMessageAt)}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {/* The other failure mode: a request quietly forgotten past the date we
+          promised. */}
       {stalled.length > 0 && (
         <div className="mb-6 rounded-2xl border border-crimson/30 bg-crimson/5 p-5">
           <div className="flex items-center gap-2">
@@ -90,12 +130,20 @@ export default async function AdminRequests() {
                 return (
                   <tr key={r.id} className="border-b border-border last:border-0">
                     <td className="px-5 py-3">
-                      <Link
-                        href={`/kz1ad31n/requests/${encodeURIComponent(r.ref)}`}
-                        className="font-semibold text-crimson hover:underline"
-                      >
-                        {r.ref}
-                      </Link>
+                      <span className="inline-flex items-center gap-2">
+                        {isUnreadByStaff(r) && (
+                          <span
+                            className="h-2 w-2 shrink-0 rounded-full bg-crimson"
+                            title="Customer is waiting on a reply"
+                          />
+                        )}
+                        <Link
+                          href={`/kz1ad31n/requests/${encodeURIComponent(r.ref)}`}
+                          className="font-semibold text-crimson hover:underline"
+                        >
+                          {r.ref}
+                        </Link>
+                      </span>
                     </td>
                     <td className="px-5 py-3 text-ink-soft">
                       {r.lead?.name || r.lead?.company || "—"}

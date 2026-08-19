@@ -66,8 +66,9 @@ export function saveLeadDetails(conversationId: string) {
         return { saved: [], stillMissing: [], canReachCustomer: false, note: 'Nothing to save.' };
       }
 
-      // upsert, not update: /api/messages can create a Conversation with no Lead
-      // row, and lead.update would throw P2025 against it.
+      // upsert, not update: a Conversation can exist without a Lead row (the
+      // contact and RFQ forms create one either way), and lead.update would
+      // throw P2025 against it.
       const lead = await prisma.lead.upsert({
         where: { conversationId },
         create: { conversationId, ...data },
