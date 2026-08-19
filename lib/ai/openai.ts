@@ -5,6 +5,13 @@ const openai = createOpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
+// Model handles, exported so callers can pass tools/schemas through. The
+// pre-baked generateChatResponse() below returns a Response, which hides the
+// model and makes tool calling impossible.
+export const chatModel = () => openai('gpt-4o') // vision-capable
+export const visionModel = () => openai('gpt-4o')
+export const utilityModel = () => openai('gpt-4o-mini')
+
 export async function embedQuery(text: string): Promise<number[]> {
   const { embedding, usage } = await embed({
     model: openai.embedding('text-embedding-3-small'),
