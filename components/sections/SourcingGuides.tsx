@@ -18,7 +18,7 @@ function GuideCard({ guide, className = "" }: { guide: Guide; className?: string
   return (
     <Link
       href={`/guides/${guide.slug}`}
-      className={`focus-ring group relative flex h-full flex-col rounded-2xl border border-border bg-card p-6 transition duration-200 hover:-translate-y-1 hover:border-crimson/40 hover:shadow-[0_24px_48px_-24px_rgba(204,52,51,0.45)] active:translate-y-0 active:scale-[0.99] ${className}`}
+      className={`focus-ring group relative flex h-full flex-col rounded-2xl border border-border bg-card p-6 transition duration-200 hover:-translate-y-1 hover:border-crimson/40 hover:shadow-lift-lg active:translate-y-0 active:scale-[0.99] ${className}`}
     >
       <span className="absolute inset-x-0 top-0 h-1 origin-left scale-x-0 rounded-t-2xl bg-sun-gradient transition-transform duration-200 group-hover:scale-x-100" />
       <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-crimson/10 transition-colors duration-200 group-hover:bg-crimson/15">
@@ -98,7 +98,7 @@ export default function SourcingGuides({
             {showAskCard && (
               <Link
                 href="/chat"
-                className="focus-ring group relative flex h-full flex-col justify-between overflow-hidden rounded-2xl border border-crimson/25 bg-crimson/[0.04] p-6 transition duration-200 hover:-translate-y-1 hover:border-crimson/45 hover:shadow-[0_24px_48px_-24px_rgba(204,52,51,0.45)] active:translate-y-0 active:scale-[0.99]"
+                className="focus-ring group relative flex h-full flex-col justify-between overflow-hidden rounded-2xl border border-crimson/25 bg-crimson/[0.04] p-6 transition duration-200 hover:-translate-y-1 hover:border-crimson/45 hover:shadow-lift-lg active:translate-y-0 active:scale-[0.99]"
               >
                 <span className="absolute inset-x-0 top-0 h-1 bg-sun-gradient" />
                 <div>

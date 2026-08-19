@@ -1,6 +1,7 @@
 import { Mail, Phone, MessageCircle, Users } from "lucide-react"
 import { requireAdmin } from "@/lib/admin-session"
 import { listLeads } from "@/lib/leads"
+import StartRequestButton from "@/components/admin/StartRequestButton"
 
 export const dynamic = "force-dynamic"
 
@@ -79,6 +80,10 @@ export default async function AdminLeads() {
                       {lead.phone}
                     </a>
                   )}
+                  <StartRequestButton
+                    leadId={lead.id}
+                    existingRef={lead.sourcingRequest?.ref}
+                  />
                   {wa && (
                     <a
                       href={`https://wa.me/${wa}`}

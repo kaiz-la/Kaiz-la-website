@@ -25,7 +25,7 @@ export function WelcomeCelebration({ onContinue, returning = false }: WelcomeCel
 
       <div className="relative flex flex-col items-center gap-7">
         <div className="animate-celebrate-in relative" style={{ animationDelay: "0.08s" }}>
-          <span className="absolute inset-0 animate-ping rounded-2xl bg-white/30" />
+          <span className="animate-breathe absolute inset-0 rounded-2xl bg-white" />
           <Seal size={84} label="KaiExpert" />
         </div>
 

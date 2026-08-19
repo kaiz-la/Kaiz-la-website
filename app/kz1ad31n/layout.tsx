@@ -27,6 +27,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               <Link href="/kz1ad31n/leads" className="text-ink transition-colors hover:text-crimson">
                 Leads
               </Link>
+              <Link href="/kz1ad31n/requests" className="text-ink transition-colors hover:text-crimson">
+                Sourcing
+              </Link>
             </nav>
           </div>
           <a

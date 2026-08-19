@@ -9,6 +9,13 @@ const RATE_LIMIT_DELAY = 2000;
 let lastEmbedTime = 0;
 let lastGenerateTime = 0;
 
+// Mirrors the OpenAI handles. NOTE: the module-level throttles below are
+// bypassed by these — they are per-instance and near-useless on serverless
+// anyway, so nothing of value is lost.
+export const chatModel = () => google('gemini-1.5-flash-latest')
+export const visionModel = () => google('gemini-1.5-flash-latest')
+export const utilityModel = () => google('gemini-1.5-flash-latest')
+
 export async function embedQuery(text: string): Promise<number[]> {
   const now = Date.now();
   const timeSinceLastEmbed = now - lastEmbedTime;

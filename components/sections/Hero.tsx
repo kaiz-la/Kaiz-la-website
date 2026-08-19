@@ -271,7 +271,7 @@ export default function Hero() {
             >
               <Link
                 href={tile.href}
-                className="focus-ring group relative flex h-full flex-col rounded-2xl border border-border bg-card p-6 transition duration-200 hover:-translate-y-1 hover:border-crimson/40 hover:shadow-[0_24px_48px_-24px_rgba(204,52,51,0.45)] active:translate-y-0 active:scale-[0.99]"
+                className="focus-ring group relative flex h-full flex-col rounded-2xl border border-border bg-card p-6 transition duration-200 hover:-translate-y-1 hover:border-crimson/40 hover:shadow-lift-lg active:translate-y-0 active:scale-[0.99]"
               >
                 {/* top accent on hover */}
                 <span className="absolute inset-x-0 top-0 h-1 origin-left scale-x-0 rounded-t-2xl bg-sun-gradient transition-transform duration-200 group-hover:scale-x-100" />
