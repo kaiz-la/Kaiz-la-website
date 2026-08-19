@@ -11,21 +11,35 @@ datasource db {
 }
 
 model Conversation {
-  id        String    @id @default(cuid())
-  createdAt DateTime  @default(now())
-  messages  Message[]
-  title     String? 
-  stage     String    @default("greeting")
-  lead      Lead?
+  id              String           @id @default(cuid())
+  createdAt       DateTime         @default(now())
+  messages        Message[]
+  title           String?
+  stage           String           @default("greeting")
+  lead            Lead?
+  sourcingRequest SourcingRequest?
+  attachments     Attachment[]
+  productSpecs    ProductSpec[]
 }
 
 model Message {
   id             String       @id @default(cuid())
   createdAt      DateTime     @default(now())
   content        String       @db.Text
+  // `role` is the model-facing field and stays 'user' | 'assistant' — the AI SDK
+  // requires exactly those. `authorType` is the product-facing one: an executive
+  // reply is role='assistant' to the LLM but renders under their own name.
   role           String
+  // Full UIMessage.parts — text, tool calls, file attachments. Added ALONGSIDE
+  // `content`, never replacing it: `content` is the plain-text flattening read
+  // by lib/leads.ts, the lead-summary email transcript and generateTitle.
+  // Rows predating this column have parts = null and rehydrate from `content`.
+  parts          Json?
+  authorType     String       @default("customer") // customer | kaiExpert | executive | system
+  authorName     String?
   conversation   Conversation @relation(fields: [conversationId], references: [id])
   conversationId String
+  attachments    Attachment[]
 }
 
 model Shipment {
@@ -57,10 +71,10 @@ model ShipmentEvent {
 }
 
 model Lead {
-  id               String       @id @default(cuid())
-  createdAt        DateTime     @default(now())
-  conversation     Conversation @relation(fields: [conversationId], references: [id])
-  conversationId   String       @unique
+  id               String           @id @default(cuid())
+  createdAt        DateTime         @default(now())
+  conversation     Conversation     @relation(fields: [conversationId], references: [id])
+  conversationId   String           @unique
   name             String?
   company          String?
   email            String?
@@ -70,7 +84,204 @@ model Lead {
   preferredRegion  String?
   sourcingTimeline String?
   preferredContact String?
-  scheduledCall    Boolean      @default(false)
+  scheduledCall    Boolean          @default(false)
   callDate         DateTime?
-  notes            String?      @db.Text
+  notes            String?          @db.Text
+  sourcingRequest  SourcingRequest?
+}
+
+// ---------------------------------------------------------------------------
+// The Request Room — the quote phase, before a Shipment exists.
+//
+// SourcingRequest is the single source of truth: customer, KaiExpert and the
+// sourcing executive all read and write the same state.
+// ---------------------------------------------------------------------------
+
+model SourcingRequest {
+  id          String   @id @default(cuid())
+  ref         String   @unique // SR-7K4M2 — short enough to quote over the phone
+  accessToken String   @unique // 24-char secret; exchanged for a cookie on first visit
+  status      String   @default("RECEIVED")
+  statusSince DateTime @default(now()) // powers stall detection
+
+  lead   Lead   @relation(fields: [leadId], references: [id])
+  leadId String @unique
+
+  // The conversation that produced this request becomes the Room's thread, so
+  // the customer's history follows them in rather than restarting.
+  conversation   Conversation? @relation(fields: [conversationId], references: [id])
+  conversationId String?       @unique
+
+  productSummary String? @db.Text
+  brief          String? @db.Text // kept current as open items are answered
+  targetQuantity String?
+  destination    String?
+  timeline       String?
+
+  ownerName     String? // which executive owns it
+  internalNotes String? @db.Text
+
+  events     RequestEvent[]
+  openItems  OpenItem[]
+  candidates SupplierCandidate[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([status])
+}
+
+/// A question the photo or brief could not answer. Answering one updates the
+/// sourcing brief, so the executive always holds the latest requirements.
+model OpenItem {
+  id        String          @id @default(cuid())
+  request   SourcingRequest @relation(fields: [requestId], references: [id], onDelete: Cascade)
+  requestId String
+
+  question    String    @db.Text
+  answer      String?   @db.Text
+  answeredAt  DateTime?
+  answeredVia String? // room | chat | executive
+  source      String    @default("spec") // spec | executive
+
+  createdAt DateTime @default(now())
+
+  @@index([requestId])
+}
+
+model RequestEvent {
+  id        String          @id @default(cuid())
+  request   SourcingRequest @relation(fields: [requestId], references: [id], onDelete: Cascade)
+  requestId String
+
+  status     String? // null = progress note that doesn't advance the headline status
+  title      String
+  detail     String? @db.Text
+  visibility String  @default("customer") // customer | internal
+
+  occurredAt DateTime @default(now())
+  createdAt  DateTime @default(now())
+
+  @@index([requestId])
+}
+
+/// Every factory contacted — including ones that never quoted.
+///
+/// This is the instrumentation asset. What gets rejected and why is the data
+/// that later tells us which parts of sourcing are worth automating; guessing
+/// before that dataset exists is how you automate the wrong step.
+model SupplierCandidate {
+  id        String          @id @default(cuid())
+  request   SourcingRequest @relation(fields: [requestId], references: [id], onDelete: Cascade)
+  requestId String
+
+  // INTERNAL ONLY — none of these may ever cross toCustomerQuote().
+  supplierName    String?
+  supplierContact String?
+  sourceChannel   String? // known network | alibaba | referral | trade show
+  vettingNotes    String? @db.Text
+  vettingStatus   String  @default("UNVERIFIED") // UNVERIFIED|CONTACTED|QUOTED|VERIFIED|REJECTED
+  rejectionReason String?
+
+  contactedAt DateTime?
+  respondedAt DateTime?
+
+  quotes SupplierQuote[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([requestId])
+}
+
+/// Append-only. Revising a price creates a new row and supersedes the old one.
+///
+/// Mutating in place would destroy the price and MOQ movement across a
+/// negotiation, which is exactly the history worth keeping — and it cannot be
+/// reconstructed later.
+model SupplierQuote {
+  id          String            @id @default(cuid())
+  candidate   SupplierCandidate @relation(fields: [candidateId], references: [id], onDelete: Cascade)
+  candidateId String
+
+  version        Int       @default(1)
+  supersededById String?   @unique
+  supersededAt   DateTime?
+
+  // Customer-visible — but only ever via toCustomerQuote().
+  label          String // "Option A" — never the factory's name
+  region         String? // "Ningbo, Zhejiang"
+  unitPrice      String?
+  currency       String  @default("USD")
+  moq            String?
+  leadTimeDays   String?
+  sampleCost     String?
+  sampleDays     String?
+  incoterm       String? // FOB / EXW / CIF
+  certifications String?
+  notes          String? @db.Text
+  recommended    Boolean @default(false)
+
+  published   Boolean   @default(false)
+  publishedAt DateTime?
+
+  createdAt DateTime @default(now())
+
+  @@index([candidateId])
+}
+
+/// A file the customer uploaded in a conversation.
+///
+/// The row is created at upload time, BEFORE the message is sent, so messageId
+/// is nullable and linked once the turn is persisted. It also serves as the
+/// ownership record: analyzeProductPhoto refuses any URL without a matching row
+/// on the same conversation, so the model cannot be talked into spending vision
+/// tokens on an arbitrary address.
+model Attachment {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+
+  url       String
+  pathname  String
+  mediaType String
+  size      Int
+
+  message   Message? @relation(fields: [messageId], references: [id])
+  messageId String?
+
+  conversation   Conversation @relation(fields: [conversationId], references: [id])
+  conversationId String
+
+  specs ProductSpec[]
+
+  @@index([conversationId])
+  @@index([messageId])
+}
+
+/// A structured, factory-ready reading of a product photo.
+///
+/// `spec` is JSON rather than twenty columns: the schema will iterate, and
+/// nothing queries these fields — they are read whole by the workbench and the
+/// Room. Only the values used as a headline get real columns.
+model ProductSpec {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+
+  conversation   Conversation @relation(fields: [conversationId], references: [id])
+  conversationId String
+
+  attachment   Attachment? @relation(fields: [attachmentId], references: [id])
+  attachmentId String?
+
+  imageUrl    String
+  productName String
+  category    String?
+  confidence  String?
+  /// True for counterfeit, branded or restricted goods — surfaced to a human
+  /// before anyone quotes.
+  flagged     Boolean @default(false)
+
+  spec Json
+
+  @@index([conversationId])
 }

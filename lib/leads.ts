@@ -18,12 +18,13 @@ export function listLeads() {
     where: ACTIONABLE,
     orderBy: { createdAt: "desc" },
     include: {
+      sourcingRequest: { select: { ref: true } },
       conversation: {
         select: {
           title: true,
           messages: {
             orderBy: { createdAt: "asc" },
-            select: { role: true, content: true },
+            select: { role: true, content: true, authorType: true },
           },
         },
       },
