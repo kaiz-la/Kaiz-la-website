@@ -2,11 +2,12 @@
 
 import { useActionState, useEffect, useRef, useState } from "react"
 import type { UIMessage } from "ai"
-import { Loader2, Send } from "lucide-react"
+import { Camera, Loader2, Send } from "lucide-react"
 import { sendRoomMessageAction, type RoomActionState } from "@/app/r/actions"
 import { MessageBubble } from "@/components/chat/MessageBubble"
-
-export type ThreadMessage = UIMessage & { pending?: boolean; failed?: boolean }
+import { useThreadPoll } from "@/components/useThreadPoll"
+import type { PolledMessage } from "@/lib/thread-poll"
+import { useRoomImageUpload } from "./useRoomImageUpload"
 
 /**
  * The customer's channel to a real person.
@@ -30,46 +31,46 @@ export function RoomThread({
     sendRoomMessageAction,
     {}
   )
-  const [messages, setMessages] = useState<ThreadMessage[]>(initialMessages)
+  const { messages, addOptimistic, refresh } = useThreadPoll({
+    endpoint: `/api/r/${encodeURIComponent(reference)}/messages`,
+    initialMessages: initialMessages as PolledMessage[],
+  })
+  const { pending: uploading, error: uploadError, addFile } = useRoomImageUpload(
+    reference,
+    () => refresh()
+  )
+  const fileInputRef = useRef<HTMLInputElement>(null)
   const [body, setBody] = useState("")
   const [messageId, setMessageId] = useState(() => crypto.randomUUID())
   const formRef = useRef<HTMLFormElement>(null)
   const endRef = useRef<HTMLDivElement>(null)
-
-  // Server-rendered history wins on navigation; optimistic rows are keyed by id
-  // so a re-render can't duplicate one.
-  useEffect(() => {
-    setMessages((current) => {
-      const byId = new Map<string, ThreadMessage>()
-      for (const m of initialMessages) byId.set(m.id, m)
-      for (const m of current) if (!byId.has(m.id)) byId.set(m.id, m)
-      return [...byId.values()]
-    })
-  }, [initialMessages])
 
   useEffect(() => {
     if (state.ok) {
       setBody("")
       // A fresh id for the next message; the sent one is now owned by the row.
       setMessageId(crypto.randomUUID())
+      // The persisted row shares the optimistic id, so this replaces rather
+      // than duplicates.
+      refresh()
       endRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" })
     }
-  }, [state.ok])
+  }, [state.ok, refresh])
 
   const handleSubmit = () => {
     const text = body.trim()
     if (!text) return
-    setMessages((current) => [
-      ...current,
-      {
-        id: messageId,
-        role: "user",
-        metadata: { authorType: "customer", authorName: null },
-        parts: [{ type: "text", text }],
-        pending: true,
-      },
-    ])
+    addOptimistic({
+      id: messageId,
+      role: "user",
+      metadata: { authorType: "customer", authorName: null },
+      parts: [{ type: "text", text }],
+    })
   }
+
+  // Only prompt for a photo when none has been shared — a standing nag on a
+  // request that already has one is noise.
+  const hasPhoto = messages.some((m) => m.parts.some((p) => p.type === "file"))
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey && !e.nativeEvent.isComposing) {
@@ -99,9 +100,7 @@ export function RoomThread({
         ) : (
           <div className="space-y-5">
             {messages.map((m) => (
-              <div key={m.id} className={m.pending ? "opacity-60" : undefined}>
-                <MessageBubble message={m} />
-              </div>
+              <MessageBubble key={m.id} message={m} />
             ))}
             <div ref={endRef} />
           </div>
@@ -115,7 +114,48 @@ export function RoomThread({
         >
           <input type="hidden" name="ref" value={reference} />
           <input type="hidden" name="messageId" value={messageId} />
-          <div className="flex items-end gap-2 rounded-2xl border border-border bg-white p-1.5 pl-4 transition-shadow duration-150 focus-within:border-crimson/40 focus-within:shadow-ink-focus">
+          {hasPhoto ? null : (
+            <button
+              type="button"
+              onClick={() => fileInputRef.current?.click()}
+              className="focus-ring mb-3 inline-flex items-center gap-2 rounded-xl border border-dashed border-crimson/40 bg-crimson/[0.04] px-4 py-2.5 text-sm font-medium text-ink transition duration-200 hover:border-crimson hover:bg-crimson/[0.07]"
+            >
+              <Camera className="h-4 w-4 text-crimson" />
+              Got a photo of the product? Share it — we&apos;ll spec it for the factory
+            </button>
+          )}
+
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={(e) => {
+              const f = e.target.files?.[0]
+              if (f) void addFile(f)
+              e.target.value = ""
+            }}
+          />
+
+          {uploading && (
+            <div className="mb-3 inline-flex items-center gap-3 rounded-xl border border-border bg-white p-2 pr-3">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={uploading.previewUrl} alt="" className="h-12 w-12 rounded-lg object-cover" />
+              <span className="text-sm text-ink-soft">Uploading…</span>
+              <Loader2 className="h-4 w-4 animate-spin text-crimson" />
+            </div>
+          )}
+          {uploadError && <p className="mb-2 text-sm font-medium text-crimson">{uploadError}</p>}
+
+          <div className="flex items-end gap-2 rounded-2xl border border-border bg-white p-1.5 pl-2 transition-shadow duration-150 focus-within:border-crimson/40 focus-within:shadow-ink-focus">
+            <button
+              type="button"
+              onClick={() => fileInputRef.current?.click()}
+              aria-label="Attach a photo"
+              className="focus-ring flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-muted-foreground transition-colors duration-200 hover:bg-porcelain hover:text-crimson"
+            >
+              <Camera className="h-5 w-5" />
+            </button>
             <textarea
               name="body"
               value={body}

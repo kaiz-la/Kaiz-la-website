@@ -5,6 +5,8 @@ import type { UIMessage } from "ai"
 import { Check, Loader2, Send } from "lucide-react"
 import { sendThreadMessageAction, type ActionState } from "@/app/kz1ad31n/actions"
 import { MessageBubble } from "@/components/chat/MessageBubble"
+import { useThreadPoll } from "@/components/useThreadPoll"
+import type { PolledMessage } from "@/lib/thread-poll"
 
 /**
  * The specialist's side of the Room thread.
@@ -21,7 +23,7 @@ import { MessageBubble } from "@/components/chat/MessageBubble"
 export default function ThreadPanel({
   reference,
   ownerName,
-  messages,
+  messages: initialMessages,
   unread,
 }: {
   reference: string
@@ -29,6 +31,13 @@ export default function ThreadPanel({
   messages: UIMessage[]
   unread: boolean
 }) {
+  // Flat 10s, transcript only. router.refresh() on a timer would re-run the
+  // whole RSC tree and wipe uncommitted state in the quote forms below.
+  const { messages, addOptimistic, refresh } = useThreadPoll({
+    endpoint: `/api/kz1ad31n/requests/${encodeURIComponent(reference)}/messages`,
+    initialMessages: initialMessages as PolledMessage[],
+    activeInterval: 10_000,
+  })
   const [state, action, pending] = useActionState<ActionState, FormData>(
     sendThreadMessageAction,
     {}
@@ -41,8 +50,20 @@ export default function ThreadPanel({
     if (state.ok) {
       setBody("")
       setMessageId(crypto.randomUUID())
+      refresh()
     }
-  }, [state.ok])
+  }, [state.ok, refresh])
+
+  const handleSubmit = () => {
+    const text = body.trim()
+    if (!text) return
+    addOptimistic({
+      id: messageId,
+      role: "assistant",
+      metadata: { authorType: "executive", authorName: ownerName },
+      parts: [{ type: "text", text }],
+    })
+  }
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) {
@@ -76,7 +97,7 @@ export default function ThreadPanel({
           </div>
         )}
 
-        <form ref={formRef} action={action} className="mt-5 border-t border-border pt-5">
+        <form ref={formRef} action={action} onSubmit={handleSubmit} className="mt-5 border-t border-border pt-5">
           <input type="hidden" name="ref" value={reference} />
           <input type="hidden" name="messageId" value={messageId} />
 
