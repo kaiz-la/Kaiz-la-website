@@ -23,6 +23,10 @@ model Conversation {
   threadForRequest SourcingRequest? @relation("RequestThread")
   attachments      Attachment[]
   productSpecs     ProductSpec[]
+
+  /// The customer told KaiExpert they have no product photo. Separate from the
+  /// Room's photoPromptDismissedAt: this happens before a request exists.
+  photoDeclinedAt DateTime?
 }
 
 model Message {
@@ -324,4 +328,32 @@ model ProductSpec {
   spec Json
 
   @@index([conversationId])
+}
+
+/// Failures worth a human's attention.
+///
+/// Most of these were console.error only — invisible on serverless unless
+/// someone was tailing logs at the moment it happened. A notification that
+/// silently never sent, or a vision call that quietly failed, is exactly the
+/// kind of thing that goes unnoticed for weeks.
+model ErrorLog {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+
+  /// Coarse origin: chat | vision | notify | upload | room | admin
+  source  String
+  message String  @db.Text
+  detail  String? @db.Text
+
+  /// Context for triage, when known. Deliberately loose strings rather than
+  /// relations — an error log must never fail to write because a foreign key
+  /// does not resolve.
+  requestRef     String?
+  conversationId String?
+
+  resolved   Boolean   @default(false)
+  resolvedAt DateTime?
+
+  @@index([createdAt])
+  @@index([resolved, createdAt])
 }

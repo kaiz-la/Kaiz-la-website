@@ -91,7 +91,7 @@ export function handoffToExpert(conversationId: string, writer: UIMessageStreamW
       // reloading the conversation later must not replay it.
       writer.write({
         type: 'data-leadHandoff',
-        data: { conversationId, ref: request.ref },
+        data: { conversationId, ref: request.ref, roomUrl: link },
         transient: true,
       });
 
@@ -102,9 +102,14 @@ export function handoffToExpert(conversationId: string, writer: UIMessageStreamW
         ref: request.ref,
         // Telling them how long it takes is most of what makes the wait bearable.
         expectation: `Shortlisting factories usually takes ${nextStage?.typicalDays ?? 3} working days.`,
+        // The link was previously computed for the notification only, so the
+        // model was told to mention a "request page" it had no URL for. The
+        // customer is sitting right here — give them the door.
+        roomUrl: link,
         instruction:
-          `Confirm warmly that request ${request.ref} is open, say roughly how long the next step takes, ` +
-          `and mention they can follow progress and answer any open questions in their request page.`,
+          `Confirm warmly that request ${request.ref} is open and say roughly how long the next ` +
+          `step takes. Then give them the link as markdown, exactly: [Open your request](${link}) — ` +
+          `they can follow progress and answer open questions there.`,
       };
     },
   });

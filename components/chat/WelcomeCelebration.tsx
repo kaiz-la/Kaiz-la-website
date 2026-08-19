@@ -6,11 +6,13 @@ import { Check } from "lucide-react";
 interface WelcomeCelebrationProps {
   /** Dismiss the takeover and return to the conversation. */
   onContinue: () => void;
+  /** Present once a handoff has actually opened a request. */
+  roomUrl?: string | null;
   /** Subtle variant for returning members (less "first-time" copy). */
   returning?: boolean;
 }
 
-export function WelcomeCelebration({ onContinue, returning = false }: WelcomeCelebrationProps) {
+export function WelcomeCelebration({ onContinue, roomUrl, returning = false }: WelcomeCelebrationProps) {
   return (
     <div
       className="animate-overlay-in relative flex h-full flex-col items-center justify-center overflow-hidden px-6 text-center"
@@ -54,6 +56,16 @@ export function WelcomeCelebration({ onContinue, returning = false }: WelcomeCel
               </div>
             ))}
           </div>
+        )}
+
+        {roomUrl && (
+          <a
+            href={roomUrl}
+            className="focus-ring-light animate-celebrate-in mb-3 inline-flex items-center gap-2 rounded-full bg-white px-7 py-3 text-sm font-semibold text-crimson shadow-lg transition duration-200 hover:-translate-y-0.5 hover:shadow-xl"
+            style={{ animationDelay: "0.30s" }}
+          >
+            Open your request
+          </a>
         )}
 
         <button

@@ -7,7 +7,7 @@ import { DefaultChatTransport, type UIMessage } from 'ai';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { MessageBubble } from './MessageBubble';
-import { Send, Search, Compass, FileText, Paperclip, X, Loader2, Square } from 'lucide-react';
+import { Send, Search, Compass, FileText, Paperclip, X, Loader2, Square, AlertCircle, RefreshCw } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { messageIn } from '@/lib/motion';
 import { TypingIndicator } from './TypingIndicator';
@@ -26,6 +26,23 @@ function hasMemberCookie(): boolean {
 function setMemberCookie(): void {
   if (typeof document === 'undefined') return;
   document.cookie = `${MEMBER_COOKIE}=1; max-age=31536000; path=/; samesite=lax`;
+}
+
+/**
+ * Say what happened in the customer's terms.
+ *
+ * A rate limit is not "429" to anyone outside this codebase, and a generic
+ * "something went wrong" leaves them unsure whether to wait or retype.
+ */
+function friendlyError(error: Error): string {
+  const text = `${error.message ?? ''}`.toLowerCase();
+  if (text.includes('429') || text.includes('too many')) {
+    return "You're sending messages faster than we can keep up. Give it a few seconds and try again.";
+  }
+  if (text.includes('fetch') || text.includes('network')) {
+    return "That didn't reach us — check your connection and try again.";
+  }
+  return "Something went wrong on our end. Your message wasn't lost; try sending it again.";
 }
 
 interface ChatWindowProps {
@@ -49,11 +66,14 @@ export function ChatWindow({
   // The id is fixed for the lifetime of this window; a new chat gets one up front
   // so the very first message already belongs to a conversation.
   const [chatId] = useState(() => currentConversationId ?? crypto.randomUUID());
+  // Handed to the celebration so a converted customer gets a door to their Room,
+  // not just a pat on the back.
+  const [roomUrl, setRoomUrl] = useState<string | null>(null);
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { pending, error: uploadError, addFile, clear: clearUpload } = useImageUpload(chatId);
 
-  const { messages, sendMessage, status, stop } = useChat({
+  const { messages, sendMessage, status, stop, error, regenerate } = useChat({
     id: chatId,
     messages: initialMessages,
     transport: new DefaultChatTransport({
@@ -68,10 +88,10 @@ export function ChatWindow({
     // as a transient data part instead; everything downstream is unchanged.
     onData: (part) => {
       if (part.type === 'data-leadHandoff') {
+        const data = part.data as { conversationId: string; roomUrl?: string };
+        if (data.roomUrl) setRoomUrl(data.roomUrl);
         document.dispatchEvent(
-          new CustomEvent('kaizla-lead-complete', {
-            detail: (part.data as { conversationId: string }).conversationId,
-          })
+          new CustomEvent('kaizla-lead-complete', { detail: data.conversationId })
         );
       }
     },
@@ -185,6 +205,7 @@ export function ChatWindow({
     return (
       <WelcomeCelebration
         returning={celebration === 'returning'}
+        roomUrl={roomUrl}
         onContinue={() => setCelebration(null)}
       />
     );
@@ -257,6 +278,25 @@ export function ChatWindow({
               <AnimatePresence>
                 {isLoading && messages[messages.length - 1]?.role === 'user' && <TypingIndicator />}
               </AnimatePresence>
+
+              {error && (
+                <div className="flex items-start gap-3">
+                  <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl border-2 border-border bg-white">
+                    <AlertCircle className="h-5 w-5 text-crimson" />
+                  </div>
+                  <div className="card-lux max-w-xl rounded-2xl rounded-tl-sm px-5 py-4">
+                    <p className="text-sm leading-relaxed text-ink">{friendlyError(error)}</p>
+                    <button
+                      type="button"
+                      onClick={() => regenerate()}
+                      className="focus-ring mt-3 inline-flex items-center gap-2 rounded-full bg-crimson px-4 py-2 text-sm font-semibold text-white transition duration-200 hover:bg-[var(--color-crimson-deep)]"
+                    >
+                      <RefreshCw className="h-3.5 w-3.5" />
+                      Try again
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
           )}
         </div>

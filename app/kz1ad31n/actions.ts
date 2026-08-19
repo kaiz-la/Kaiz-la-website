@@ -18,6 +18,7 @@ import {
   markStaffRead,
 } from "@/lib/sourcing"
 import { notifyRequest, roomUrl } from "@/lib/notify"
+import { resolveError, clearResolvedErrors } from "@/lib/error-log"
 import { prisma } from "@/lib/prisma"
 import { saveUIMessage } from "@/components/chatLogic/services/database"
 
@@ -403,4 +404,23 @@ export async function markThreadReadAction(ref: string): Promise<void> {
   if (!ref) return
   await markStaffRead(ref)
   revalidatePath("/kz1ad31n/requests")
+}
+
+export async function resolveErrorAction(
+  _prev: ActionState,
+  formData: FormData
+): Promise<ActionState> {
+  await requireAdmin()
+  const id = formData.get("id")?.toString()
+  if (!id) return { error: "Missing id." }
+  await resolveError(id)
+  revalidatePath("/kz1ad31n/errors")
+  return { ok: true }
+}
+
+export async function clearResolvedErrorsAction(): Promise<ActionState> {
+  await requireAdmin()
+  await clearResolvedErrors()
+  revalidatePath("/kz1ad31n/errors")
+  return { ok: true }
 }
