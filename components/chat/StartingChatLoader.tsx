@@ -5,7 +5,7 @@ export function StartingChatLoader() {
     <div className="flex h-full flex-col items-center justify-center p-6 text-center">
       <div className="card-lux flex flex-col items-center gap-6 rounded-3xl p-10">
         <div className="relative">
-          <span className="absolute inset-0 animate-ping rounded-2xl bg-crimson/15" />
+          <span className="animate-breathe absolute inset-0 rounded-2xl bg-crimson" />
           <Seal size={72} />
         </div>
 
@@ -17,10 +17,14 @@ export function StartingChatLoader() {
           </p>
         </div>
 
-        <div className="flex items-center gap-2">
-          <span className="h-2 w-2 animate-bounce rounded-full bg-crimson" style={{ animationDelay: "0ms" }} />
-          <span className="h-2 w-2 animate-bounce rounded-full bg-crimson/70" style={{ animationDelay: "150ms" }} />
-          <span className="h-2 w-2 animate-bounce rounded-full bg-crimson/50" style={{ animationDelay: "300ms" }} />
+        <div className="flex items-center gap-1.5">
+          {[0, 0.18, 0.36].map((delay) => (
+            <span
+              key={delay}
+              className="animate-thinking h-2 w-2 rounded-full bg-crimson"
+              style={{ animationDelay: `${delay}s` }}
+            />
+          ))}
         </div>
       </div>
     </div>

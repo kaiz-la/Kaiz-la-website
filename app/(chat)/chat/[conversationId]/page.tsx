@@ -1,38 +1,61 @@
-'use client';
+import { prisma } from "@/lib/prisma"
+import { ChatWindow } from "@/components/chat/ChatWindow"
+import type { UIMessage } from "ai"
 
-import { use, useEffect } from "react";
-import { useChatStore } from "@/store/chatStore";
-import { ChatWindow } from "@/components/chat/ChatWindow";
-import { MessageSquare } from "lucide-react";
+export const dynamic = "force-dynamic"
 
-interface ChatPageProps {
-  params: Promise<{ 
-    conversationId: string;
-  }>;
+/**
+ * Rehydrate a stored message into a UIMessage.
+ *
+ * Rows written before the `parts` column exists fall back to their plain-text
+ * `content`, so old conversations still render — no backfill needed.
+ */
+function toUIMessage(row: {
+  id: string
+  role: string
+  content: string
+  parts: unknown
+  authorType: string
+  authorName: string | null
+}): UIMessage {
+  const parts = Array.isArray(row.parts) && row.parts.length
+    ? (row.parts as UIMessage["parts"])
+    : [{ type: "text" as const, text: row.content }]
+
+  return {
+    id: row.id,
+    role: row.role === "user" ? "user" : "assistant",
+    // `role` is what the model needs; `authorType` is what the UI needs. An
+    // executive reply is role='assistant' but must not render as KaiExpert.
+    metadata: { authorType: row.authorType, authorName: row.authorName },
+    parts,
+  }
 }
 
-export default function ChatPage({ params }: ChatPageProps) {
-  const { conversationId } = use(params);
-  const { fetchMessages, isLoading } = useChatStore();
+export default async function ChatPage({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ conversationId: string }>
+  searchParams: Promise<{ r?: string }>
+}) {
+  const { conversationId } = await params
+  const { r } = await searchParams
 
-  useEffect(() => {
-    if (conversationId) {
-      fetchMessages(conversationId);
-    }
-  }, [conversationId, fetchMessages]);
+  // Read directly rather than through the public /api/conversations endpoint —
+  // removes a round-trip, the loading flash, and the app's dependence on an
+  // unauthenticated route.
+  const rows = await prisma.message.findMany({
+    where: { conversationId },
+    orderBy: { createdAt: "asc" },
+    select: { id: true, role: true, content: true, parts: true, authorType: true, authorName: true },
+  })
 
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center h-full bg-background">
-        <div className="flex flex-col items-center gap-4 p-8 bg-card rounded-xl shadow-sm">
-          <div className="flex aspect-square size-12 items-center justify-center rounded-xl bg-secondary text-secondary-foreground shadow-sm animate-pulse">
-            <MessageSquare className="size-6" />
-          </div>
-          <p className="text-muted-foreground text-sm">Loading messages...</p>
-        </div>
-      </div>
-    );
-  }
-
-  return <ChatWindow conversationId={conversationId} />;
+  return (
+    <ChatWindow
+      conversationId={conversationId}
+      initialMessages={rows.map(toUIMessage)}
+      requestRef={r ?? null}
+    />
+  )
 }

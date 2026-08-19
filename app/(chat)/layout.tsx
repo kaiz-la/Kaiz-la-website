@@ -12,7 +12,7 @@ export default function ChatLayout({
   return (
     <div className="flex h-screen w-full bg-background">
       <main className="flex flex-1 flex-col h-full min-w-0">
-        <header className="material-chrome flex h-16 sm:h-18 lg:h-20 shrink-0 items-center gap-4 border-b border-border px-4 sm:px-6 lg:px-8">
+        <header className="material-chrome relative flex h-16 shrink-0 items-center gap-4 px-4 sm:h-[4.5rem] sm:px-6 lg:h-20 lg:px-8">
           <div className="container mx-auto max-w-7xl flex items-center justify-between w-full">
             <div className="flex items-center gap-4">
               <Link href="/" className="flex items-center group" aria-label="Kaiz La Home">
@@ -52,7 +52,12 @@ export default function ChatLayout({
               </Link>
             </div>
           </div>
-        </header>
+          {/* Scroll edge, not a divider — content passes under the chrome. */}
+        <div
+          className="pointer-events-none absolute inset-x-0 top-full h-5 bg-gradient-to-b from-ink/[0.06] to-transparent"
+          aria-hidden
+        />
+      </header>
 
         <div className="flex-1 overflow-hidden">
           <div className="h-full overflow-y-auto pb-4">

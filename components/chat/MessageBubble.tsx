@@ -1,55 +1,57 @@
-import { type Message } from '@/store/chatStore';
-import { Calendar, MessageCircle } from 'lucide-react';
+import type { UIMessage } from 'ai';
+import { Loader2, Package } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import { ShipmentCard, type ShipmentCardData } from './ShipmentCard';
+import { ProductSpecCard, type ProductSpecCardData } from './ProductSpecCard';
 
 interface MessageBubbleProps {
-  message: Message;
+  message: UIMessage;
+  /** True when the previous message came from the same author — suppresses the
+   *  repeated name label so a run of replies reads as one voice. */
+  grouped?: boolean;
+  /** Show the trailing caret while this message is still being written. */
+  streaming?: boolean;
 }
 
-function CalendlyButton({ payload }: { payload: any }) {
-  const handleSuggestedReply = (text: string) => {
-    document.dispatchEvent(new CustomEvent('set-chat-input', { detail: text }));
-  };
+type MessageMeta = { authorType?: string; authorName?: string | null };
 
-  return (
-    <div className="space-y-4">
-      <p className="text-sm leading-relaxed text-ink">{payload.text}</p>
-      <a
-        href={payload.url}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="group inline-flex items-center gap-2.5 rounded-full bg-crimson px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition duration-150 hover:bg-[var(--color-crimson-deep)] hover:shadow-md"
-      >
-        <Calendar className="h-4 w-4" />
-        Schedule Your Call
-      </a>
-      <div className="flex items-center gap-2 border-t border-border/60 pt-3">
-        <span className="text-xs text-muted-foreground">Finished scheduling?</span>
-        <button
-          onClick={() => handleSuggestedReply('Scheduled')}
-          className="cursor-pointer text-xs font-semibold text-crimson hover:underline"
-        >
-          Let us know
-        </button>
-      </div>
-    </div>
-  );
+/** First letters of the first two words: "Omar Haddad" -> "OH", not "OM". */
+function initialsOf(name: string | null): string {
+  const words = (name ?? '').trim().split(/\s+/).filter(Boolean);
+  if (!words.length) return 'KL';
+  return words.slice(0, 2).map((w) => w[0]).join('').toUpperCase();
 }
 
-function WhatsAppButton({ payload }: { payload: any }) {
+/** Who is speaking. Falls back to role for messages with no metadata. */
+function authorOf(message: UIMessage): { type: string; name: string | null } {
+  const meta = (message.metadata ?? {}) as MessageMeta;
+  if (meta.authorType) return { type: meta.authorType, name: meta.authorName ?? null };
+  return { type: message.role === 'user' ? 'customer' : 'kaiExpert', name: null };
+}
+
+/** Human-readable labels for the work the agent does mid-turn. */
+const TOOL_LABELS: Record<string, string> = {
+  'tool-saveLeadDetails': 'Noting your details',
+  'tool-trackShipment': 'Looking up your shipment',
+  'tool-handoffToExpert': 'Opening your sourcing request',
+  'tool-answerOpenItem': 'Updating your request',
+  'tool-analyzeProductPhoto': 'Reading your photo',
+};
+
+/**
+ * A tool the agent is running.
+ *
+ * Shown only while in flight. Once it resolves the result is already reflected
+ * in what the agent says, so leaving a spent status pill behind is noise.
+ */
+function ToolActivity({ type, state }: { type: string; state?: string }) {
+  if (state === 'output-available' || state === 'output-error') return null;
+  const label = TOOL_LABELS[type] ?? 'Working on it';
   return (
-    <div className="space-y-4">
-      <p className="text-sm leading-relaxed text-ink">{payload.text}</p>
-      <a
-        href={payload.url}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="group inline-flex items-center gap-2.5 rounded-full bg-[#25D366] px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition duration-150 hover:bg-[#1ebe5b] hover:shadow-md"
-      >
-        <MessageCircle className="h-4 w-4" />
-        Continue on WhatsApp
-      </a>
+    <div className="mb-2 inline-flex items-center gap-2 rounded-full bg-porcelain px-3 py-1 text-xs font-medium text-ink-soft">
+      <Loader2 className="h-3 w-3 animate-spin text-crimson" />
+      {label}…
     </div>
   );
 }
@@ -107,58 +109,128 @@ function getMarkdownComponents() {
   };
 }
 
-export function MessageBubble({ message }: MessageBubbleProps) {
-  const isUser = message.role === 'user';
-  let content;
+export function MessageBubble({ message, grouped, streaming }: MessageBubbleProps) {
+  const author = authorOf(message);
+  const isUser = author.type === 'customer';
+  const isExecutive = author.type === 'executive';
 
-  if (message.role === 'assistant') {
-    let parsed: any = null;
-    try {
-      parsed = JSON.parse(message.content);
-    } catch {
-      parsed = null;
-    }
+  const text = message.parts
+    .filter((p): p is { type: 'text'; text: string } => p.type === 'text')
+    .map((p) => p.text)
+    .join('\n');
 
-    if (parsed?.type === 'calendly-link') {
-      content = <CalendlyButton payload={parsed} />;
-    } else if (parsed?.type === 'whatsapp-link') {
-      content = <WhatsAppButton payload={parsed} />;
-    } else {
-      content = (
-        <div className="text-ink">
-          <ReactMarkdown remarkPlugins={[remarkGfm]} components={getMarkdownComponents()}>
-            {message.content}
-          </ReactMarkdown>
-        </div>
-      );
-    }
-  } else {
-    content = <p className="text-sm leading-relaxed text-white whitespace-pre-wrap">{message.content}</p>;
+  const files = message.parts.filter(
+    (p): p is { type: 'file'; url: string; mediaType: string; filename?: string } =>
+      p.type === 'file'
+  );
+
+  const tools = message.parts.filter((p) => p.type.startsWith('tool-'));
+  const shipments = message.parts.filter(
+    (p): p is { type: 'data-shipment'; data: ShipmentCardData } => p.type === 'data-shipment'
+  );
+  const specs = message.parts.filter(
+    (p): p is { type: 'data-productSpec'; data: ProductSpecCardData } =>
+      p.type === 'data-productSpec'
+  );
+
+  // A turn can be tool calls only, with nothing said yet — render the activity
+  // rather than an empty bubble.
+  if (!text && !files.length && !tools.length && !shipments.length && !specs.length) return null;
+
+  // A system note is a fact about the request, not something anyone said.
+  if (author.type === 'system') {
+    return (
+      <div className="flex justify-center">
+        <span className="rounded-full bg-porcelain-deep px-4 py-1.5 text-xs font-medium text-ink-soft">
+          {text}
+        </span>
+      </div>
+    );
   }
 
   return (
     <div className={`flex items-start gap-3 ${isUser ? 'justify-end' : 'justify-start'}`}>
-      {!isUser && (
-        <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl border-2 border-crimson bg-white font-display text-lg leading-none text-crimson shadow-sm">
-          喜
-        </div>
-      )}
-      <div
-        className={`relative max-w-xl px-5 py-4 ${
-          isUser
-            ? 'rounded-2xl rounded-br-sm bg-crimson text-white shadow-[0_10px_30px_-12px_rgba(204,52,51,0.5)]'
-            : 'card-lux rounded-2xl rounded-tl-sm'
-        }`}
-      >
-        {!isUser && (
-          <div className="mb-1.5 text-xs font-semibold tracking-wide text-crimson">
-            KaiExpert · Kaiz La
+      {!isUser &&
+        // Keep the column width in a grouped run so bubbles stay aligned.
+        (grouped ? (
+          <div className="w-10 flex-shrink-0" aria-hidden />
+        ) : isExecutive ? (
+          <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-ink text-sm font-bold leading-none text-white shadow-sm">
+            {initialsOf(author.name)}
           </div>
-        )}
-        {content}
-        <div className={`mt-2 text-[11px] ${isUser ? 'text-right text-white/60' : 'text-left text-muted-foreground'}`}>
-          {new Date(message.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+        ) : (
+          <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl border-2 border-crimson bg-white font-display text-lg leading-none text-crimson shadow-sm">
+            喜
+          </div>
+        ))}
+      <div className="flex max-w-xl flex-col gap-3">
+        <div
+          className={`relative px-5 py-4 ${
+            isUser
+              ? 'rounded-2xl rounded-br-sm bg-crimson text-white shadow-lift-sm'
+              : isExecutive
+                ? 'rounded-2xl rounded-tl-sm border border-ink/15 bg-white shadow-ink'
+                : 'card-lux rounded-2xl rounded-tl-sm'
+          } ${grouped ? 'rounded-tl-2xl' : ''}`}
+        >
+          {!isUser && !grouped && (
+            <div
+              className={`mb-1.5 text-xs font-semibold tracking-wide ${
+                isExecutive ? 'text-ink' : 'text-crimson'
+              }`}
+            >
+              {isExecutive ? `${author.name ?? 'Kaiz La'} · Sourcing specialist` : 'KaiExpert · Kaiz La'}
+            </div>
+          )}
+
+          {files.length > 0 && (
+            <div className="mb-3 flex flex-wrap gap-2">
+              {files.map((file, i) => (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  key={`${file.url}-${i}`}
+                  src={file.url}
+                  alt={file.filename || 'Shared photo'}
+                  className="max-h-48 rounded-xl border border-white/20 object-cover"
+                />
+              ))}
+            </div>
+          )}
+
+          {!isUser &&
+            tools.map((part, i) => (
+              <ToolActivity
+                key={`${part.type}-${i}`}
+                type={part.type}
+                state={(part as { state?: string }).state}
+              />
+            ))}
+
+          {text &&
+            (isUser ? (
+              <p className="text-sm leading-relaxed text-white whitespace-pre-wrap">{text}</p>
+            ) : (
+              <div className="text-ink">
+                <ReactMarkdown remarkPlugins={[remarkGfm]} components={getMarkdownComponents()}>
+                  {text}
+                </ReactMarkdown>
+                {streaming && (
+                  <span
+                    className="animate-cursor ml-0.5 inline-block h-4 w-[2px] translate-y-0.5 bg-crimson"
+                    aria-hidden
+                  />
+                )}
+              </div>
+            ))}
         </div>
+
+        {specs.map((part, i) => (
+          <ProductSpecCard key={`spec-${i}`} data={part.data} />
+        ))}
+
+        {shipments.map((part, i) => (
+          <ShipmentCard key={`shipment-${i}`} data={part.data} />
+        ))}
       </div>
     </div>
   );
