@@ -53,6 +53,7 @@ export const ogImageMeta = {
 export const navRoutes = [
   { name: "Home", href: "/" },
   { name: "Services", href: "/services" },
+  { name: "KaiExpert", href: "/kaiexpert" },
   { name: "How It Works", href: "/how-it-works" },
   { name: "Guides", href: "/guides" },
   { name: "About", href: "/about" },

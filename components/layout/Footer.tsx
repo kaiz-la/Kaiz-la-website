@@ -12,6 +12,7 @@ function WhatsAppGlyph({ className }: { className?: string }) {
 
 const explore = [
   { name: "Services", href: "/services" },
+  { name: "KaiExpert", href: "/kaiexpert" },
   { name: "Request a Quote", href: "/quote" },
   { name: "How It Works", href: "/how-it-works" },
   { name: "Sourcing Guides", href: "/guides" },

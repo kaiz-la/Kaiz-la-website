@@ -1,5 +1,6 @@
 import Hero from "@/components/sections/Hero"
 import WhyChooseUs from "@/components/sections/WhyChooseUs"
+import KaiExpertBand from "@/components/sections/KaiExpertBand"
 import WhatWeSource from "@/components/sections/WhatWeSource"
 import FreightBand from "@/components/sections/FreightBand"
 import SourcingGuides from "@/components/sections/SourcingGuides"
@@ -12,6 +13,7 @@ export default function Home() {
       <WhatWeSource />
       <FreightBand />
       <WhyChooseUs />
+      <KaiExpertBand />
       <SourcingGuides carousel />
       <CTABand
         title="Source from China with a partner who's done it 1,000+ times"
