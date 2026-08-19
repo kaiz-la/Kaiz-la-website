@@ -1,6 +1,6 @@
 import Link from "next/link"
 import { notFound } from "next/navigation"
-import { AlertTriangle, ArrowLeft, ExternalLink, Eye, EyeOff, HelpCircle } from "lucide-react"
+import { AlertTriangle, ArrowLeft, ExternalLink, Eye, EyeOff, HelpCircle, MessageCircle } from "lucide-react"
 import { requireAdmin } from "@/lib/admin-session"
 import { getRequestByRef, isUnreadByStaff } from "@/lib/sourcing"
 import { toUIMessage } from "@/lib/messages"
@@ -129,6 +129,21 @@ export default async function RequestWorkbench({
       </div>
 
       <MarkRead action={markThreadReadAction} reference={request.ref} />
+
+      {request.whatsappRequestedAt && (
+        <div className="mt-6 rounded-2xl border border-[#25D366]/40 bg-[#25D366]/[0.07] p-5">
+          <div className="flex items-center gap-2">
+            <MessageCircle className="h-5 w-5 text-[#1ebe5b]" />
+            <h2 className="font-semibold text-ink">Customer is moving to WhatsApp</h2>
+          </div>
+          <p className="mt-2 text-sm text-ink-soft">
+            They tapped through at {fmt(request.whatsappRequestedAt, true)}
+            {request.lead.phone ? ` — expect a message from ${request.lead.phone}` : ""}. Check the
+            business inbox. We can&apos;t see the 24-hour window open from here; it starts when they
+            actually send, and replying inside it needs no approved template.
+          </p>
+        </div>
+      )}
 
       <ThreadPanel
         reference={request.ref}

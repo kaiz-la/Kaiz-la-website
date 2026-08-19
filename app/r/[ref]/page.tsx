@@ -5,6 +5,8 @@ import { MessageCircle, Package } from "lucide-react"
 import { getRoomForCustomer, getThreadMessages } from "@/lib/sourcing"
 import { toUIMessage } from "@/lib/messages"
 import { RoomThread } from "@/components/room/RoomThread"
+import { WhatsappButton } from "@/components/room/WhatsappButton"
+import { whatsappLinkForRequest } from "@/lib/whatsapp-link"
 import { MarkRead } from "@/components/MarkRead"
 import { markRoomReadAction } from "@/app/r/actions"
 import { toCustomerQuotes } from "@/lib/sourcing-redaction"
@@ -175,6 +177,12 @@ export default async function RequestRoom({
             </ul>
           </section>
         )}
+
+        {/* Other doors out of the Room. Both secondary to the thread above —
+            the specialist is the channel that can actually change things. */}
+        <section className="mt-6 flex flex-wrap items-center gap-4">
+          <WhatsappButton reference={request.ref} href={whatsappLinkForRequest(request.ref)} />
+        </section>
 
         {/* KaiExpert, deliberately secondary. The specialist can change things —
             price, factory, timeline. KaiExpert only explains what's already here,
