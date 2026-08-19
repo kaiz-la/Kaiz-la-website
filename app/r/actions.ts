@@ -120,3 +120,48 @@ export async function markRoomReadAction(ref: string): Promise<void> {
   if (!(await hasRoomAccess(ref))) return
   await markCustomerRead(ref)
 }
+
+/**
+ * The customer says they have no photo.
+ *
+ * Persisted rather than kept in client state: a prompt that reappears on every
+ * reload is exactly the nagging this is meant to stop. It also tells the
+ * specialist to brief the factory from a written spec instead of waiting on an
+ * image that is never coming — which is why it writes an event too.
+ */
+export async function dismissPhotoPromptAction(ref: string): Promise<RoomActionState> {
+  if (!ref) return { error: "Something went wrong." }
+  if (!(await hasRoomAccess(ref))) {
+    return { error: "Your link has expired. Please request a new one." }
+  }
+
+  try {
+    const request = await prisma.sourcingRequest.findUnique({
+      where: { ref },
+      select: { id: true, photoPromptDismissedAt: true },
+    })
+    if (!request) return { error: "Request not found." }
+    // Idempotent: a double-click must not write a second event.
+    if (request.photoPromptDismissedAt) return { ok: true }
+
+    await prisma.sourcingRequest.update({
+      where: { id: request.id },
+      data: { photoPromptDismissedAt: new Date() },
+    })
+    await prisma.requestEvent.create({
+      data: {
+        requestId: request.id,
+        title: "Customer has no product photo",
+        detail: "Brief the factory from a written spec — no image is coming.",
+        visibility: "internal",
+      },
+    })
+  } catch (e) {
+    console.error("[room] dismissPhotoPrompt failed:", e)
+    return { error: "Could not save that." }
+  }
+
+  revalidatePath(`/r/${encodeURIComponent(ref)}`)
+  revalidatePath(`/kz1ad31n/requests/${encodeURIComponent(ref)}`)
+  return { ok: true }
+}

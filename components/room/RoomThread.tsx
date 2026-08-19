@@ -3,7 +3,7 @@
 import { useActionState, useEffect, useRef, useState } from "react"
 import type { UIMessage } from "ai"
 import { Camera, Loader2, Send } from "lucide-react"
-import { sendRoomMessageAction, type RoomActionState } from "@/app/r/actions"
+import { dismissPhotoPromptAction, sendRoomMessageAction, type RoomActionState } from "@/app/r/actions"
 import { MessageBubble } from "@/components/chat/MessageBubble"
 import { useThreadPoll } from "@/components/useThreadPoll"
 import type { PolledMessage } from "@/lib/thread-poll"
@@ -22,10 +22,12 @@ export function RoomThread({
   reference,
   specialistName,
   initialMessages,
+  photoPromptDismissed,
 }: {
   reference: string
   specialistName: string | null
   initialMessages: UIMessage[]
+  photoPromptDismissed: boolean
 }) {
   const [state, action, pending] = useActionState<RoomActionState, FormData>(
     sendRoomMessageAction,
@@ -68,9 +70,21 @@ export function RoomThread({
     })
   }
 
-  // Only prompt for a photo when none has been shared — a standing nag on a
-  // request that already has one is noise.
+  const [dismissed, setDismissed] = useState(photoPromptDismissed)
+
+  // Ask once, and take no for an answer. The prompt goes away when a photo
+  // arrives OR when the customer says they don't have one — plenty of sourcing
+  // starts from a written spec, and a customer who can't help shouldn't be
+  // asked again on every visit.
   const hasPhoto = messages.some((m) => m.parts.some((p) => p.type === "file"))
+  const showPhotoPrompt = !hasPhoto && !dismissed
+
+  const declinePhoto = () => {
+    setDismissed(true)
+    // Fire and forget — the prompt is already gone locally, and a failed write
+    // costs a repeat ask on the next visit, not the customer's answer.
+    void dismissPhotoPromptAction(reference).catch(() => {})
+  }
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey && !e.nativeEvent.isComposing) {
@@ -114,15 +128,33 @@ export function RoomThread({
         >
           <input type="hidden" name="ref" value={reference} />
           <input type="hidden" name="messageId" value={messageId} />
-          {hasPhoto ? null : (
-            <button
-              type="button"
-              onClick={() => fileInputRef.current?.click()}
-              className="focus-ring mb-3 inline-flex items-center gap-2 rounded-xl border border-dashed border-crimson/40 bg-crimson/[0.04] px-4 py-2.5 text-sm font-medium text-ink transition duration-200 hover:border-crimson hover:bg-crimson/[0.07]"
-            >
-              <Camera className="h-4 w-4 text-crimson" />
-              Got a photo of the product? Share it — we&apos;ll spec it for the factory
-            </button>
+          {showPhotoPrompt && (
+            <div className="mb-3 rounded-xl border border-dashed border-crimson/40 bg-crimson/[0.04] p-4">
+              <p className="text-sm font-semibold text-ink">
+                Do you have a photo of the product?
+              </p>
+              <p className="mt-1 text-sm leading-relaxed text-ink-soft">
+                One photo lets us draft a spec the factory can quote from — materials,
+                components and the certifications your market needs.
+              </p>
+              <div className="mt-3 flex flex-wrap items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => fileInputRef.current?.click()}
+                  className="focus-ring inline-flex items-center gap-2 rounded-full bg-crimson px-4 py-2 text-sm font-semibold text-white transition duration-200 hover:bg-[var(--color-crimson-deep)]"
+                >
+                  <Camera className="h-4 w-4" />
+                  Share a photo
+                </button>
+                <button
+                  type="button"
+                  onClick={declinePhoto}
+                  className="focus-ring rounded-full px-3 py-2 text-sm font-medium text-ink-soft transition-colors duration-200 hover:text-crimson"
+                >
+                  I don&apos;t have one
+                </button>
+              </div>
+            </div>
           )}
 
           <input

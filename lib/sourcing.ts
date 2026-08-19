@@ -167,6 +167,7 @@ export async function getRoomForCustomer(ref: string) {
       lastStaffMessageAt: true,
       customerReadAt: true,
       whatsappRequestedAt: true,
+      photoPromptDismissedAt: true,
       events: {
         where: { visibility: "customer" },
         orderBy: { occurredAt: "desc" },

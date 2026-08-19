@@ -145,6 +145,7 @@ export default async function RequestRoom({
           reference={request.ref}
           specialistName={request.ownerName}
           initialMessages={threadMessages}
+          photoPromptDismissed={Boolean(request.photoPromptDismissedAt)}
         />
 
         {/* Progress */}

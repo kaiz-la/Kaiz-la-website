@@ -1,6 +1,6 @@
 import Link from "next/link"
 import { notFound } from "next/navigation"
-import { AlertTriangle, ArrowLeft, ExternalLink, Eye, EyeOff, HelpCircle, MessageCircle } from "lucide-react"
+import { AlertTriangle, ArrowLeft, ExternalLink, Eye, EyeOff, HelpCircle, ImageOff, MessageCircle } from "lucide-react"
 import { requireAdmin } from "@/lib/admin-session"
 import { getRequestByRef, isUnreadByStaff } from "@/lib/sourcing"
 import { toUIMessage } from "@/lib/messages"
@@ -151,6 +151,23 @@ export default async function RequestWorkbench({
         messages={threadMessages}
         unread={isUnreadByStaff(request)}
       />
+
+      {/* The customer told us there is no photo. Shown where a specialist would
+          otherwise go looking for one. */}
+      {!attachments.length && request.photoPromptDismissedAt ? (
+        <section className="mt-8">
+          <div className="card-lux flex items-start gap-3 rounded-2xl p-5">
+            <ImageOff className="mt-0.5 h-5 w-5 flex-shrink-0 text-muted-foreground" />
+            <div>
+              <h2 className="font-semibold text-ink">No product photo</h2>
+              <p className="mt-1 text-sm text-ink-soft">
+                The customer said they don&apos;t have one. Brief the factory from a written
+                spec rather than waiting on an image.
+              </p>
+            </div>
+          </div>
+        </section>
+      ) : null}
 
       {/* What the customer showed us */}
       {attachments.length ? (
