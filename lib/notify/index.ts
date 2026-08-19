@@ -6,6 +6,7 @@
 // never throw, so without it a template-approval problem is invisible.
 
 import { prisma } from "@/lib/prisma"
+import { logError } from "@/lib/error-log"
 import { emailChannel } from "./email"
 import { whatsappTemplateChannel } from "./whatsapp"
 import type { Channel, Notification, Recipient } from "./types"
@@ -104,6 +105,7 @@ export async function notifyRequest(
 
   if (!result.delivered) {
     console.error(`[notify] no channel delivered for request ${requestId}:`, detail)
+    void logError({ source: "notify", message: "No channel delivered a customer notification", detail })
   }
   return result
 }

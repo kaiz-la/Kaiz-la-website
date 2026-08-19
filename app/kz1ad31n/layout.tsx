@@ -30,6 +30,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               <Link href="/kz1ad31n/requests" className="text-ink transition-colors hover:text-crimson">
                 Sourcing
               </Link>
+              <Link href="/kz1ad31n/errors" className="text-ink transition-colors hover:text-crimson">
+                Errors
+              </Link>
             </nav>
           </div>
           <a

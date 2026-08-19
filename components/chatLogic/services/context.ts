@@ -6,6 +6,10 @@ import type { CustomerQuote } from '@/lib/sourcing-redaction';
 
 export type AgentContext = {
   lead: Lead | null;
+  /** They have already said they have no product photo — never ask again. */
+  photoDeclined: boolean;
+  /** A photo has been read into a spec already. */
+  hasPhoto: boolean;
   request: {
     ref: string;
     statusLabel: string;
@@ -32,6 +36,16 @@ export async function loadAgentContext(
     .findUnique({ where: { conversationId } })
     .catch(() => null);
 
+  const conversation = await prisma.conversation
+    .findUnique({
+      where: { id: conversationId },
+      select: { photoDeclinedAt: true, _count: { select: { productSpecs: true } } },
+    })
+    .catch(() => null);
+
+  const photoDeclined = Boolean(conversation?.photoDeclinedAt);
+  const hasPhoto = (conversation?._count.productSpecs ?? 0) > 0;
+
   // Prefer the request this conversation already belongs to; fall back to one
   // named in the URL (the "Ask KaiExpert" link from the Room).
   const linked = await prisma.sourcingRequest
@@ -39,16 +53,18 @@ export async function loadAgentContext(
     .catch(() => null);
 
   const ref = linked?.ref ?? requestRef ?? null;
-  if (!ref) return { lead, request: null };
+  if (!ref) return { lead, photoDeclined, hasPhoto, request: null };
 
   const room = await getRoomForCustomer(ref).catch(() => null);
-  if (!room) return { lead, request: null };
+  if (!room) return { lead, photoDeclined, hasPhoto, request: null };
 
   const meta = getSourcingStatusMeta(room.status);
   const due = expectedBy(room.status, room.statusSince);
 
   return {
     lead,
+    photoDeclined,
+    hasPhoto,
     request: {
       ref: room.ref,
       statusLabel: meta?.label ?? room.status,

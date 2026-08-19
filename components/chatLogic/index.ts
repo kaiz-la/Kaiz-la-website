@@ -14,6 +14,7 @@ import { retrieveContext } from './services/rag';
 import { buildSystemPrompt } from './services/conversation';
 import { buildTools } from './tools';
 import { loadAgentContext } from './services/context';
+import { logError } from '@/lib/error-log';
 import { shouldBackfill, backfillLead, messageText } from './services/leadBackfill';
 
 /** Enough for: analyse a photo -> save details -> hand off -> reply, with headroom. */
@@ -95,6 +96,7 @@ export async function processChatRequest(
         await saveUIMessage(responseMessage, conversationId, 'kaiExpert');
       } catch (e) {
         console.error('[chat] failed to persist the assistant turn:', e);
+        void logError({ source: 'chat', message: 'Failed to persist an assistant turn', detail: e, conversationId });
       }
 
       // Safety net: the customer just offered a way to reach them and we still
@@ -116,6 +118,7 @@ export async function processChatRequest(
     },
     onError: (error) => {
       console.error('[chat] stream error:', error);
+      void logError({ source: 'chat', message: 'Chat stream error', detail: error, conversationId });
       return "I'm sorry, I ran into a brief hiccup on my end. Could you try sending that again?";
     },
   });

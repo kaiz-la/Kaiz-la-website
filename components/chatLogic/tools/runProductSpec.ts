@@ -2,6 +2,7 @@ import { generateObject } from 'ai';
 import { prisma } from '@/lib/prisma';
 import { visionModel } from '@/lib/ai';
 import { productSpecSchema, trimSpec, type ProductSpec as ProductSpecShape } from './productSpecSchema';
+import { logError } from '@/lib/error-log';
 
 const VISION_PROMPT = `You are a sourcing engineer at Kaiz La reading a product photo so a Chinese factory can quote it.
 
@@ -133,6 +134,7 @@ export async function runProductSpec(
       };
     }
     console.error('[runProductSpec] vision call failed:', e);
+    void logError({ source: 'vision', message: 'Vision call failed', detail: e, conversationId });
     return {
       analysed: false,
       reason: 'vision_failed',

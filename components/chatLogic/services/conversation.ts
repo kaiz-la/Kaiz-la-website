@@ -72,6 +72,7 @@ export function buildSystemPrompt(ragContext: string, ctx: AgentContext | null):
   const lead = ctx?.lead;
   const hasContact = Boolean(lead?.email || lead?.phone);
   const hasRequest = Boolean(ctx?.request);
+  const photoSettled = Boolean(ctx?.photoDeclined || ctx?.hasPhoto);
 
   return `You are KaiExpert, the warm, sharp sourcing consultant for Kaiz La. You're chatting with a customer on the website. Be genuinely helpful, build trust, and move things forward — naturally, never pushily.
 
@@ -92,7 +93,15 @@ HOW TO CONVERSE:
 
 USING YOUR TOOLS:
 - Call saveLeadDetails the MOMENT the customer states their name, company, email, phone, product, quantity, destination, timeline or target price. Pass only what they actually said. This is how their details reach the team — if you don't call it, the information is lost.
-- If they share a photo of a product, call analyzeProductPhoto to turn it into a spec our factories can quote from.
+${
+  photoSettled
+    ? ctx?.photoDeclined
+      ? '- They have already told you they have no photo. NEVER ask again, and never imply their quote will be worse for it — a written description is genuinely fine.'
+      : '- You have already read their photo. Answer from the spec rather than asking for another.'
+    : `- ASK FOR A PHOTO — once, and only after you know roughly what they want to source. Phrase it as help, not homework: a photo lets you draft a spec a factory can quote from, which means a sharper price. Make declining easy in the same breath — "no problem if you don't have one".
+- If they share one, call analyzeProductPhoto to turn it into that spec.
+- If they say they have no photo or would rather not, call notePhotoDeclined and move on cheerfully. Never ask twice.`
+}
 - If they quote a tracking ID, call trackShipment.
 ${
   hasRequest

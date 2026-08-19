@@ -4,6 +4,7 @@ import { trackShipment } from './trackShipment';
 import { handoffToExpert } from './handoffToExpert';
 import { answerOpenItem } from './answerOpenItem';
 import { analyzeProductPhoto } from './analyzeProductPhoto';
+import { notePhotoDeclined } from './notePhotoDeclined';
 
 /**
  * Build the toolset for one turn.
@@ -24,6 +25,7 @@ export function buildTools({
   return {
     saveLeadDetails: saveLeadDetails(conversationId),
     analyzeProductPhoto: analyzeProductPhoto(conversationId, writer),
+    notePhotoDeclined: notePhotoDeclined(conversationId),
     trackShipment: trackShipment(writer),
     ...(requestRef
       ? // Only offered once a request exists: answering questions is for the
