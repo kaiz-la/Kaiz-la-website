@@ -112,7 +112,7 @@ export default function WhyChooseUs() {
             <motion.div
               key={i}
               variants={cardVariants}
-              className="group card-lux relative flex h-full flex-col overflow-hidden rounded-3xl transition duration-200 hover:-translate-y-1 hover:shadow-[0_30px_60px_-24px_rgba(204,52,51,0.35)]"
+              className="group card-lux relative flex h-full flex-col overflow-hidden rounded-3xl transition duration-200 hover:-translate-y-1 hover:shadow-lift-xl"
             >
               {/* Photo banner */}
               <div className="relative h-44 overflow-hidden">

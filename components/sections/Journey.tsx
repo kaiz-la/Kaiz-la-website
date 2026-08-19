@@ -161,7 +161,7 @@ export default function Journey({ showHeader = true }: { showHeader?: boolean })
                     style={{ top: markerTop }}
                     className="absolute left-1/2 z-20 -translate-x-1/2 -translate-y-1/2"
                   >
-                    <div className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-gold bg-white shadow-[0_8px_20px_-6px_rgba(204,52,51,0.7)]">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-gold bg-white shadow-lift-xs">
                       {active >= steps.length - 1 ? (
                         <MapPin className="h-4 w-4 text-crimson" />
                       ) : active >= 4 ? (

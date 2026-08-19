@@ -162,7 +162,7 @@ export default async function GuidePage({
                   <Link
                     key={r.slug}
                     href={`/guides/${r.slug}`}
-                    className="group rounded-2xl border border-border bg-card p-5 transition duration-200 hover:-translate-y-1 hover:border-crimson/40 hover:shadow-[0_24px_48px_-24px_rgba(204,52,51,0.45)]"
+                    className="group rounded-2xl border border-border bg-card p-5 transition duration-200 hover:-translate-y-1 hover:border-crimson/40 hover:shadow-lift-lg"
                   >
                     <div className="eyebrow text-crimson">{r.eyebrow}</div>
                     <h3 className="mt-2 font-semibold text-ink">{r.title}</h3>

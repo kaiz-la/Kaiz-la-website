@@ -47,6 +47,32 @@
 
   --radius: 0.75rem;
 
+  /* Focus ring. Without this the shadcn `focus-visible:ring-ring/50` baked into
+     button.tsx and input.tsx resolves to nothing — every one of those rings was
+     silently absent. */
+  --color-ring: #cc3433;
+
+
+  /* Elevation. Shadows here are crimson-tinted rather than grey: a neutral drop
+     shadow on a warm porcelain ground reads as dirt. The scale steps by the
+     size of the thing being lifted — a chip casts less than a card.
+     Replaces seven hand-written shadow-[...] values scattered across sections. */
+  --shadow-lift-xs: 0 8px 20px -6px rgba(204, 52, 51, 0.35);
+  --shadow-lift-sm: 0 10px 30px -12px rgba(204, 52, 51, 0.5);
+  --shadow-lift: 0 18px 40px -18px rgba(204, 52, 51, 0.6);
+  --shadow-lift-lg: 0 24px 48px -24px rgba(204, 52, 51, 0.45);
+  --shadow-lift-xl: 0 30px 60px -24px rgba(204, 52, 51, 0.35);
+  /* Neutral lift for surfaces that sit on white and shouldn't read as branded. */
+  --shadow-ink: 0 8px 30px -12px rgba(26, 20, 19, 0.2);
+  --shadow-ink-focus: 0 8px 30px -10px rgba(204, 52, 51, 0.3);
+
+  /* Motion. Two different "expo-out" curves were in use — CSS keyframes ran
+     cubic-bezier(0.16,1,0.3,1) while every framer transition used
+     [0.22,1,0.36,1]. Unified on the framer one, which had far more call sites.
+     The JS mirror lives in lib/motion.ts. */
+  --ease-brand: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-exit: cubic-bezier(0.4, 0, 1, 1);
+
   /* Size-specific tracking. Letters read too far apart as type grows, so
      display sizes tighten progressively; body copy stays at 0 and the small
      caps eyebrow opens up (see .eyebrow). A single `tracking-tight` for every
@@ -59,22 +85,6 @@
   --tracking-display-6xl: -0.034em;
 }
 
-/* Dark theme overrides (used by chat surfaces) */
-.dark {
-  --color-primary: #f4ece2;
-  --color-primary-foreground: #140d0c;
-  --color-secondary: #e0463f;
-  --color-secondary-foreground: #ffffff;
-  --color-accent: #d8b675;
-  --color-background: #140d0c;
-  --color-foreground: #f1e8de;
-  --color-card: #1f1614;
-  --color-border: #3a2c28;
-  --color-muted: #b6a89e;
-  --color-muted-foreground: #b6a89e;
-  --color-destructive: #e0463f;
-  --color-destructive-foreground: #ffffff;
-}
 
 * {
   border-color: var(--color-border);
@@ -190,6 +200,31 @@ body {
 .animate-seal { animation: seal-pulse 5s ease-in-out infinite; }
 
 /* Welcome / celebration takeover entrance */
+/* Chat feedback.
+   Tailwind's stock animate-bounce is a rubber ball — too playful next to the
+   site's expo-out easing, and it draws the eye harder than a waiting state
+   should. These rise and fade instead. */
+@keyframes thinking-dot {
+  0%, 60%, 100% { opacity: 0.35; transform: translateY(0); }
+  30% { opacity: 1; transform: translateY(-3px); }
+}
+.animate-thinking { animation: thinking-dot 1.4s var(--ease-brand) infinite; }
+
+/* The caret that trails streaming text, so a pause reads as "still writing"
+   rather than "finished". */
+@keyframes cursor-blink {
+  0%, 45% { opacity: 1; }
+  55%, 100% { opacity: 0; }
+}
+.animate-cursor { animation: cursor-blink 1s steps(1, end) infinite; }
+
+/* Replaces animate-ping, which expands and hard-stops. This breathes. */
+@keyframes seal-breathe {
+  0%, 100% { opacity: 0.28; transform: scale(1); }
+  50% { opacity: 0.06; transform: scale(1.18); }
+}
+.animate-breathe { animation: seal-breathe 2.6s var(--ease-brand) infinite; }
+
 @keyframes overlay-in {
   from { opacity: 0; }
   to { opacity: 1; }
@@ -199,7 +234,7 @@ body {
   to { opacity: 1; transform: translateY(0) scale(1); }
 }
 .animate-overlay-in { animation: overlay-in 0.5s ease both; }
-.animate-celebrate-in { animation: celebrate-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.animate-celebrate-in { animation: celebrate-in 0.6s var(--ease-brand) both; }
 
 /* ---------- Materials ----------
    Translucent layers that let content show through, rather than opaque strips
