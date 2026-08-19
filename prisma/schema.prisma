@@ -11,15 +11,18 @@ datasource db {
 }
 
 model Conversation {
-  id              String           @id @default(cuid())
-  createdAt       DateTime         @default(now())
-  messages        Message[]
-  title           String?
-  stage           String           @default("greeting")
-  lead            Lead?
-  sourcingRequest SourcingRequest?
-  attachments     Attachment[]
-  productSpecs    ProductSpec[]
+  id               String           @id @default(cuid())
+  createdAt        DateTime         @default(now())
+  messages         Message[]
+  title            String?
+  stage            String           @default("greeting")
+  lead             Lead?
+  // Two distinct roles: the chat that produced the request, and the Room's
+  // human-only thread. Naming these relations emits no SQL.
+  sourcingRequest  SourcingRequest? @relation("RequestOrigin")
+  threadForRequest SourcingRequest? @relation("RequestThread")
+  attachments      Attachment[]
+  productSpecs     ProductSpec[]
 }
 
 model Message {
@@ -40,6 +43,11 @@ model Message {
   conversation   Conversation @relation(fields: [conversationId], references: [id])
   conversationId String
   attachments    Attachment[]
+
+  // Postgres does not auto-index foreign keys, so `where conversationId order by
+  // createdAt` was a sequential scan on the chat page's hot path. Also the
+  // access path for the Room thread poller.
+  @@index([conversationId, createdAt])
 }
 
 model Shipment {
@@ -109,8 +117,36 @@ model SourcingRequest {
 
   // The conversation that produced this request becomes the Room's thread, so
   // the customer's history follows them in rather than restarting.
-  conversation   Conversation? @relation(fields: [conversationId], references: [id])
+  conversation   Conversation? @relation("RequestOrigin", fields: [conversationId], references: [id])
   conversationId String?       @unique
+
+  /// The Room's human-only thread. Deliberately NOT `conversation`.
+  ///
+  /// Filtering the origin chat down to human turns reads as gibberish — those
+  /// customer messages are answers to KaiExpert, shown without the questions
+  /// they answer. A separate conversation makes human-only structural rather
+  /// than a filter a future query can forget.
+  threadConversation   Conversation? @relation("RequestThread", fields: [threadConversationId], references: [id])
+  threadConversationId String?       @unique
+
+  // Unread state. Two timestamp pairs rather than per-message read flags —
+  // flags cost a write per message per reader and answer nothing these don't.
+  lastCustomerMessageAt DateTime?
+  lastStaffMessageAt    DateTime?
+  staffReadAt           DateTime?
+  customerReadAt        DateTime?
+
+  // Debounce claims. staffAlertedAt is cleared when staffReadAt advances, so a
+  // burst of messages sends one email but a fresh message after a read sends
+  // another.
+  staffAlertedAt     DateTime?
+  customerNotifiedAt DateTime?
+
+  // The customer asked to continue on WhatsApp.
+  whatsappRequestedAt    DateTime?
+  /// Set by the Meta webhook when they actually send — until then we cannot
+  /// observe the 24h service window opening. Nothing writes this yet.
+  whatsappWindowOpenedAt DateTime?
 
   productSummary String? @db.Text
   brief          String? @db.Text // kept current as open items are answered

@@ -14,8 +14,12 @@ import {
   publishQuotes,
   answerOpenItem,
   getRequestByRef,
+  ensureThreadConversation,
+  markStaffRead,
 } from "@/lib/sourcing"
 import { notifyRequest, roomUrl } from "@/lib/notify"
+import { prisma } from "@/lib/prisma"
+import { saveUIMessage } from "@/components/chatLogic/services/database"
 
 export type ActionState = { error?: string; ok?: boolean }
 
@@ -323,4 +327,80 @@ export async function answerOpenItemAction(
 
   revalidateRequest(ref)
   return { ok: true }
+}
+
+const MAX_MESSAGE_CHARS = 4000
+
+/**
+ * A specialist replying to the customer in the Room thread.
+ *
+ * role='assistant' so the AI SDK's message shape stays valid; authorType
+ * 'executive' is what the UI renders from. saveUIMessage has always accepted
+ * 'executive' — nothing had ever passed it until now.
+ */
+export async function sendThreadMessageAction(
+  _prev: ActionState,
+  formData: FormData
+): Promise<ActionState> {
+  await requireAdmin()
+
+  const ref = formData.get("ref")?.toString() ?? ""
+  const messageId = formData.get("messageId")?.toString() ?? ""
+  const body = field(formData, "body")
+  const sendingAs = field(formData, "sendingAs")
+
+  if (!ref || !messageId) return { error: "Something went wrong. Reload and try again." }
+  if (!body) return { error: "Write a message first." }
+  if (body.length > MAX_MESSAGE_CHARS) return { error: "That message is too long." }
+
+  const thread = await ensureThreadConversation(ref)
+  if (!thread.ok) return { error: thread.error }
+
+  try {
+    await saveUIMessage(
+      { id: messageId, role: "assistant", parts: [{ type: "text", text: body }] },
+      thread.data.threadConversationId,
+      "executive",
+      sendingAs
+    )
+    await prisma.sourcingRequest.update({
+      where: { id: thread.data.requestId },
+      data: {
+        lastStaffMessageAt: new Date(),
+        // Writing back the sender is how ownership actually gets assigned —
+        // the column existed but nothing had ever set it.
+        ...(sendingAs ? { ownerName: sendingAs } : {}),
+      },
+    })
+  } catch (e) {
+    console.error("[workbench] sendThreadMessage failed:", e)
+    return { error: "Could not send that. Please try again." }
+  }
+
+  revalidateRequest(ref)
+  revalidatePath(`/r/${encodeURIComponent(ref)}`)
+
+  // Nudge the customer, but never quote the message — a staff reply can contain
+  // a price, and the customer Notification type forbids commercial detail.
+  if (formData.get("notify") === "on") {
+    await notifyCustomer(
+      ref,
+      "Your specialist has replied",
+      `There's a new message on ${ref}. Open your request to read it.`
+    )
+  }
+
+  return { ok: true }
+}
+
+/**
+ * Mark the thread read. Fired from the client on mount, because a page cannot
+ * write during render. Step 5 folds this into the poll; until then it is what
+ * clears the badge.
+ */
+export async function markThreadReadAction(ref: string): Promise<void> {
+  await requireAdmin()
+  if (!ref) return
+  await markStaffRead(ref)
+  revalidatePath("/kz1ad31n/requests")
 }

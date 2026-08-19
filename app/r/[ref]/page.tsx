@@ -2,7 +2,11 @@ import { notFound } from "next/navigation"
 import Link from "next/link"
 import type { Metadata } from "next"
 import { MessageCircle, Package } from "lucide-react"
-import { getRoomForCustomer } from "@/lib/sourcing"
+import { getRoomForCustomer, getThreadMessages } from "@/lib/sourcing"
+import { toUIMessage } from "@/lib/messages"
+import { RoomThread } from "@/components/room/RoomThread"
+import { MarkRead } from "@/components/MarkRead"
+import { markRoomReadAction } from "@/app/r/actions"
 import { toCustomerQuotes } from "@/lib/sourcing-redaction"
 import { getSourcingStatusMeta, expectedBy } from "@/lib/sourcing-status"
 import { hasRoomAccess } from "@/lib/room-session"
@@ -54,6 +58,9 @@ export default async function RequestRoom({
   // Already scoped by the query; toCustomerQuotes is the second gate that
   // orders them and guarantees the shape.
   const quotes = toCustomerQuotes(request.candidates.flatMap((c) => c.quotes))
+
+  const threadRows = await getThreadMessages(request.threadConversationId)
+  const threadMessages = threadRows.map(toUIMessage)
 
   const events = request.events
   const openItems = request.openItems.filter((i) => !i.answer)
@@ -130,6 +137,14 @@ export default async function RequestRoom({
           </section>
         )}
 
+        <MarkRead action={markRoomReadAction} reference={request.ref} />
+
+        <RoomThread
+          reference={request.ref}
+          specialistName={request.ownerName}
+          initialMessages={threadMessages}
+        />
+
         {/* Progress */}
         <section className="mt-12">
           <h2 className="font-display text-2xl font-medium text-ink">Progress</h2>
@@ -161,23 +176,18 @@ export default async function RequestRoom({
           </section>
         )}
 
-        {/* Talk to us */}
-        <section className="mt-12">
-          <div className="card-lux flex flex-col items-start gap-4 rounded-2xl p-6 sm:flex-row sm:items-center sm:justify-between">
-            <div>
-              <h2 className="font-display text-xl font-medium text-ink">Questions?</h2>
-              <p className="mt-1 text-sm text-ink-soft">
-                KaiExpert knows this request and can walk you through the detail.
-              </p>
-            </div>
-            <Link
-              href={`/chat?r=${encodeURIComponent(request.ref)}`}
-              className="focus-ring inline-flex items-center gap-2 rounded-full bg-crimson px-6 py-3 text-sm font-semibold text-white transition duration-200 hover:-translate-y-0.5 hover:bg-[var(--color-crimson-deep)] hover:shadow-lift-sm"
-            >
-              <MessageCircle className="h-4 w-4" />
-              Ask KaiExpert
-            </Link>
-          </div>
+        {/* KaiExpert, deliberately secondary. The specialist can change things —
+            price, factory, timeline. KaiExpert only explains what's already here,
+            so it reads as the faster but lesser option, not a rival button. */}
+        <section className="mt-8">
+          <Link
+            href={`/chat?r=${encodeURIComponent(request.ref)}`}
+            className="focus-ring inline-flex items-center gap-1.5 text-sm font-medium text-ink-soft transition-colors duration-200 hover:text-crimson"
+          >
+            <MessageCircle className="h-4 w-4 text-crimson" />
+            Want an answer right now? Ask KaiExpert about your options
+            <span aria-hidden>→</span>
+          </Link>
         </section>
 
         {quotes.length === 0 && (

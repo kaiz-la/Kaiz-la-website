@@ -9,6 +9,7 @@
 
 import { randomBytes } from "node:crypto"
 import { prisma } from "@/lib/prisma"
+import { MESSAGE_SELECT } from "@/lib/messages"
 import redis from "@/lib/redis"
 import {
   isValidSourcingStatus,
@@ -32,6 +33,16 @@ const requestInclude = {
     select: {
       productSpecs: { orderBy: { createdAt: 'desc' } },
       attachments: { orderBy: { createdAt: 'desc' }, select: { id: true, url: true } },
+      messages: { orderBy: { createdAt: 'asc' }, select: MESSAGE_SELECT },
+    },
+  },
+  // The Room's human thread. Separate from the origin chat above — see
+  // ensureThreadConversation for why.
+  threadConversation: {
+    select: {
+      productSpecs: { orderBy: { createdAt: 'desc' } },
+      attachments: { orderBy: { createdAt: 'desc' }, select: { id: true, url: true } },
+      messages: { orderBy: { createdAt: 'asc' }, select: MESSAGE_SELECT },
     },
   },
   events: { orderBy: { occurredAt: "desc" } },
@@ -148,6 +159,14 @@ export async function getRoomForCustomer(ref: string) {
       destination: true,
       timeline: true,
       createdAt: true,
+      // Named in the thread's empty state so the customer knows who they're
+      // writing to. Widened here rather than reaching for getRequestByRef —
+      // that is exactly the leak this query exists to prevent.
+      ownerName: true,
+      threadConversationId: true,
+      lastStaffMessageAt: true,
+      customerReadAt: true,
+      whatsappRequestedAt: true,
       events: {
         where: { visibility: "customer" },
         orderBy: { occurredAt: "desc" },
@@ -205,6 +224,9 @@ export function listRequests() {
       lead: { select: { name: true, company: true, email: true, phone: true } },
       _count: { select: { candidates: true, openItems: true } },
     },
+    // The unread timestamps are plain columns on the row, so they cost nothing
+    // extra here and the badge derives in memory — same approach as
+    // listStalledRequests(). Add an index when the table outgrows a scan.
   })
 }
 
@@ -658,4 +680,124 @@ export async function publishQuotes(
     console.error("[sourcing] publishQuotes failed:", e)
     return { ok: false, error: "Could not publish those quotes." }
   }
+}
+
+// ---------------------------------------------------------------------------
+// The Room thread — a human-only conversation between customer and specialist
+// ---------------------------------------------------------------------------
+
+/**
+ * Get (or lazily create) the request's thread conversation.
+ *
+ * Deliberately a SECOND conversation, not the one that produced the request.
+ * The origin chat's customer turns are answers to KaiExpert; showing them
+ * without the questions they answer reads as gibberish. A separate conversation
+ * makes "human-only" a structural property rather than a filter that a future
+ * query can forget to apply.
+ */
+export async function ensureThreadConversation(
+  ref: string
+): Promise<Result<{ requestId: string; threadConversationId: string }>> {
+  const id = normalizeRef(ref)
+  try {
+    const request = await prisma.sourcingRequest.findUnique({
+      where: { ref: id },
+      select: { id: true, threadConversationId: true },
+    })
+    if (!request) return { ok: false, error: "Sourcing request not found." }
+    if (request.threadConversationId) {
+      return { ok: true, data: { requestId: request.id, threadConversationId: request.threadConversationId } }
+    }
+
+    // No Lead on a thread conversation — it is a channel, not an enquiry.
+    const created = await prisma.conversation.create({
+      data: { title: `Room thread ${id}`, stage: "room" },
+      select: { id: true },
+    })
+
+    // Conditional updateMany is a single atomic UPDATE, so two concurrent
+    // first-messages cannot both claim. The loser cleans up its orphan rather
+    // than leaving a stray conversation behind.
+    const claimed = await prisma.sourcingRequest.updateMany({
+      where: { id: request.id, threadConversationId: null },
+      data: { threadConversationId: created.id },
+    })
+    if (claimed.count === 0) {
+      await prisma.conversation.delete({ where: { id: created.id } }).catch(() => {})
+      const winner = await prisma.sourcingRequest.findUnique({
+        where: { id: request.id },
+        select: { threadConversationId: true },
+      })
+      if (!winner?.threadConversationId) return { ok: false, error: "Could not open the thread." }
+      return { ok: true, data: { requestId: request.id, threadConversationId: winner.threadConversationId } }
+    }
+
+    return { ok: true, data: { requestId: request.id, threadConversationId: created.id } }
+  } catch (e) {
+    console.error("[sourcing] ensureThreadConversation failed:", e)
+    return { ok: false, error: "Could not open the thread." }
+  }
+}
+
+/** Messages in a request's thread, oldest first. Empty when no thread exists yet. */
+export async function getThreadMessages(threadConversationId: string | null) {
+  if (!threadConversationId) return []
+  return prisma.message.findMany({
+    where: { conversationId: threadConversationId },
+    orderBy: [{ createdAt: "asc" }, { id: "asc" }],
+    select: { ...MESSAGE_SELECT, createdAt: true },
+  })
+}
+
+/** True when the customer has said something the staff have not read. */
+export function isUnreadByStaff(r: {
+  lastCustomerMessageAt: Date | null
+  staffReadAt: Date | null
+}): boolean {
+  if (!r.lastCustomerMessageAt) return false
+  return !r.staffReadAt || r.staffReadAt < r.lastCustomerMessageAt
+}
+
+/** True when staff have replied since the customer last opened the Room. */
+export function isUnreadByCustomer(r: {
+  lastStaffMessageAt: Date | null
+  customerReadAt: Date | null
+}): boolean {
+  if (!r.lastStaffMessageAt) return false
+  return !r.customerReadAt || r.customerReadAt < r.lastStaffMessageAt
+}
+
+/**
+ * Mark the staff as having read the customer's messages, and release the alert
+ * cooldown so the NEXT message alerts immediately.
+ *
+ * Conditional so the common case is a zero-row UPDATE.
+ */
+export async function markStaffRead(ref: string): Promise<void> {
+  const id = normalizeRef(ref)
+  await prisma.sourcingRequest
+    .updateMany({
+      where: {
+        ref: id,
+        lastCustomerMessageAt: { not: null },
+        OR: [{ staffReadAt: null }, { staffReadAt: { lt: prisma.sourcingRequest.fields.lastCustomerMessageAt } }],
+      },
+      data: { staffReadAt: new Date(), staffAlertedAt: null },
+    })
+    .catch((e) => console.error("[sourcing] markStaffRead failed:", e))
+}
+
+/** Mirror for the customer opening their Room. */
+export async function markCustomerRead(ref: string): Promise<void> {
+  const id = normalizeRef(ref)
+  await prisma.sourcingRequest
+    .updateMany({
+      where: {
+        ref: id,
+        lastStaffMessageAt: { not: null },
+        OR: [{ customerReadAt: null }, { customerReadAt: { lt: prisma.sourcingRequest.fields.lastStaffMessageAt } }],
+      },
+      data: { customerReadAt: new Date() },
+    })
+    .catch((e) => console.error("[sourcing] markCustomerRead failed:", e))
 }
