@@ -19,8 +19,17 @@ export const siteConfig = {
     region: "Hong Kong",
     country: "HK",
   },
-  // Cities with an office or partner office, surfaced in the footer.
-  offices: ["Hong Kong", "China", "India", "UAE", "Saudi Arabia", "Bahrain"],
+  // Countries with an office or partner office, surfaced in the footer.
+  offices: [
+    "Hong Kong",
+    "China",
+    "India",
+    "UAE",
+    "Saudi Arabia",
+    "Qatar",
+    "Oman",
+    "Bahrain",
+  ],
   // Direct messaging channels. whatsapp is a full click-to-chat URL; we do not
   // expose the underlying number. wechatId is intentionally left blank so the
   // UI never prints a raw number — connection happens via the floating widget.
@@ -38,6 +47,15 @@ export const siteConfig = {
 
 // Public, live social URLs only — used for the Organization sameAs (SEO).
 export const socialSameAs = Object.values(siteConfig.socials).filter(Boolean)
+
+// The office list written as prose — "Hong Kong, China, … Oman and Bahrain".
+// The same list is quoted in the KaiExpert FAQ and in the agent's company
+// brief; deriving both from `offices` is what stops them drifting apart when a
+// country is added, which is exactly how Qatar and Oman went missing.
+export const officesSentence = (() => {
+  const named = siteConfig.offices.map((o) => (o === "UAE" ? "the UAE" : o))
+  return `${named.slice(0, -1).join(", ")} and ${named[named.length - 1]}`
+})()
 
 // Shared Open Graph image. Spread into each page's `openGraph.images` because
 // Next.js does NOT inherit the parent's og image when a page sets its own

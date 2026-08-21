@@ -25,7 +25,7 @@ export default function KaiExpertIntro() {
       />
 
       <div className="relative z-10 container mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
-        <div className="grid items-center gap-10 sm:gap-14 lg:grid-cols-2 lg:gap-16">
+        <div className="grid items-center gap-8 sm:gap-14 lg:grid-cols-2 lg:gap-16">
           {/* Copy */}
           <div>
             <div className="flex items-center gap-3">

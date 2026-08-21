@@ -89,7 +89,7 @@ export default function Footer() {
                 <li key={l.name}>
                   <Link
                     href={l.href}
-                    className="focus-ring-light block rounded-sm py-1.5 text-sm text-white/75 transition-colors hover:text-white"
+                    className="focus-ring-light block rounded-sm py-1.5 text-sm text-white/75 transition-colors hover:text-white active:text-white"
                   >
                     {l.name}
                   </Link>
@@ -106,7 +106,7 @@ export default function Footer() {
                 <li key={l.name}>
                   <Link
                     href={l.href}
-                    className="focus-ring-light block rounded-sm py-1.5 text-sm text-white/75 transition-colors hover:text-white"
+                    className="focus-ring-light block rounded-sm py-1.5 text-sm text-white/75 transition-colors hover:text-white active:text-white"
                   >
                     {l.name}
                   </Link>
@@ -122,7 +122,7 @@ export default function Footer() {
               <li>
                 <a
                   href={`tel:${siteConfig.phone.replace(/\s+/g, "")}`}
-                  className="focus-ring-light flex items-start gap-2.5 rounded-sm py-1 transition-colors hover:text-white"
+                  className="focus-ring-light flex items-start gap-2.5 rounded-sm py-1 transition-colors hover:text-white active:text-white"
                 >
                   <Phone className="mt-0.5 h-4 w-4 flex-shrink-0 text-crimson-bright" />
                   {siteConfig.phone}
@@ -131,7 +131,7 @@ export default function Footer() {
               <li>
                 <a
                   href={`mailto:${siteConfig.email}`}
-                  className="focus-ring-light flex items-start gap-2.5 rounded-sm py-1 transition-colors hover:text-white"
+                  className="focus-ring-light flex items-start gap-2.5 rounded-sm py-1 transition-colors hover:text-white active:text-white"
                 >
                   <Mail className="mt-0.5 h-4 w-4 flex-shrink-0 text-crimson-bright" />
                   {siteConfig.email}
@@ -142,7 +142,7 @@ export default function Footer() {
                   href={siteConfig.contact.whatsapp}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="focus-ring-light flex items-start gap-2.5 rounded-sm py-1 transition-colors hover:text-white"
+                  className="focus-ring-light flex items-start gap-2.5 rounded-sm py-1 transition-colors hover:text-white active:text-white"
                 >
                   <WhatsAppGlyph className="mt-0.5 h-4 w-4 flex-shrink-0 text-crimson-bright" />
                   Message us on WhatsApp

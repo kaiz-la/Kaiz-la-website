@@ -145,7 +145,7 @@ export default function TrackingLookup() {
               <span className="font-semibold text-ink">{state.id}</span>. Double-check the ID, or{" "}
               <a
                 href="/contact"
-                className="focus-ring rounded-sm font-semibold text-crimson hover:underline"
+                className="focus-ring rounded-sm font-semibold text-crimson transition-colors hover:underline active:text-[var(--color-crimson-deep)]"
               >
                 contact us
               </a>{" "}

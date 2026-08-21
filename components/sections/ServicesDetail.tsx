@@ -15,6 +15,7 @@ import {
   ShoppingCart,
   RotateCcw,
 } from "lucide-react"
+import Rail from "@/components/ui/Rail"
 
 /**
  * Long-form services copy that sits beneath the headline services grid.
@@ -177,7 +178,11 @@ export default function ServicesDetail() {
           {/* Six deep-dive cards, each with its own checklist, ran to four
               phone screens stacked. On a phone they become a swipeable rail —
               same six cards, one screen — and go back to a grid from md. */}
-          <div className="-mx-5 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-px-5 px-5 pb-4 [scrollbar-width:thin] sm:-mx-6 sm:scroll-px-6 sm:px-6 md:mx-0 md:grid md:snap-none md:grid-cols-2 md:gap-6 md:overflow-x-visible md:px-0 md:pb-0">
+          <Rail
+            until="md"
+            label="Core services"
+            className="-mx-5 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-px-5 px-5 pb-4 [scrollbar-width:thin] sm:-mx-6 sm:scroll-px-6 sm:px-6 md:mx-0 md:grid md:snap-none md:grid-cols-2 md:gap-6 md:overflow-x-visible md:px-0 md:pb-0"
+          >
             {coreServices.map((s) => (
               <div
                 key={s.step}
@@ -202,7 +207,7 @@ export default function ServicesDetail() {
                 </ul>
               </div>
             ))}
-          </div>
+          </Rail>
         </div>
       </section>
 

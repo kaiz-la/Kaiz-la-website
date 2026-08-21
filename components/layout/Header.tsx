@@ -70,7 +70,7 @@ export function Header() {
               <div className="flex-shrink-0">
                 <Link
                   href="/"
-                  className="focus-ring group flex items-center rounded-md"
+                  className="focus-ring group flex items-center rounded-md transition-transform duration-200 active:scale-[0.97]"
                   aria-label="Kaiz La Home"
                 >
                   {/* eslint-disable-next-line @next/next/no-img-element */}

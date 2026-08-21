@@ -121,6 +121,31 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* Touch feedback.
+   Mobile WebKit paints a grey box over any tapped link or button. Every
+   interactive surface here already answers a press with its own `active:`
+   scale, so the default flash lands on top of that as a second, uglier
+   response — and on the crimson bands it reads as a dirty smear. Suppressing
+   it only removes the duplicate: the scale is what confirms the tap. */
+a,
+button,
+summary,
+[role="button"] {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Touch devices don't hover, so a card's hover lift never fires — the press
+   state is the only feedback a phone gets. Keep it snappy: a press should
+   answer immediately, not ease in over 200ms like a hover does. */
+@media (hover: none) {
+  a:active,
+  button:active,
+  summary:active,
+  [role="button"]:active {
+    transition-duration: 60ms;
+  }
+}
+
 ::selection {
   background-color: var(--color-crimson);
   color: #fff;
@@ -318,6 +343,28 @@ body {
     border-color: #ffffff;
   }
 }
+
+/* ---------- Disclosure that is only interactive on a phone ----------
+   The sourcing glossary reads best as a tap-to-open list on a small screen —
+   nine terms stay scannable instead of becoming nine walls of definition. From
+   sm it sits in a multi-column grid with room to just show the definition, and
+   nine collapsed rows would be work for no reason.
+
+   A closed <details> has its contents hidden by the UA stylesheet; an explicit
+   author `display` on the child overrides that, so from sm the definition shows
+   whatever the open state, and the summary stops behaving like a control. */
+.disclosure-mobile > summary::-webkit-details-marker {
+  display: none;
+}
+@media (min-width: 640px) {
+  .disclosure-mobile > .disclosure-body {
+    display: block;
+  }
+}
+/* The summary deliberately stays clickable from sm even though it looks inert:
+   if a browser ever declines the override above, the definition is still one
+   click away rather than invisible and unreachable. Toggling does nothing
+   visible there, since the body is shown whatever the open state. */
 
 /* ---------- Keyboard focus ----------
    A single ring for the hand-rolled controls across the site (the shadcn

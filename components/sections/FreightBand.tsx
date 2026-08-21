@@ -1,5 +1,6 @@
 import Link from "next/link"
 import { ArrowRight, Ship, Plane, MapPin } from "lucide-react"
+import Reveal from "@/components/ui/Reveal"
 
 const points = [
   { icon: Ship, label: "Sea freight", desc: "FCL & LCL consolidation" },
@@ -30,7 +31,7 @@ export default function FreightBand() {
       />
 
       <div className="relative container mx-auto px-5 py-14 sm:px-6 sm:py-20 lg:px-8 lg:py-28">
-        <div className="max-w-2xl">
+        <Reveal className="max-w-2xl">
           <div className="eyebrow text-white/80">Freight &amp; Logistics</div>
           <h2 className="mt-3 text-[1.75rem] font-extrabold leading-[1.12] tracking-display-3xl sm:tracking-display-4xl lg:tracking-display-5xl text-white sm:text-4xl sm:leading-[1.08] lg:text-5xl">
             Air and sea freight, fully tracked, door to door.
@@ -65,7 +66,7 @@ export default function FreightBand() {
             Track a shipment
             <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-200 group-hover:translate-x-1.5" />
           </Link>
-        </div>
+        </Reveal>
       </div>
 
       {/* Signature sun-gradient stripe */}

@@ -137,7 +137,7 @@ export default function RfqForm() {
                   <button
                     type="button"
                     onClick={() => setStatus("idle")}
-                    className="mt-6 text-sm font-semibold text-crimson hover:underline"
+                    className="mt-6 text-sm font-semibold text-crimson transition-colors hover:underline active:text-[var(--color-crimson-deep)]"
                   >
                     Submit another request
                   </button>

@@ -1,5 +1,6 @@
 import Link from "next/link"
 import { ArrowRight } from "lucide-react"
+import Reveal from "@/components/ui/Reveal"
 
 const categories = [
   { label: "Electronics & Gadgets", image: "/media/cat-electronics.jpg" },
@@ -18,7 +19,7 @@ export default function WhatWeSource() {
   return (
     <section className="bg-porcelain-deep py-14 sm:py-20 lg:py-28">
       <div className="container mx-auto px-5 sm:px-6 lg:px-8">
-        <div className="mb-8 flex flex-wrap items-end justify-between gap-4 sm:mb-12">
+        <Reveal className="mb-8 flex flex-wrap items-end justify-between gap-4 sm:mb-12">
           <div className="max-w-2xl">
             <div className="eyebrow text-crimson">What we source</div>
             <h2 className="mt-2 text-[1.75rem] font-bold leading-tight tracking-display-3xl sm:tracking-display-4xl text-ink sm:text-4xl sm:leading-normal">
@@ -36,11 +37,11 @@ export default function WhatWeSource() {
             Source your product
             <ArrowRight className="h-4 w-4" />
           </Link>
-        </div>
+        </Reveal>
 
         {/* Square on a phone. The 4:5 portrait crop is a desktop proportion —
             at two columns it turned six tiles into three tall rows. */}
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-6">
+        <Reveal delay={80} className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-6">
           {categories.map((cat) => (
             <Link
               key={cat.label}
@@ -59,7 +60,7 @@ export default function WhatWeSource() {
               <span className="absolute inset-x-0 top-0 h-1 origin-left scale-x-0 bg-sun-gradient transition-transform duration-200 group-hover:scale-x-100" />
             </Link>
           ))}
-        </div>
+        </Reveal>
       </div>
     </section>
   )

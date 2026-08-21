@@ -98,22 +98,39 @@ export default function GuidesExtras() {
             </p>
           </div>
 
-          <dl className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
+          {/* A tap-to-open list on a phone, plain cards in the grid from sm.
+              The definitions stay in the HTML either way, so nothing is hidden
+              from search — only from the reader until they ask for it. */}
+          <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
             {glossary.map((g) => (
-              <div key={g.term} className="card-lux rounded-2xl p-4 sm:p-6">
-                <dt className="flex items-center gap-2">
-                  <span className="font-display text-lg font-medium text-ink">{g.term}</span>
+              <details
+                key={g.term}
+                className="disclosure-mobile group card-lux rounded-2xl p-4 sm:p-6"
+              >
+                {/* The negative margin pulls the hit area out to the card edge
+                    so the whole padded row is tappable, not just the 25px of
+                    text. Visually identical; from sm it reverts. */}
+                <summary className="focus-ring -m-4 flex cursor-pointer list-none items-center gap-2 rounded-2xl p-4 transition-colors active:bg-porcelain-deep sm:m-0 sm:cursor-default sm:rounded-sm sm:p-0 sm:active:bg-transparent">
+                  <span className="font-display text-lg font-medium leading-snug text-ink">
+                    {g.term}
+                  </span>
                   {g.abbr && (
                     <span className="rounded-md bg-crimson/10 px-2 py-0.5 text-xs font-bold uppercase tracking-wide text-crimson">
                       {g.abbr}
                     </span>
                   )}
-                </dt>
-                <div className="rule-gold my-2 w-10 sm:my-3" />
-                <dd className="text-sm leading-relaxed text-ink-soft">{g.def}</dd>
-              </div>
+                  <Plus
+                    aria-hidden="true"
+                    className="ml-auto h-4 w-4 flex-shrink-0 text-crimson transition-transform duration-300 group-open:rotate-45 sm:hidden"
+                  />
+                </summary>
+                <div className="disclosure-body">
+                  <div className="rule-gold my-2 w-10 sm:my-3" />
+                  <p className="text-sm leading-relaxed text-ink-soft">{g.def}</p>
+                </div>
+              </details>
             ))}
-          </dl>
+          </div>
         </div>
       </section>
 
@@ -134,7 +151,7 @@ export default function GuidesExtras() {
           <div className="space-y-3">
             {guideHubFaqs.map((f) => (
               <details key={f.q} className="group card-lux rounded-2xl px-5 py-4 sm:px-6 sm:py-5">
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-display text-lg font-medium text-ink">
+                <summary className="focus-ring -mx-5 -my-4 rounded-2xl px-5 py-4 transition-colors active:bg-porcelain-deep sm:-mx-6 sm:-my-5 sm:px-6 sm:py-5 flex cursor-pointer list-none items-center justify-between gap-4 font-display text-lg font-medium text-ink">
                   {f.q}
                   <Plus className="h-5 w-5 flex-shrink-0 text-crimson transition-transform duration-300 group-open:rotate-45" />
                 </summary>

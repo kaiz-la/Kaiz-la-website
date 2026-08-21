@@ -1,5 +1,6 @@
 import Link from "next/link"
 import { ShieldOff, Lock, BadgeX, UserCheck } from "lucide-react"
+import Rail from "@/components/ui/Rail"
 
 const steps = [
   {
@@ -67,9 +68,17 @@ export default function KaiExpertHandoff() {
           </p>
         </div>
 
-        <ol className="mt-10 grid grid-cols-1 gap-4 sm:mt-14 sm:gap-5 md:grid-cols-3">
+        {/* Swipeable on a phone, stacked from sm, three across from md. */}
+        <Rail
+          as="ol"
+          label="Chat to specialist steps"
+          className="-mx-5 mt-8 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-px-5 px-5 pb-4 [scrollbar-width:thin] sm:mx-0 sm:mt-14 sm:grid sm:snap-none sm:gap-5 sm:overflow-x-visible sm:px-0 sm:pb-0 md:grid-cols-3"
+        >
           {steps.map((s) => (
-            <li key={s.step} className="card-lux relative rounded-3xl p-6 sm:p-7">
+            <li
+              key={s.step}
+              className="card-lux relative w-[82vw] max-w-[330px] flex-shrink-0 snap-start rounded-3xl p-5 sm:w-auto sm:max-w-none sm:p-7"
+            >
               <div className="flex items-baseline gap-3 md:block">
                 <span className="font-brand text-2xl font-semibold text-crimson/30 sm:text-3xl md:text-crimson/25">
                   {s.step}
@@ -81,10 +90,10 @@ export default function KaiExpertHandoff() {
               <p className="mt-2.5 text-[15px] leading-relaxed text-ink-soft sm:mt-3">{s.body}</p>
             </li>
           ))}
-        </ol>
+        </Rail>
 
         {/* Guardrails */}
-        <div className="mt-14 sm:mt-20">
+        <div className="mt-10 sm:mt-20">
           <div className="mx-auto max-w-2xl text-center">
             <h3 className="font-display text-2xl font-medium leading-tight text-ink sm:text-3xl lg:text-4xl">
               What it will <span className="text-gradient-crimson italic">never</span> do.
@@ -95,18 +104,20 @@ export default function KaiExpertHandoff() {
             </p>
           </div>
 
-          <div className="mt-8 grid grid-cols-1 gap-4 sm:mt-12 sm:grid-cols-2 sm:gap-5">
+          <div className="mt-6 grid grid-cols-1 gap-3 sm:mt-12 sm:grid-cols-2 sm:gap-5">
             {guardrails.map((g) => (
               <div
                 key={g.title}
-                className="flex gap-4 rounded-3xl border border-border bg-white/70 p-5 sm:gap-5 sm:p-6"
+                className="flex gap-3.5 rounded-3xl border border-border bg-white/70 p-4 sm:gap-5 sm:p-6"
               >
-                <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-crimson/10 ring-1 ring-crimson/15">
+                <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-crimson/10 ring-1 ring-crimson/15 sm:h-11 sm:w-11">
                   <g.icon className="h-5 w-5 text-crimson" />
                 </div>
                 <div>
                   <div className="font-display text-base font-medium text-ink sm:text-lg">{g.title}</div>
-                  <p className="mt-1.5 text-[15px] leading-relaxed text-ink-soft">{g.body}</p>
+                  <p className="mt-1 text-sm leading-relaxed text-ink-soft sm:mt-1.5 sm:text-[15px]">
+                    {g.body}
+                  </p>
                 </div>
               </div>
             ))}

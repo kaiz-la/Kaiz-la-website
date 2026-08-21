@@ -1,5 +1,6 @@
 import Link from "next/link"
 import { Plus } from "lucide-react"
+import { officesSentence } from "@/lib/site"
 
 /**
  * Exported so /kaiexpert can emit FAQPage JSON-LD from the same source as the
@@ -40,7 +41,7 @@ export const faqs = [
   },
   {
     q: "Do I still get a human sourcing agent?",
-    a: "Always. Kaiz La has been sourcing from China for 15+ years with offices and partners across Hong Kong, China, India, the UAE, Saudi Arabia and Bahrain. KaiExpert exists to get you to that team faster and better briefed, never to stand between you and them.",
+    a: `Always. Kaiz La has been sourcing from China for 15+ years with offices and partners across ${officesSentence}. KaiExpert exists to get you to that team faster and better briefed, never to stand between you and them.`,
   },
 ]
 
@@ -62,7 +63,7 @@ export default function KaiExpertFaq() {
         <div className="mt-8 space-y-3 sm:mt-12 sm:space-y-4">
           {faqs.map((f) => (
             <details key={f.q} className="group card-lux rounded-2xl px-5 py-4 sm:px-6 sm:py-5">
-              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-display text-base font-medium leading-snug text-ink sm:text-lg">
+              <summary className="focus-ring -mx-5 -my-4 rounded-2xl px-5 py-4 transition-colors active:bg-porcelain-deep sm:-mx-6 sm:-my-5 sm:px-6 sm:py-5 flex cursor-pointer list-none items-center justify-between gap-4 font-display text-base font-medium leading-snug text-ink sm:text-lg">
                 {f.q}
                 <Plus className="h-5 w-5 flex-shrink-0 text-crimson transition-transform duration-300 group-open:rotate-45" />
               </summary>

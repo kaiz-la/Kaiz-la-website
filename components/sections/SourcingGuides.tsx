@@ -13,30 +13,65 @@ const ICONS: Record<Guide["icon"], typeof Compass> = {
   Boxes,
 }
 
-function GuideCard({ guide, className = "" }: { guide: Guide; className?: string }) {
+/**
+ * `compact` shortens the card for the /guides hub, which stacks nine of them on
+ * a phone: the icon moves beside the title and the "Read guide" row drops,
+ * since the card itself is the link. The home page carousel shows one card at a
+ * time with room to spare, so it keeps the full layout.
+ */
+function GuideCard({
+  guide,
+  className = "",
+  compact = false,
+}: {
+  guide: Guide
+  className?: string
+  compact?: boolean
+}) {
   const Icon = ICONS[guide.icon]
   return (
     <Link
       href={`/guides/${guide.slug}`}
-      className={`focus-ring group relative flex h-full flex-col rounded-2xl border border-border bg-card p-5 transition duration-200 hover:-translate-y-1 hover:border-crimson/40 hover:shadow-lift-lg active:translate-y-0 active:scale-[0.99] sm:p-6 ${className}`}
+      className={`focus-ring group relative flex h-full flex-col rounded-2xl border border-border bg-card transition duration-200 hover:-translate-y-1 hover:border-crimson/40 hover:shadow-lift-lg active:translate-y-0 active:scale-[0.99] ${
+        compact ? "p-5 sm:p-6" : "p-6"
+      } ${className}`}
     >
       <span className="absolute inset-x-0 top-0 h-1 origin-left scale-x-0 rounded-t-2xl bg-sun-gradient transition-transform duration-200 group-hover:scale-x-100" />
-      {/* Icon beside the title on a phone. On its own line it pushed every card
-          past 300px, and the hub stacks nine of them. */}
-      <div className="flex items-start gap-4 sm:block">
-        <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-crimson/10 transition-colors duration-200 group-hover:bg-crimson/15 sm:mb-5 sm:h-12 sm:w-12">
-          <Icon className="h-5 w-5 text-crimson sm:h-6 sm:w-6" />
+
+      {compact ? (
+        <div className="flex items-start gap-4 sm:block">
+          <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-crimson/10 transition-colors duration-200 group-hover:bg-crimson/15 sm:mb-5 sm:h-12 sm:w-12">
+            <Icon className="h-5 w-5 text-crimson sm:h-6 sm:w-6" />
+          </div>
+          <div>
+            <div className="eyebrow text-crimson">{guide.eyebrow}</div>
+            <h3 className="mt-1.5 text-base font-bold leading-snug text-ink sm:mt-2 sm:text-lg">
+              {guide.title}
+            </h3>
+          </div>
         </div>
-        <div>
+      ) : (
+        <>
+          <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-crimson/10 transition-colors duration-200 group-hover:bg-crimson/15">
+            <Icon className="h-6 w-6 text-crimson" />
+          </div>
           <div className="eyebrow text-crimson">{guide.eyebrow}</div>
-          <h3 className="mt-1.5 text-base font-bold leading-snug text-ink sm:mt-2 sm:text-lg">
-            {guide.title}
-          </h3>
-        </div>
-      </div>
-      <p className="mt-3 flex-1 text-sm leading-relaxed text-muted-foreground">{guide.summary}</p>
-      {/* The card itself is the link — on a phone this row is just chrome. */}
-      <div className="mt-4 hidden items-center text-sm font-semibold text-crimson sm:inline-flex">
+          <h3 className="mt-2 text-lg font-bold leading-snug text-ink">{guide.title}</h3>
+        </>
+      )}
+
+      <p
+        className={`flex-1 text-sm leading-relaxed text-muted-foreground ${
+          compact ? "mt-3" : "mt-2"
+        }`}
+      >
+        {guide.summary}
+      </p>
+      <div
+        className={`mt-4 items-center text-sm font-semibold text-crimson ${
+          compact ? "hidden sm:inline-flex" : "inline-flex"
+        }`}
+      >
         Read guide
         <ArrowRight className="ml-1 h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
       </div>
@@ -62,23 +97,23 @@ export default function SourcingGuides({
   carousel?: boolean
 }) {
   return (
-    <section className="bg-porcelain py-14 sm:py-20 lg:py-28">
+    <section className="bg-porcelain py-20 lg:py-28">
       <div className="container mx-auto px-5 sm:px-6 lg:px-8">
         {showHeader && (
-          <div className="mb-8 flex flex-wrap items-end justify-between gap-4 sm:mb-12">
+          <div className="mb-12 flex flex-wrap items-end justify-between gap-4">
             <div className="max-w-2xl">
               <div className="eyebrow text-crimson">Sourcing Knowledge Hub</div>
-              <h2 className="mt-2 font-display text-[1.75rem] font-medium leading-tight tracking-display-3xl sm:tracking-display-4xl text-ink sm:text-4xl sm:leading-normal">
+              <h2 className="mt-2 font-display text-3xl font-medium tracking-display-3xl sm:tracking-display-4xl text-ink sm:text-4xl">
                 Learn to source from China like a pro
               </h2>
-              <p className="mt-3 text-base leading-relaxed text-ink-soft sm:mt-4 sm:text-lg">
+              <p className="mt-4 text-lg leading-relaxed text-ink-soft">
                 Practical, no-fluff guides on suppliers, quality, customs and freight, written by a
                 team that does this every day across India and the Middle East.
               </p>
             </div>
             <Link
               href="/guides"
-              className="focus-ring inline-flex flex-shrink-0 items-center gap-1 rounded-sm text-sm font-semibold text-crimson hover:underline"
+              className="focus-ring inline-flex flex-shrink-0 items-center gap-1 rounded-sm text-sm font-semibold text-crimson transition-colors hover:underline active:text-[var(--color-crimson-deep)]"
             >
               All guides
               <ArrowRight className="h-4 w-4" />
@@ -101,7 +136,7 @@ export default function SourcingGuides({
         ) : (
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {guides.map((guide) => (
-              <GuideCard key={guide.slug} guide={guide} />
+              <GuideCard key={guide.slug} guide={guide} compact />
             ))}
 
             {showAskCard && (

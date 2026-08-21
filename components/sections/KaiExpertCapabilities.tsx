@@ -6,6 +6,7 @@ import {
   NotebookPen,
   MessagesSquare,
 } from "lucide-react"
+import Rail from "@/components/ui/Rail"
 
 const capabilities = [
   {
@@ -64,11 +65,17 @@ export default function KaiExpertCapabilities() {
           </p>
         </div>
 
-        <div className="mt-10 grid grid-cols-1 gap-4 sm:mt-14 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
+        {/* Six cards stacked ran to nearly two phone screens. On a phone they
+            become a swipeable rail — the same six, one screen — and return to
+            the grid from sm. */}
+        <Rail
+          label="KaiExpert capabilities"
+          className="-mx-5 mt-8 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-px-5 px-5 pb-4 [scrollbar-width:thin] sm:mx-0 sm:mt-14 sm:grid sm:snap-none sm:grid-cols-2 sm:gap-5 sm:overflow-x-visible sm:px-0 sm:pb-0 lg:grid-cols-3"
+        >
           {capabilities.map((c) => (
             <div
               key={c.title}
-              className="card-lux group flex h-full flex-col rounded-3xl p-6 transition duration-200 hover:-translate-y-1 hover:shadow-lift-xl sm:p-7"
+              className="card-lux group flex w-[82vw] max-w-[330px] flex-shrink-0 snap-start flex-col rounded-3xl p-5 transition duration-200 hover:-translate-y-1 hover:shadow-lift-xl sm:w-auto sm:max-w-none sm:p-7"
             >
               {/* Icon sits beside the title on a phone — six stacked cards with the
                   icon on its own line turned the section into a scroll. */}
@@ -83,7 +90,7 @@ export default function KaiExpertCapabilities() {
               <p className="mt-3 text-[15px] leading-relaxed text-ink-soft">{c.body}</p>
             </div>
           ))}
-        </div>
+        </Rail>
       </div>
     </section>
   )
