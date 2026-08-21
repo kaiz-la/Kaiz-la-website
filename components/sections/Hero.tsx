@@ -125,48 +125,53 @@ export default function Hero() {
         <div className="absolute inset-0 bg-gradient-to-t from-[rgba(120,18,18,0.5)] via-transparent to-transparent" />
 
         <div className="relative container mx-auto px-5 sm:px-6 lg:px-8">
-          <div className="flex min-h-[60vh] max-w-2xl flex-col justify-center py-20 lg:min-h-[66vh] lg:py-28">
+          <div className="flex min-h-[52vh] max-w-2xl flex-col justify-center py-14 sm:min-h-[60vh] sm:py-20 lg:min-h-[66vh] lg:py-28">
             <motion.div
               initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
             >
-              <h1 className="text-4xl font-extrabold leading-[1.04] tracking-display-4xl sm:tracking-display-5xl lg:tracking-display-6xl text-white sm:text-5xl lg:text-6xl">
-                Your sourcing partner
-                <br />
+              {/* The line break is a desktop composition choice. On a phone the
+                  headline already wraps four times; forcing a fifth break mid
+                  thought leaves an orphan. */}
+              <h1 className="text-[2rem] font-extrabold leading-[1.06] tracking-display-4xl sm:tracking-display-5xl lg:tracking-display-6xl text-white sm:text-5xl sm:leading-[1.04] lg:text-6xl">
+                Your sourcing partner{" "}
+                <br className="hidden sm:block" />
                 on the ground in China.
               </h1>
 
-              <p className="mt-5 max-w-xl text-lg leading-relaxed text-white/85">
+              <p className="mt-4 max-w-xl text-base leading-relaxed text-white/85 sm:mt-5 sm:text-lg">
                 We find the factory, check the quality, and ship it to your door across India
                 &amp; the Middle East. You stay in control; we handle China.
               </p>
 
               {/* Credential lockup — a custom, editorial "15+ years" mark */}
-              <div className="mt-7 flex items-center gap-4">
+              <div className="mt-6 flex items-center gap-3.5 sm:mt-7 sm:gap-4">
                 <div className="flex items-baseline leading-none">
-                  <span className="font-display text-4xl font-semibold text-white sm:text-5xl">15</span>
-                  <span className="font-display text-2xl font-semibold text-sun-amber sm:text-3xl">+</span>
+                  <span className="font-display text-3xl font-semibold text-white sm:text-5xl">15</span>
+                  <span className="font-display text-xl font-semibold text-sun-amber sm:text-3xl">+</span>
                 </div>
-                <span className="h-10 w-px bg-white/30" />
-                <span className="text-[11px] font-semibold uppercase leading-snug tracking-[0.22em] text-white/85 sm:text-xs">
+                <span className="h-9 w-px bg-white/30 sm:h-10" />
+                <span className="text-[10px] font-semibold uppercase leading-snug tracking-[0.18em] text-white/85 sm:text-xs sm:tracking-[0.22em]">
                   Years on the ground
                   <br />
                   sourcing across China
                 </span>
               </div>
 
-              <div className="mt-8 flex flex-wrap items-center gap-4">
+              {/* Two equal halves on a phone rather than two stacked full-width
+                  pills — the pair reads as one choice and costs one row. */}
+              <div className="mt-7 grid grid-cols-2 gap-3 sm:mt-8 sm:flex sm:flex-wrap sm:items-center sm:gap-4">
                 <Link
                   href="/chat"
-                  className="focus-ring-light group inline-flex items-center justify-center rounded-full bg-white px-7 py-3.5 text-base font-bold text-crimson shadow-lg transition duration-200 hover:bg-porcelain hover:shadow-xl active:scale-[0.97]"
+                  className="focus-ring-light group inline-flex items-center justify-center rounded-full bg-white px-4 py-3.5 text-sm font-bold text-crimson shadow-lg transition duration-200 hover:bg-porcelain hover:shadow-xl active:scale-[0.97] sm:px-7 sm:text-base"
                 >
                   Start Sourcing
                   <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-200 group-hover:translate-x-1.5" />
                 </Link>
                 <Link
                   href="/services"
-                  className="focus-ring-light inline-flex items-center justify-center rounded-full border-2 border-white/70 px-7 py-3.5 text-base font-bold text-white transition duration-200 hover:bg-white/10 active:scale-[0.97]"
+                  className="focus-ring-light inline-flex items-center justify-center rounded-full border-2 border-white/70 px-4 py-3.5 text-sm font-bold text-white transition duration-200 hover:bg-white/10 active:scale-[0.97] sm:px-7 sm:text-base"
                 >
                   Explore Services
                 </Link>
@@ -186,10 +191,12 @@ export default function Hero() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="card-lux relative z-10 -mt-12 rounded-2xl p-2 sm:-mt-14"
+          className="card-lux relative z-10 -mt-10 rounded-2xl p-2 sm:-mt-14"
         >
-          {/* Tabs */}
-          <div className="flex flex-wrap gap-1 border-b border-border px-2 pt-1">
+          {/* Tabs. At their natural width the three labels overflow a phone row
+              and wrapped, leaving a lone tab on a second line that read as a
+              different control. Even thirds fit them all on one line. */}
+          <div className="grid grid-cols-3 gap-1 border-b border-border px-2 pt-1 sm:flex sm:flex-wrap">
             {tabs.map((t) => (
               <button
                 key={t.id}
@@ -198,7 +205,7 @@ export default function Hero() {
                   setActive(t.id)
                   setQuery("")
                 }}
-                className={`focus-ring relative rounded-md px-4 py-3 text-sm font-semibold transition-colors sm:text-base ${
+                className={`focus-ring relative rounded-md px-1 py-3 text-[13px] font-semibold whitespace-nowrap transition-colors sm:px-4 sm:text-base ${
                   active === t.id ? "text-crimson" : "text-muted-foreground hover:text-ink"
                 }`}
               >
@@ -243,11 +250,11 @@ export default function Hero() {
       </div>
 
       {/* ===== Service entry tiles ===== */}
-      <div className="container mx-auto px-5 pb-6 pt-12 sm:px-6 lg:px-8 lg:pt-16">
-        <div className="mb-7 flex items-end justify-between">
+      <div className="container mx-auto px-5 pb-6 pt-10 sm:px-6 sm:pt-12 lg:px-8 lg:pt-16">
+        <div className="mb-5 flex items-end justify-between sm:mb-7">
           <div>
             <div className="eyebrow text-crimson">What we handle</div>
-            <h2 className="mt-2 text-2xl font-bold tracking-display-2xl sm:tracking-display-3xl text-ink sm:text-3xl">
+            <h2 className="mt-2 text-xl font-bold tracking-display-2xl sm:tracking-display-3xl text-ink sm:text-2xl md:text-3xl">
               Everything you need to source from China
             </h2>
           </div>
@@ -260,7 +267,9 @@ export default function Hero() {
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {/* Two up on a phone. Stacked full-width, these four tiles ran to more
+            than a screen of scrolling for four short labels. */}
+        <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
           {tiles.map((tile, i) => (
             <motion.div
               key={tile.title}
@@ -271,18 +280,20 @@ export default function Hero() {
             >
               <Link
                 href={tile.href}
-                className="focus-ring group relative flex h-full flex-col rounded-2xl border border-border bg-card p-6 transition duration-200 hover:-translate-y-1 hover:border-crimson/40 hover:shadow-lift-lg active:translate-y-0 active:scale-[0.99]"
+                className="focus-ring group relative flex h-full flex-col rounded-2xl border border-border bg-card p-4 transition duration-200 hover:-translate-y-1 hover:border-crimson/40 hover:shadow-lift-lg active:translate-y-0 active:scale-[0.99] sm:p-6"
               >
                 {/* top accent on hover */}
                 <span className="absolute inset-x-0 top-0 h-1 origin-left scale-x-0 rounded-t-2xl bg-sun-gradient transition-transform duration-200 group-hover:scale-x-100" />
-                <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-crimson/10 transition-colors duration-200 group-hover:bg-crimson/15">
-                  <tile.icon className="h-6 w-6 text-crimson" />
+                <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-crimson/10 transition-colors duration-200 group-hover:bg-crimson/15 sm:mb-5 sm:h-12 sm:w-12">
+                  <tile.icon className="h-5 w-5 text-crimson sm:h-6 sm:w-6" />
                 </div>
-                <h3 className="text-lg font-bold text-ink">{tile.title}</h3>
-                <p className="mt-1.5 flex-1 text-sm leading-relaxed text-muted-foreground">
+                <h3 className="text-[15px] font-bold leading-snug text-ink sm:text-lg">{tile.title}</h3>
+                <p className="mt-1.5 flex-1 text-xs leading-relaxed text-muted-foreground sm:text-sm">
                   {tile.desc}
                 </p>
-                <div className="mt-4 inline-flex items-center text-sm font-semibold text-crimson">
+                {/* The whole tile is the link; on a phone the row is just a
+                    third line of chrome per card. */}
+                <div className="mt-4 hidden items-center text-sm font-semibold text-crimson sm:inline-flex">
                   Learn more
                   <ArrowRight className="ml-1 h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
                 </div>
@@ -294,11 +305,13 @@ export default function Hero() {
 
       {/* ===== Trust strip ===== */}
       <div className="border-y border-border bg-porcelain-deep">
-        <div className="container mx-auto grid grid-cols-2 divide-x divide-border px-5 sm:px-6 md:grid-cols-4 lg:px-8">
+        {/* One row of four even on a phone — as a 2×2 block this cost twice the
+            height to say the same four things. */}
+        <div className="container mx-auto grid grid-cols-4 divide-x divide-border px-5 sm:px-6 lg:px-8">
           {stats.map((s) => (
-            <div key={s.label} className="px-4 py-6 text-center">
-              <div className="text-2xl font-extrabold text-crimson sm:text-3xl">{s.value}</div>
-              <div className="mt-1 text-xs font-medium uppercase tracking-wide text-muted-foreground sm:text-sm">
+            <div key={s.label} className="px-1.5 py-5 text-center sm:px-4 sm:py-6">
+              <div className="text-lg font-extrabold text-crimson sm:text-2xl md:text-3xl">{s.value}</div>
+              <div className="mt-1 text-[10px] font-medium uppercase leading-tight tracking-wide text-muted-foreground sm:text-xs md:text-sm">
                 {s.label}
               </div>
             </div>

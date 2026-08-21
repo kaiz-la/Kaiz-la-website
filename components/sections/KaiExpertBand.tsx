@@ -50,36 +50,36 @@ export default function KaiExpertBand() {
               open whenever you are.
             </p>
 
-            <div className="mt-7 flex flex-col gap-3 sm:mt-9 sm:flex-row sm:flex-wrap sm:gap-4">
+            <div className="mt-7 grid grid-cols-2 gap-3 sm:mt-9 sm:flex sm:flex-row sm:flex-wrap sm:gap-4">
               <Link
                 href="/chat"
                 onClick={() => trackEvent("kaiexpert_click", { location: "home_band" })}
-                className="focus-ring-light group inline-flex w-full items-center justify-center rounded-full bg-white px-7 py-3.5 text-base font-bold text-crimson shadow-lg transition duration-200 hover:bg-porcelain hover:shadow-xl active:scale-[0.97] sm:w-auto"
+                className="focus-ring-light group inline-flex w-full items-center justify-center rounded-full bg-white px-4 py-3.5 text-sm font-bold text-crimson shadow-lg transition duration-200 hover:bg-porcelain hover:shadow-xl active:scale-[0.97] sm:w-auto sm:px-7 sm:text-base"
               >
                 Talk to KaiExpert
-                <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-200 group-hover:translate-x-1.5" />
+                <ArrowRight className="ml-2 h-4 w-4 flex-shrink-0 transition-transform duration-200 group-hover:translate-x-1.5" />
               </Link>
               <Link
                 href="/kaiexpert"
-                className="focus-ring-light inline-flex w-full items-center justify-center rounded-full border-2 border-white/50 px-7 py-3.5 text-base font-bold text-white transition duration-200 hover:bg-white/10 active:scale-[0.97] sm:w-auto"
+                className="focus-ring-light inline-flex w-full items-center justify-center rounded-full border-2 border-white/50 px-4 py-3.5 text-center text-sm font-bold text-white transition duration-200 hover:bg-white/10 active:scale-[0.97] sm:w-auto sm:px-7 sm:text-base"
               >
                 What KaiExpert does
               </Link>
             </div>
           </div>
 
-          <ul className="grid gap-3 sm:gap-4 lg:col-span-5">
+          <ul className="grid gap-2.5 sm:gap-4 lg:col-span-5">
             {points.map((p) => (
               <li
                 key={p.label}
-                className="flex items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.05] p-4 sm:p-5"
+                className="flex items-center gap-3.5 rounded-2xl border border-white/10 bg-white/[0.05] p-3.5 sm:gap-4 sm:p-5"
               >
-                <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-crimson/25 ring-1 ring-crimson/30">
+                <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-crimson/25 ring-1 ring-crimson/30 sm:h-11 sm:w-11">
                   <p.icon className="h-5 w-5 text-white" />
                 </div>
                 <div>
-                  <div className="font-bold text-white">{p.label}</div>
-                  <div className="text-sm text-white/70">{p.desc}</div>
+                  <div className="text-[15px] font-bold text-white sm:text-base">{p.label}</div>
+                  <div className="text-[13px] leading-snug text-white/70 sm:text-sm">{p.desc}</div>
                 </div>
               </li>
             ))}

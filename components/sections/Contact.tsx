@@ -99,7 +99,7 @@ export default function Contact({ showHeader = true }: { showHeader?: boolean })
   ]
 
   return (
-    <section id="contact" className="bg-background py-20 lg:py-28">
+    <section id="contact" className="bg-background py-14 sm:py-20 lg:py-28">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           variants={containerVariants}
@@ -110,7 +110,7 @@ export default function Contact({ showHeader = true }: { showHeader?: boolean })
         >
           {/* Section Header */}
           {showHeader && (
-            <motion.div variants={itemVariants} className="text-center mb-16 lg:mb-20">
+            <motion.div variants={itemVariants} className="text-center mb-9 sm:mb-16 lg:mb-20">
               <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-primary mb-6 drop-shadow-sm">
                 Get In <span className="text-secondary">Touch</span>
               </h2>
@@ -124,7 +124,7 @@ export default function Contact({ showHeader = true }: { showHeader?: boolean })
           {/* Unified Contact Section */}
           <motion.div
             variants={itemVariants}
-            className="material-panel grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 rounded-2xl p-8 lg:p-12"
+            className="material-panel grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 rounded-2xl p-6 sm:p-8 lg:p-12"
           >
             {/* Left Side: Contact Information */}
             <div className="lg:col-span-5">
@@ -152,7 +152,7 @@ export default function Contact({ showHeader = true }: { showHeader?: boolean })
             <div className="lg:col-span-7">
               <h3 className="text-3xl font-bold text-primary mb-6">Send Us a Message</h3>
               {status === "success" ? (
-                <div className="flex h-full min-h-[20rem] flex-col items-center justify-center rounded-xl border border-secondary/20 bg-secondary/[0.04] p-8 text-center">
+                <div className="flex h-full min-h-[20rem] flex-col items-center justify-center rounded-xl border border-secondary/20 bg-secondary/[0.04] p-6 text-center sm:p-8">
                   <CheckCircle2 className="mb-4 h-12 w-12 text-secondary" />
                   <h4 className="text-xl font-bold text-primary">Message received. Thank you!</h4>
                   <p className="mt-2 max-w-sm text-muted-foreground">

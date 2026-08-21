@@ -49,7 +49,7 @@ export default function AboutMore() {
   return (
     <>
       {/* Mission */}
-      <section className="relative grain overflow-hidden bg-porcelain-deep py-20 lg:py-28">
+      <section className="relative grain overflow-hidden bg-porcelain-deep py-14 sm:py-20 lg:py-28">
         <div className="relative z-10 container mx-auto max-w-3xl px-5 text-center sm:px-6 lg:px-8">
           <div className="flex items-center justify-center gap-3">
             <span className="h-px w-8 bg-gold" />
@@ -60,7 +60,7 @@ export default function AboutMore() {
             Make sourcing from China{" "}
             <span className="text-gradient-crimson italic">simple, safe and transparent.</span>
           </h2>
-          <p className="mt-6 text-lg leading-relaxed text-ink-soft">
+          <p className="mt-6 text-base leading-relaxed sm:text-lg text-ink-soft">
             Importing from China has always rewarded the well-connected and punished everyone else:
             opaque pricing, language barriers, quality gambles and logistics chaos. Kaiz La exists to
             erase that gap.
@@ -74,9 +74,9 @@ export default function AboutMore() {
       </section>
 
       {/* Principles */}
-      <section className="bg-porcelain py-20 lg:py-28">
+      <section className="bg-porcelain py-14 sm:py-20 lg:py-28">
         <div className="container mx-auto px-5 sm:px-6 lg:px-8">
-          <div className="mb-12 max-w-2xl">
+          <div className="mb-8 max-w-2xl sm:mb-12">
             <div className="eyebrow text-crimson">How we work</div>
             <h2 className="mt-2 font-display text-3xl font-medium tracking-display-3xl sm:tracking-display-4xl text-ink sm:text-4xl">
               Principles we don&apos;t compromise on.
@@ -84,7 +84,7 @@ export default function AboutMore() {
           </div>
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {principles.map((p) => (
-              <div key={p.title} className="card-lux flex h-full flex-col rounded-3xl p-7">
+              <div key={p.title} className="card-lux flex h-full flex-col rounded-3xl p-5 sm:p-7">
                 <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-crimson/10 ring-1 ring-crimson/15">
                   <p.icon className="h-6 w-6 text-crimson" />
                 </div>
@@ -98,9 +98,9 @@ export default function AboutMore() {
       </section>
 
       {/* Markets */}
-      <section className="bg-porcelain-deep py-20 lg:py-28">
+      <section className="bg-porcelain-deep py-14 sm:py-20 lg:py-28">
         <div className="container mx-auto px-5 sm:px-6 lg:px-8">
-          <div className="mb-12 max-w-2xl">
+          <div className="mb-8 max-w-2xl sm:mb-12">
             <div className="eyebrow text-crimson">Where we work</div>
             <h2 className="mt-2 font-display text-3xl font-medium tracking-display-3xl sm:tracking-display-4xl text-ink sm:text-4xl">
               Built for India, the Middle East &amp; Southeast Asia.
@@ -108,7 +108,7 @@ export default function AboutMore() {
           </div>
           <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
             {markets.map((m) => (
-              <div key={m.region} className="card-lux rounded-3xl p-8">
+              <div key={m.region} className="card-lux rounded-3xl p-6 sm:p-8">
                 <h3 className="font-display text-2xl font-medium text-ink">{m.region}</h3>
                 <div className="rule-gold my-4 w-14" />
                 <p className="text-[15px] leading-relaxed text-ink-soft">{m.body}</p>

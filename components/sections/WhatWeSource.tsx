@@ -16,15 +16,15 @@ const categories = [
  */
 export default function WhatWeSource() {
   return (
-    <section className="bg-porcelain-deep py-20 lg:py-28">
+    <section className="bg-porcelain-deep py-14 sm:py-20 lg:py-28">
       <div className="container mx-auto px-5 sm:px-6 lg:px-8">
-        <div className="mb-12 flex flex-wrap items-end justify-between gap-4">
+        <div className="mb-8 flex flex-wrap items-end justify-between gap-4 sm:mb-12">
           <div className="max-w-2xl">
             <div className="eyebrow text-crimson">What we source</div>
-            <h2 className="mt-2 text-3xl font-bold tracking-display-3xl sm:tracking-display-4xl text-ink sm:text-4xl">
+            <h2 className="mt-2 text-[1.75rem] font-bold leading-tight tracking-display-3xl sm:tracking-display-4xl text-ink sm:text-4xl sm:leading-normal">
               If it&apos;s made in China, we can source it.
             </h2>
-            <p className="mt-4 text-lg leading-relaxed text-ink-soft">
+            <p className="mt-3 text-base leading-relaxed text-ink-soft sm:mt-4 sm:text-lg">
               From consumer electronics to industrial machinery, these are the categories our
               buyers move every week. Don&apos;t see yours? It&apos;s almost certainly covered.
             </p>
@@ -38,12 +38,14 @@ export default function WhatWeSource() {
           </Link>
         </div>
 
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
+        {/* Square on a phone. The 4:5 portrait crop is a desktop proportion —
+            at two columns it turned six tiles into three tall rows. */}
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-6">
           {categories.map((cat) => (
             <Link
               key={cat.label}
               href="/chat"
-              className="focus-ring group relative aspect-[4/5] overflow-hidden rounded-2xl border border-border transition-transform duration-200 active:scale-[0.98]"
+              className="focus-ring group relative aspect-square overflow-hidden rounded-2xl border border-border transition-transform duration-200 active:scale-[0.98] sm:aspect-[4/5]"
             >
               <img
                 src={cat.image}

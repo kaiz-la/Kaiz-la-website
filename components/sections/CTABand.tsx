@@ -18,24 +18,26 @@ export default function CTABand({
   return (
     <section className="relative overflow-hidden">
       <div className="bg-crimson">
-        <div className="container mx-auto flex flex-col items-start gap-8 px-5 py-16 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8 lg:py-20">
+        <div className="container mx-auto flex flex-col items-start gap-6 px-5 py-12 sm:gap-8 sm:px-6 sm:py-16 lg:flex-row lg:items-center lg:justify-between lg:px-8 lg:py-20">
           <div className="max-w-2xl">
-            <h2 className="text-3xl font-extrabold tracking-display-3xl sm:tracking-display-4xl text-white sm:text-4xl">
+            <h2 className="text-[1.75rem] font-extrabold leading-tight tracking-display-3xl sm:tracking-display-4xl text-white sm:text-4xl sm:leading-normal">
               {title}
             </h2>
-            <p className="mt-3 text-lg leading-relaxed text-white/85">{subtitle}</p>
+            <p className="mt-3 text-base leading-relaxed text-white/85 sm:text-lg">{subtitle}</p>
           </div>
-          <div className="flex flex-shrink-0 flex-wrap gap-4">
+          {/* Side by side on a phone; stacked full-width pills read as two
+              separate decisions and cost an extra row. */}
+          <div className="grid w-full flex-shrink-0 grid-cols-2 gap-3 sm:flex sm:w-auto sm:flex-wrap sm:gap-4">
             <Link
               href={primary.href}
-              className="focus-ring-light group inline-flex items-center justify-center rounded-full bg-white px-7 py-3.5 text-base font-bold text-crimson shadow-lg transition duration-200 hover:bg-porcelain hover:shadow-xl active:scale-[0.97]"
+              className="focus-ring-light group inline-flex items-center justify-center rounded-full bg-white px-4 py-3.5 text-sm font-bold text-crimson shadow-lg transition duration-200 hover:bg-porcelain hover:shadow-xl active:scale-[0.97] sm:px-7 sm:text-base"
             >
               {primary.label}
-              <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-200 group-hover:translate-x-1.5" />
+              <ArrowRight className="ml-2 h-4 w-4 flex-shrink-0 transition-transform duration-200 group-hover:translate-x-1.5" />
             </Link>
             <Link
               href={secondary.href}
-              className="focus-ring-light inline-flex items-center justify-center rounded-full border-2 border-white/70 px-7 py-3.5 text-base font-bold text-white transition duration-200 hover:bg-white/10 active:scale-[0.97]"
+              className="focus-ring-light inline-flex items-center justify-center rounded-full border-2 border-white/70 px-4 py-3.5 text-center text-sm font-bold text-white transition duration-200 hover:bg-white/10 active:scale-[0.97] sm:px-7 sm:text-base"
             >
               {secondary.label}
             </Link>

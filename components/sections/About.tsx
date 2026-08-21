@@ -68,7 +68,7 @@ const itemVariants: Variants = {
 
 export default function About({ showHeader = true }: { showHeader?: boolean }) {
   return (
-    <section id="about" className="relative grain overflow-hidden bg-porcelain py-20 lg:py-28">
+    <section id="about" className="relative grain overflow-hidden bg-porcelain py-14 sm:py-20 lg:py-28">
       {/* Ambient brand glows */}
       <div
         className="pointer-events-none absolute inset-0"
@@ -85,14 +85,14 @@ export default function About({ showHeader = true }: { showHeader?: boolean }) {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            className="mx-auto mb-14 max-w-2xl text-center lg:mb-16"
+            className="mx-auto mb-9 max-w-2xl text-center sm:mb-14 lg:mb-16"
           >
             <div className="flex items-center justify-center gap-3">
               <span className="h-px w-8 bg-gold" />
               <span className="eyebrow text-ink/60">About Kaiz La</span>
               <span className="h-px w-8 bg-gold" />
             </div>
-            <h2 className="mt-5 font-display text-4xl font-medium leading-[1.1] text-ink sm:text-5xl">
+            <h2 className="mt-4 font-display text-[2rem] font-medium leading-[1.1] text-ink sm:mt-5 sm:text-5xl">
               Sourcing from China, <span className="text-gradient-crimson italic">done right.</span>
             </h2>
           </motion.div>
@@ -157,7 +157,7 @@ export default function About({ showHeader = true }: { showHeader?: boolean }) {
             <p className="font-display text-2xl leading-snug text-ink sm:text-3xl">
               Kaiz La is your sourcing partner in the manufacturing heart of China.
             </p>
-            <p className="mt-5 text-lg leading-relaxed text-ink-soft">
+            <p className="mt-5 text-base leading-relaxed sm:text-lg text-ink-soft">
               Headquartered in Hong Kong, we connect businesses across India, the Middle East and
               Southeast Asia with vetted Chinese factories, then handle the hard parts of importing
               on your behalf.

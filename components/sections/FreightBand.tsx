@@ -29,34 +29,38 @@ export default function FreightBand() {
         }}
       />
 
-      <div className="relative container mx-auto px-5 py-20 sm:px-6 lg:px-8 lg:py-28">
+      <div className="relative container mx-auto px-5 py-14 sm:px-6 sm:py-20 lg:px-8 lg:py-28">
         <div className="max-w-2xl">
           <div className="eyebrow text-white/80">Freight &amp; Logistics</div>
-          <h2 className="mt-3 text-3xl font-extrabold leading-[1.08] tracking-display-3xl sm:tracking-display-4xl lg:tracking-display-5xl text-white sm:text-4xl lg:text-5xl">
+          <h2 className="mt-3 text-[1.75rem] font-extrabold leading-[1.12] tracking-display-3xl sm:tracking-display-4xl lg:tracking-display-5xl text-white sm:text-4xl sm:leading-[1.08] lg:text-5xl">
             Air and sea freight, fully tracked, door to door.
           </h2>
-          <p className="mt-5 max-w-xl text-lg leading-relaxed text-white/85">
+          <p className="mt-4 max-w-xl text-base leading-relaxed text-white/85 sm:mt-5 sm:text-lg">
             We consolidate your goods, pick the fastest route, and clear customs across India and
             the Middle East, so a shipment leaving a Chinese factory arrives at your door without
             the chaos in between.
           </p>
 
-          <div className="mt-9 grid grid-cols-1 gap-4 sm:grid-cols-3">
+          {/* Icon beside the label on a phone rather than stacked above it —
+              three cards of dead vertical space for three short lines. */}
+          <div className="mt-7 grid grid-cols-1 gap-2.5 sm:mt-9 sm:grid-cols-3 sm:gap-4">
             {points.map((p) => (
               <div
                 key={p.label}
-                className="material-chip rounded-2xl p-4"
+                className="material-chip flex items-center gap-3.5 rounded-2xl p-3.5 sm:block sm:p-4"
               >
-                <p.icon className="h-6 w-6 text-white" />
-                <div className="mt-3 text-base font-bold text-white">{p.label}</div>
-                <div className="text-sm text-white/75">{p.desc}</div>
+                <p.icon className="h-6 w-6 flex-shrink-0 text-white" />
+                <div>
+                  <div className="text-base font-bold text-white sm:mt-3">{p.label}</div>
+                  <div className="text-sm text-white/75">{p.desc}</div>
+                </div>
               </div>
             ))}
           </div>
 
           <Link
             href="/track"
-            className="focus-ring-light group mt-9 inline-flex items-center justify-center rounded-full bg-white px-7 py-3.5 text-base font-bold text-crimson shadow-lg transition duration-200 hover:bg-porcelain hover:shadow-xl active:scale-[0.97]"
+            className="focus-ring-light group mt-7 inline-flex items-center justify-center rounded-full bg-white px-7 py-3.5 text-base font-bold text-crimson shadow-lg transition duration-200 hover:bg-porcelain hover:shadow-xl active:scale-[0.97] sm:mt-9"
           >
             Track a shipment
             <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-200 group-hover:translate-x-1.5" />

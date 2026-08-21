@@ -85,22 +85,22 @@ export default function GuidesExtras() {
   return (
     <>
       {/* Sourcing glossary */}
-      <section className="bg-porcelain-deep py-20 lg:py-28">
+      <section className="bg-porcelain-deep py-14 sm:py-20 lg:py-28">
         <div className="container mx-auto px-5 sm:px-6 lg:px-8">
-          <div className="mb-12 max-w-2xl">
+          <div className="mb-8 max-w-2xl sm:mb-12">
             <div className="eyebrow text-crimson">Jargon, decoded</div>
             <h2 className="mt-2 font-display text-3xl font-medium tracking-display-3xl sm:tracking-display-4xl text-ink sm:text-4xl">
               The sourcing vocabulary, in plain English.
             </h2>
-            <p className="mt-4 text-lg leading-relaxed text-ink-soft">
+            <p className="mt-4 text-base leading-relaxed sm:text-lg text-ink-soft">
               MOQ, FOB, DDP, HS codes: importing comes with its own alphabet. Here are the terms
               you&apos;ll meet most, explained without the jargon.
             </p>
           </div>
 
-          <dl className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <dl className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
             {glossary.map((g) => (
-              <div key={g.term} className="card-lux rounded-2xl p-6">
+              <div key={g.term} className="card-lux rounded-2xl p-4 sm:p-6">
                 <dt className="flex items-center gap-2">
                   <span className="font-display text-lg font-medium text-ink">{g.term}</span>
                   {g.abbr && (
@@ -109,7 +109,7 @@ export default function GuidesExtras() {
                     </span>
                   )}
                 </dt>
-                <div className="rule-gold my-3 w-10" />
+                <div className="rule-gold my-2 w-10 sm:my-3" />
                 <dd className="text-sm leading-relaxed text-ink-soft">{g.def}</dd>
               </div>
             ))}
@@ -118,14 +118,14 @@ export default function GuidesExtras() {
       </section>
 
       {/* Hub-level SEO FAQ */}
-      <section className="bg-porcelain py-20 lg:py-28">
+      <section className="bg-porcelain py-14 sm:py-20 lg:py-28">
         <div className="container mx-auto max-w-3xl px-5 sm:px-6 lg:px-8">
-          <div className="mb-12 text-center">
+          <div className="mb-8 text-center sm:mb-12">
             <div className="eyebrow text-crimson">Sourcing FAQ</div>
             <h2 className="mt-2 font-display text-3xl font-medium tracking-display-3xl sm:tracking-display-4xl text-ink sm:text-4xl">
               Common questions about sourcing from China.
             </h2>
-            <p className="mt-4 text-lg leading-relaxed text-ink-soft">
+            <p className="mt-4 text-base leading-relaxed sm:text-lg text-ink-soft">
               The questions importers ask us most, with quick, straight answers before you dive into
               the full guides.
             </p>
@@ -133,7 +133,7 @@ export default function GuidesExtras() {
 
           <div className="space-y-3">
             {guideHubFaqs.map((f) => (
-              <details key={f.q} className="group card-lux rounded-2xl px-6 py-5">
+              <details key={f.q} className="group card-lux rounded-2xl px-5 py-4 sm:px-6 sm:py-5">
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-display text-lg font-medium text-ink">
                   {f.q}
                   <Plus className="h-5 w-5 flex-shrink-0 text-crimson transition-transform duration-300 group-open:rotate-45" />

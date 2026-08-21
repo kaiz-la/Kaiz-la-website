@@ -94,19 +94,21 @@ export default function Services({ showHeader = true }: { showHeader?: boolean }
           className="max-w-7xl mx-auto"
         >
           {showHeader && (
-            <motion.div variants={itemVariants} className="text-center mb-12 lg:mb-16">
+            <motion.div variants={itemVariants} className="text-center mb-8 sm:mb-12 lg:mb-16">
               <h2 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold text-primary mb-4 drop-shadow-sm">
                 Our <span className="text-secondary">Services</span>
               </h2>
-              <div className="w-20 h-1 bg-accent mx-auto rounded-full shadow-sm mb-6"></div>
-              <p className="text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+              <div className="w-20 h-1 bg-accent mx-auto rounded-full shadow-sm mb-5 sm:mb-6"></div>
+              <p className="text-base sm:text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed">
                 <span className="font-semibold text-foreground">End-to-End Solutions</span> - We manage the entire
                 lifecycle of your procurement with precision, transparency, and expertise.
               </p>
             </motion.div>
           )}
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
+          {/* Two up on a phone — six full-width cards was two screens of
+              scrolling for six short service names. */}
+          <div className="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-2 lg:grid-cols-3 lg:gap-6">
             {services.map((service) => (
               <motion.div
                 key={service.step}
@@ -129,9 +131,9 @@ export default function Services({ showHeader = true }: { showHeader?: boolean }
                     {service.step}
                   </div>
 
-                  <div className="mb-5 flex-shrink-0">
-                    <motion.div 
-                      className="w-16 h-16 bg-secondary/10 rounded-lg flex items-center justify-center group-hover:bg-secondary/20 transition-colors duration-200"
+                  <div className="mb-3 flex-shrink-0 sm:mb-5">
+                    <motion.div
+                      className="w-11 h-11 sm:w-16 sm:h-16 bg-secondary/10 rounded-lg flex items-center justify-center group-hover:bg-secondary/20 transition-colors duration-200"
                       animate={{
                         rotate: hoveredService === service.step ? [0, -10, 10, 0] : 0,
                         scale: hoveredService === service.step ? 1.1 : 1,
@@ -144,16 +146,16 @@ export default function Services({ showHeader = true }: { showHeader?: boolean }
                         }}
                         transition={{ duration: 0.3, ease: "easeInOut" }}
                       >
-                        <service.icon className="h-8 w-8 text-secondary" />
+                        <service.icon className="h-5 w-5 text-secondary sm:h-8 sm:w-8" />
                       </motion.div>
                     </motion.div>
                   </div>
 
                   <div className="flex-1 flex flex-col">
-                    <h3 className="text-xl font-semibold text-secondary mb-3 leading-tight">
+                    <h3 className="text-[15px] sm:text-xl font-semibold text-secondary mb-2 sm:mb-3 leading-tight">
                       {service.title}
                     </h3>
-                    <p className="text-base text-muted-foreground leading-relaxed flex-1">
+                    <p className="text-xs sm:text-base text-muted-foreground leading-relaxed flex-1">
                       {service.description}
                     </p>
                   </div>

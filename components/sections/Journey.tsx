@@ -91,7 +91,7 @@ export default function Journey({ showHeader = true }: { showHeader?: boolean })
     <section
       id="journey"
       ref={sectionRef}
-      className="relative grain bg-porcelain-deep py-20 lg:py-24"
+      className="relative grain bg-porcelain-deep py-14 sm:py-20 lg:py-24"
     >
       {/* Ambient */}
       <div
@@ -110,18 +110,18 @@ export default function Journey({ showHeader = true }: { showHeader?: boolean })
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            className="mx-auto mb-20 max-w-2xl text-center"
+            className="mx-auto mb-10 max-w-2xl text-center sm:mb-16 lg:mb-20"
           >
             <div className="flex items-center justify-center gap-3">
               <span className="h-px w-8 bg-gold" />
               <span className="eyebrow text-ink/60">The Sourcing Journey</span>
               <span className="h-px w-8 bg-gold" />
             </div>
-            <h2 className="mt-5 font-display text-4xl font-medium leading-[1.1] text-ink sm:text-5xl lg:text-6xl">
+            <h2 className="mt-4 font-display text-[2rem] font-medium leading-[1.1] text-ink sm:mt-5 sm:text-5xl lg:text-6xl">
               From the factory floor to{" "}
               <span className="text-gradient-crimson italic">your doorstep.</span>
             </h2>
-            <p className="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-ink-soft">
+            <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed sm:mt-6 sm:text-lg text-ink-soft">
               Six deliberate steps, one seamless passage across continents. Follow the route as
               your order travels from China to India and the Middle East.
             </p>
@@ -226,7 +226,7 @@ export default function Journey({ showHeader = true }: { showHeader?: boolean })
                   </div>
                   <h3 className="font-display text-3xl font-medium text-ink">{step.title}</h3>
                   <div className="my-5 rule-gold w-16" />
-                  <p className="max-w-2xl text-lg leading-relaxed text-ink-soft">
+                  <p className="max-w-2xl text-base leading-relaxed sm:text-lg text-ink-soft">
                     {step.description}
                   </p>
                 </motion.div>
@@ -237,8 +237,8 @@ export default function Journey({ showHeader = true }: { showHeader?: boolean })
 
         {/* Mobile timeline */}
         <div className="relative lg:hidden">
-          <div className="absolute bottom-0 left-[1.35rem] top-2 w-px bg-ink/10" />
-          <div className="space-y-8">
+          <div className="absolute bottom-0 left-5 top-2 w-px bg-ink/10" />
+          <div className="space-y-5">
             {steps.map((step, i) => (
               <motion.div
                 key={step.title}
@@ -246,18 +246,18 @@ export default function Journey({ showHeader = true }: { showHeader?: boolean })
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.3 }}
                 transition={{ duration: 0.5 }}
-                className="relative pl-14"
+                className="relative pl-[3.25rem]"
               >
-                <div className="absolute left-0 top-1 flex h-11 w-11 items-center justify-center rounded-full border-2 border-crimson bg-white">
-                  <step.icon className="h-5 w-5 text-crimson" />
+                <div className="absolute left-0 top-1 flex h-10 w-10 items-center justify-center rounded-full border-2 border-crimson bg-white">
+                  <step.icon className="h-[18px] w-[18px] text-crimson" />
                 </div>
-                <div className="card-lux rounded-2xl p-6">
+                <div className="card-lux rounded-2xl p-5">
                   <div className="eyebrow text-gold">{step.kicker}</div>
-                  <h3 className="mt-2 font-display text-2xl font-medium text-ink">
+                  <h3 className="mt-2 font-display text-xl font-medium leading-snug text-ink">
                     {step.title}
                   </h3>
-                  <div className="my-3 rule-gold w-12" />
-                  <p className="text-base leading-relaxed text-ink-soft">{step.description}</p>
+                  <div className="my-2.5 rule-gold w-12" />
+                  <p className="text-[15px] leading-relaxed text-ink-soft">{step.description}</p>
                 </div>
               </motion.div>
             ))}

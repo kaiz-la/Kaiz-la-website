@@ -137,7 +137,7 @@ export default function TrackingLookup() {
       {/* Results */}
       <div className="mt-8">
         {state.kind === "notfound" && (
-          <div className="card-lux rounded-2xl p-8 text-center">
+          <div className="card-lux rounded-2xl p-6 text-center sm:p-8">
             <PackageX className="mx-auto mb-4 h-10 w-10 text-crimson" />
             <h3 className="font-display text-xl font-medium text-ink">No shipment found</h3>
             <p className="mt-2 text-ink-soft">
@@ -155,7 +155,7 @@ export default function TrackingLookup() {
         )}
 
         {state.kind === "error" && (
-          <div className="card-lux rounded-2xl p-8 text-center">
+          <div className="card-lux rounded-2xl p-6 text-center sm:p-8">
             <h3 className="font-display text-xl font-medium text-ink">Something went wrong</h3>
             <p className="mt-2 text-ink-soft">
               We couldn&apos;t reach the tracking service. Please try again in a moment.

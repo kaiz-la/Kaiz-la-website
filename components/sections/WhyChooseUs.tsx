@@ -66,7 +66,7 @@ export default function WhyChooseUs() {
   return (
     <section
       id="why-choose-us"
-      className="relative grain overflow-hidden bg-porcelain py-24 lg:py-32"
+      className="relative grain overflow-hidden bg-porcelain py-14 sm:py-20 lg:py-32"
     >
       {/* Ambient brand glows */}
       <div
@@ -84,17 +84,17 @@ export default function WhyChooseUs() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-          className="mx-auto mb-16 max-w-2xl text-center lg:mb-20"
+          className="mx-auto mb-9 max-w-2xl text-center sm:mb-14 lg:mb-20"
         >
           <div className="flex items-center justify-center gap-3">
             <span className="h-px w-8 bg-gold" />
             <span className="eyebrow text-ink/60">Why Kaiz La</span>
             <span className="h-px w-8 bg-gold" />
           </div>
-          <h2 className="mt-5 font-display text-4xl font-medium leading-[1.1] text-ink sm:text-5xl lg:text-6xl">
+          <h2 className="mt-4 font-display text-[2rem] font-medium leading-[1.1] text-ink sm:mt-5 sm:text-5xl lg:text-6xl">
             The Kaiz La <span className="text-gradient-crimson italic">Advantage.</span>
           </h2>
-          <p className="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-ink-soft">
+          <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-ink-soft sm:mt-6 sm:text-lg">
             Fifteen years on the ground in China, a vetted factory network, and technology that
             keeps you in the loop, from first enquiry to final delivery.
           </p>
@@ -106,16 +106,20 @@ export default function WhyChooseUs() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-60px" }}
-          className="mx-auto grid max-w-5xl grid-cols-1 gap-5 sm:grid-cols-2"
+          /* Four photo cards stacked one per row ran to three phone screens on
+             their own. On a phone they become a swipeable rail — same four
+             cards, one screen — bleeding to the container edge so the peeking
+             next card signals there's more. Back to a grid from sm. */
+          className="-mx-5 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-px-5 px-5 pb-4 [scrollbar-width:thin] sm:mx-auto sm:grid sm:max-w-5xl sm:snap-none sm:grid-cols-2 sm:gap-5 sm:overflow-x-visible sm:px-0 sm:pb-0"
         >
           {advantages.map((a, i) => (
             <motion.div
               key={i}
               variants={cardVariants}
-              className="group card-lux relative flex h-full flex-col overflow-hidden rounded-3xl transition duration-200 hover:-translate-y-1 hover:shadow-lift-xl"
+              className="group card-lux relative flex h-auto w-[82vw] max-w-[330px] flex-shrink-0 snap-start flex-col overflow-hidden rounded-3xl transition duration-200 hover:-translate-y-1 hover:shadow-lift-xl sm:h-full sm:w-auto sm:max-w-none"
             >
               {/* Photo banner */}
-              <div className="relative h-44 overflow-hidden">
+              <div className="relative h-36 overflow-hidden sm:h-44">
                 <img
                   src={a.image}
                   alt={a.title}
@@ -123,26 +127,26 @@ export default function WhyChooseUs() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-ink/55 via-crimson/5 to-transparent" />
                 {/* Oversized number watermark */}
-                <span className="pointer-events-none absolute right-4 top-1 font-display text-7xl font-semibold text-white/20">
+                <span className="pointer-events-none absolute right-4 top-1 font-display text-6xl font-semibold text-white/20 sm:text-7xl">
                   {String(i + 1).padStart(2, "0")}
                 </span>
                 {/* Sun-gradient top accent on hover */}
                 <span className="absolute inset-x-0 top-0 h-1 origin-left scale-x-0 bg-sun-gradient transition-transform duration-200 group-hover:scale-x-100" />
               </div>
 
-              <div className="relative flex flex-1 flex-col px-8 pb-8">
+              <div className="relative flex flex-1 flex-col px-5 pb-6 sm:px-8 sm:pb-8">
                 {/* Brand chip floating over the image edge */}
-                <div className="-mt-7 mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-crimson shadow-lg ring-4 ring-[var(--color-paper)]">
-                  <a.icon className="h-7 w-7 text-white" />
+                <div className="-mt-6 mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-crimson shadow-lg ring-4 ring-[var(--color-paper)] sm:-mt-7 sm:mb-5 sm:h-14 sm:w-14">
+                  <a.icon className="h-6 w-6 text-white sm:h-7 sm:w-7" />
                 </div>
 
-                <h3 className="font-display text-2xl font-medium leading-snug text-ink">
+                <h3 className="font-display text-xl font-medium leading-snug text-ink sm:text-2xl">
                   {a.title}
                 </h3>
-                <div className="rule-gold my-4 w-14" />
-                <p className="text-[15px] leading-relaxed text-ink-soft">{a.description}</p>
+                <div className="rule-gold my-3 w-14 sm:my-4" />
+                <p className="text-sm leading-relaxed text-ink-soft sm:text-[15px]">{a.description}</p>
 
-                <div className="mt-auto flex items-center gap-2.5 pt-7">
+                <div className="mt-auto flex items-center gap-2.5 pt-5 sm:pt-7">
                   <span className="h-1.5 w-1.5 flex-shrink-0 rounded-full bg-gold" />
                   <span className="eyebrow text-gold">{a.stat}</span>
                 </div>

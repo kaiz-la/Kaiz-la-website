@@ -135,7 +135,7 @@ export default function ServicesDetail() {
   return (
     <>
       {/* End-to-end framing */}
-      <section className="relative grain overflow-hidden bg-porcelain-deep py-20 lg:py-28">
+      <section className="relative grain overflow-hidden bg-porcelain-deep py-14 sm:py-20 lg:py-28">
         <div className="relative z-10 container mx-auto max-w-3xl px-5 text-center sm:px-6 lg:px-8">
           <div className="flex items-center justify-center gap-3">
             <span className="h-px w-8 bg-gold" />
@@ -146,7 +146,7 @@ export default function ServicesDetail() {
             Sourcing isn&apos;t six vendors.{" "}
             <span className="text-gradient-crimson italic">It&apos;s one accountable team.</span>
           </h2>
-          <p className="mt-6 text-lg leading-relaxed text-ink-soft">
+          <p className="mt-6 text-base leading-relaxed sm:text-lg text-ink-soft">
             Most importers stitch their supply chain together from agents, inspectors, freight
             forwarders and brokers who never speak to each other, and every gap between them is
             where orders go wrong.
@@ -161,22 +161,28 @@ export default function ServicesDetail() {
       </section>
 
       {/* Core service deep-dives */}
-      <section className="bg-porcelain py-20 lg:py-28">
+      <section className="bg-porcelain py-14 sm:py-20 lg:py-28">
         <div className="container mx-auto px-5 sm:px-6 lg:px-8">
-          <div className="mb-12 max-w-2xl">
+          <div className="mb-8 max-w-2xl sm:mb-12">
             <div className="eyebrow text-crimson">What&apos;s included</div>
             <h2 className="mt-2 font-display text-3xl font-medium tracking-display-3xl sm:tracking-display-4xl text-ink sm:text-4xl">
               Every core service, in detail.
             </h2>
-            <p className="mt-4 text-lg leading-relaxed text-ink-soft">
+            <p className="mt-4 text-base leading-relaxed sm:text-lg text-ink-soft">
               Six services that cover the full journey from factory floor to your doorstep. Here&apos;s
               exactly what each one puts on the table.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+          {/* Six deep-dive cards, each with its own checklist, ran to four
+              phone screens stacked. On a phone they become a swipeable rail —
+              same six cards, one screen — and go back to a grid from md. */}
+          <div className="-mx-5 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-px-5 px-5 pb-4 [scrollbar-width:thin] sm:-mx-6 sm:scroll-px-6 sm:px-6 md:mx-0 md:grid md:snap-none md:grid-cols-2 md:gap-6 md:overflow-x-visible md:px-0 md:pb-0">
             {coreServices.map((s) => (
-              <div key={s.step} className="card-lux flex h-full flex-col rounded-3xl p-7 lg:p-8">
+              <div
+                key={s.step}
+                className="card-lux flex w-[84vw] max-w-[340px] flex-shrink-0 snap-start flex-col rounded-3xl p-6 md:w-auto md:max-w-none md:p-7 lg:p-8"
+              >
                 <div className="flex items-start justify-between">
                   <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-crimson/10 ring-1 ring-crimson/15">
                     <s.icon className="h-6 w-6 text-crimson" />
@@ -201,15 +207,15 @@ export default function ServicesDetail() {
       </section>
 
       {/* Specialised / add-on services */}
-      <section className="bg-porcelain-deep py-20 lg:py-28">
+      <section className="bg-porcelain-deep py-14 sm:py-20 lg:py-28">
         <div className="container mx-auto px-5 sm:px-6 lg:px-8">
-          <div className="mb-12 flex flex-wrap items-end justify-between gap-4">
+          <div className="mb-8 flex flex-wrap sm:mb-12 items-end justify-between gap-4">
             <div className="max-w-2xl">
               <div className="eyebrow text-crimson">Beyond the basics</div>
               <h2 className="mt-2 font-display text-3xl font-medium tracking-display-3xl sm:tracking-display-4xl text-ink sm:text-4xl">
                 Specialised services when you need more.
               </h2>
-              <p className="mt-4 text-lg leading-relaxed text-ink-soft">
+              <p className="mt-4 text-base leading-relaxed sm:text-lg text-ink-soft">
                 Once the core flow is running, these add-ons let you brand, finance and scale your
                 sourcing without finding a second partner.
               </p>
@@ -223,15 +229,23 @@ export default function ServicesDetail() {
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {/* Icon beside the copy on a phone rather than stacked above it. Two
+              columns would squeeze these bodies to a dozen characters a line;
+              this keeps a readable measure and still halves the height. */}
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
             {specialized.map((s) => (
-              <div key={s.title} className="card-lux flex h-full flex-col rounded-3xl p-7">
-                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-crimson/10 ring-1 ring-crimson/15">
-                  <s.icon className="h-6 w-6 text-crimson" />
+              <div
+                key={s.title}
+                className="card-lux flex h-full gap-4 rounded-3xl p-5 sm:flex-col sm:gap-0 sm:p-7"
+              >
+                <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-crimson/10 ring-1 ring-crimson/15 sm:h-12 sm:w-12">
+                  <s.icon className="h-5 w-5 text-crimson sm:h-6 sm:w-6" />
                 </div>
-                <h3 className="mt-5 font-display text-lg font-medium text-ink">{s.title}</h3>
-                <div className="rule-gold my-3 w-12" />
-                <p className="text-sm leading-relaxed text-ink-soft">{s.body}</p>
+                <div>
+                  <h3 className="font-display text-lg font-medium text-ink sm:mt-5">{s.title}</h3>
+                  <div className="rule-gold my-2 w-12 sm:my-3" />
+                  <p className="text-sm leading-relaxed text-ink-soft">{s.body}</p>
+                </div>
               </div>
             ))}
           </div>

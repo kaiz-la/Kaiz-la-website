@@ -35,9 +35,12 @@ export default function Footer() {
   return (
     <footer className="bg-ink text-white/80">
       <div className="container mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 gap-10 py-16 md:grid-cols-12 lg:py-20">
+        {/* Two columns on a phone. Stacked, the four blocks ran to a screen and
+            a half of footer — the two short link lists sit side by side and the
+            wider brand and contact blocks span both. */}
+        <div className="grid grid-cols-2 gap-x-6 gap-y-9 py-12 sm:gap-10 md:grid-cols-12 lg:py-20">
           {/* Brand + socials */}
-          <div className="md:col-span-5">
+          <div className="col-span-2 md:col-span-5">
             <Link
               href="/"
               className="focus-ring-light inline-block rounded-md"
@@ -52,15 +55,15 @@ export default function Footer() {
                 className="h-10 w-auto"
               />
             </Link>
-            <p className="mt-5 max-w-sm text-sm leading-relaxed text-white/70">
+            <p className="mt-4 max-w-sm text-sm leading-relaxed text-white/70 sm:mt-5">
               Your sourcing partner on the ground in China: vetted suppliers, quality control,
               freight and customs for businesses across India and the Middle East.
             </p>
-            <p className="mt-5 text-xs leading-relaxed text-white/55">
+            <p className="mt-4 text-xs leading-relaxed text-white/55 sm:mt-5">
               <span className="font-semibold text-white/70">Global Offices &amp; Partner Network:</span>{" "}
               {siteConfig.offices.join(" · ")}
             </p>
-            <div className="mt-6 flex gap-3">
+            <div className="mt-5 flex gap-3 sm:mt-6">
               {socials.map(({ Icon, href, label }) => (
                 <a
                   key={label}
@@ -76,15 +79,17 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Explore */}
+          {/* Explore. The links carry their own vertical padding rather than
+              relying on list spacing — as bare 18px text they were well under
+              a thumb's worth of target. */}
           <div className="md:col-span-2">
             <h4 className="eyebrow text-white/50">Explore</h4>
-            <ul className="mt-5 space-y-3">
+            <ul className="mt-3 space-y-0.5 sm:mt-4">
               {explore.map((l) => (
                 <li key={l.name}>
                   <Link
                     href={l.href}
-                    className="focus-ring-light rounded-sm text-sm text-white/75 transition-colors hover:text-white"
+                    className="focus-ring-light block rounded-sm py-1.5 text-sm text-white/75 transition-colors hover:text-white"
                   >
                     {l.name}
                   </Link>
@@ -96,12 +101,12 @@ export default function Footer() {
           {/* Company */}
           <div className="md:col-span-2">
             <h4 className="eyebrow text-white/50">Company</h4>
-            <ul className="mt-5 space-y-3">
+            <ul className="mt-3 space-y-0.5 sm:mt-4">
               {company.map((l) => (
                 <li key={l.name}>
                   <Link
                     href={l.href}
-                    className="focus-ring-light rounded-sm text-sm text-white/75 transition-colors hover:text-white"
+                    className="focus-ring-light block rounded-sm py-1.5 text-sm text-white/75 transition-colors hover:text-white"
                   >
                     {l.name}
                   </Link>
@@ -111,13 +116,13 @@ export default function Footer() {
           </div>
 
           {/* Contact */}
-          <div className="md:col-span-3">
+          <div className="col-span-2 md:col-span-3">
             <h4 className="eyebrow text-white/50">Get in touch</h4>
-            <ul className="mt-5 space-y-3 text-sm text-white/75">
+            <ul className="mt-3 space-y-1 text-sm text-white/75 sm:mt-4">
               <li>
                 <a
                   href={`tel:${siteConfig.phone.replace(/\s+/g, "")}`}
-                  className="focus-ring-light flex items-start gap-2.5 rounded-sm transition-colors hover:text-white"
+                  className="focus-ring-light flex items-start gap-2.5 rounded-sm py-1 transition-colors hover:text-white"
                 >
                   <Phone className="mt-0.5 h-4 w-4 flex-shrink-0 text-crimson-bright" />
                   {siteConfig.phone}
@@ -126,7 +131,7 @@ export default function Footer() {
               <li>
                 <a
                   href={`mailto:${siteConfig.email}`}
-                  className="focus-ring-light flex items-start gap-2.5 rounded-sm transition-colors hover:text-white"
+                  className="focus-ring-light flex items-start gap-2.5 rounded-sm py-1 transition-colors hover:text-white"
                 >
                   <Mail className="mt-0.5 h-4 w-4 flex-shrink-0 text-crimson-bright" />
                   {siteConfig.email}
@@ -137,7 +142,7 @@ export default function Footer() {
                   href={siteConfig.contact.whatsapp}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="focus-ring-light flex items-start gap-2.5 rounded-sm transition-colors hover:text-white"
+                  className="focus-ring-light flex items-start gap-2.5 rounded-sm py-1 transition-colors hover:text-white"
                 >
                   <WhatsAppGlyph className="mt-0.5 h-4 w-4 flex-shrink-0 text-crimson-bright" />
                   Message us on WhatsApp

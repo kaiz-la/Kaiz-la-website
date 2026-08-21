@@ -31,9 +31,9 @@ export default function HowItWorks() {
   return (
     <>
       {/* FAQ */}
-      <section className="bg-porcelain py-20 lg:py-28">
+      <section className="bg-porcelain py-14 sm:py-20 lg:py-28">
         <div className="container mx-auto max-w-3xl px-5 sm:px-6 lg:px-8">
-          <div className="mb-12 text-center">
+          <div className="mb-8 text-center sm:mb-12">
             <div className="eyebrow text-crimson">Common questions</div>
             <h2 className="mt-2 font-display text-3xl font-medium tracking-display-3xl sm:tracking-display-4xl text-ink sm:text-4xl">
               Everything you&apos;re probably wondering.

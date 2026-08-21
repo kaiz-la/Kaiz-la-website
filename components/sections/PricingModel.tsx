@@ -35,9 +35,9 @@ const guarantees = [
 
 export default function PricingModel() {
   return (
-    <section className="bg-porcelain-deep py-20 lg:py-28">
+    <section className="bg-porcelain-deep py-14 sm:py-20 lg:py-28">
       <div className="container mx-auto px-5 sm:px-6 lg:px-8">
-        <div className="mx-auto mb-14 max-w-2xl text-center">
+        <div className="mx-auto mb-9 max-w-2xl text-center sm:mb-14">
           <div className="flex items-center justify-center gap-3">
             <span className="h-px w-8 bg-gold" />
             <span className="eyebrow text-ink/60">How pricing works</span>
@@ -46,16 +46,16 @@ export default function PricingModel() {
           <h2 className="mt-5 font-display text-3xl font-medium leading-[1.15] text-ink sm:text-4xl">
             Clear costs, <span className="text-gradient-crimson italic">nothing hidden.</span>
           </h2>
-          <p className="mt-4 text-lg leading-relaxed text-ink-soft">
+          <p className="mt-4 text-base leading-relaxed sm:text-lg text-ink-soft">
             Sourcing should never feel like a black box. Here&apos;s exactly what you pay for when
             you work with Kaiz La, and what you&apos;ll never be surprised by.
           </p>
         </div>
 
         {/* Three cost components */}
-        <div className="mx-auto grid max-w-5xl grid-cols-1 gap-5 md:grid-cols-3">
+        <div className="mx-auto grid max-w-5xl grid-cols-1 gap-3 sm:gap-5 md:grid-cols-3">
           {components.map((c, i) => (
-            <div key={c.title} className="card-lux flex h-full flex-col rounded-3xl p-7">
+            <div key={c.title} className="card-lux flex h-full flex-col rounded-3xl p-5 sm:p-7">
               <div className="flex items-center justify-between">
                 <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-crimson/10 ring-1 ring-crimson/15">
                   <c.icon className="h-6 w-6 text-crimson" />
@@ -71,9 +71,9 @@ export default function PricingModel() {
         </div>
 
         {/* Guarantee panel */}
-        <div className="mx-auto mt-10 max-w-5xl">
+        <div className="mx-auto mt-6 max-w-5xl sm:mt-10">
           <div className="card-lux overflow-hidden rounded-3xl">
-            <div className="grid gap-8 p-7 sm:p-9 lg:grid-cols-12 lg:items-center lg:gap-10">
+            <div className="grid gap-6 p-5 sm:gap-8 sm:p-9 lg:grid-cols-12 lg:items-center lg:gap-10">
               <div className="lg:col-span-5">
                 <div className="eyebrow text-crimson">What you&apos;ll always get</div>
                 <h3 className="mt-2 font-display text-2xl font-medium leading-snug text-ink">

@@ -46,9 +46,9 @@ export default function PageHeader({
             "linear-gradient(96deg, rgba(158,31,30,0.96) 0%, rgba(204,52,51,0.9) 42%, rgba(204,52,51,0.62) 100%)",
         }}
       />
-      <div className="relative container mx-auto px-5 py-16 sm:px-6 lg:px-8 lg:py-20">
+      <div className="relative container mx-auto px-5 py-11 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
         {/* Breadcrumb */}
-        <nav aria-label="Breadcrumb" className="mb-5">
+        <nav aria-label="Breadcrumb" className="mb-4 sm:mb-5">
           <ol className="flex flex-wrap items-center gap-1 text-sm text-white/80">
             {crumbs.map((c, i) => (
               <li key={c.href} className="flex items-center gap-1">
@@ -77,12 +77,14 @@ export default function PageHeader({
           </div>
         )}
 
-        <h1 className="max-w-3xl text-3xl font-extrabold leading-[1.06] tracking-display-3xl sm:tracking-display-4xl lg:tracking-display-5xl text-white sm:text-4xl lg:text-5xl">
+        <h1 className="max-w-3xl text-[1.75rem] font-extrabold leading-[1.12] tracking-display-3xl sm:tracking-display-4xl lg:tracking-display-5xl text-white sm:text-4xl sm:leading-[1.06] lg:text-5xl">
           {title}
         </h1>
 
         {subtitle && (
-          <p className="mt-4 max-w-2xl text-lg leading-relaxed text-white/85">{subtitle}</p>
+          <p className="mt-3 max-w-2xl text-base leading-relaxed text-white/85 sm:mt-4 sm:text-lg">
+            {subtitle}
+          </p>
         )}
       </div>
 

@@ -30,7 +30,7 @@ export default function TrackPage() {
           { name: "Track Order", href: "/track" },
         ]}
       />
-      <section className="bg-porcelain py-16 lg:py-20">
+      <section className="bg-porcelain py-12 sm:py-16 lg:py-20">
         <div className="container mx-auto px-5 sm:px-6 lg:px-8">
           <TrackingLookup />
         </div>

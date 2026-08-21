@@ -59,14 +59,14 @@ export default function ContactExtras() {
   return (
     <>
       {/* 1 — Quick channels */}
-      <section className="bg-porcelain-deep py-20 lg:py-28">
+      <section className="bg-porcelain-deep py-14 sm:py-20 lg:py-28">
         <div className="container mx-auto px-5 sm:px-6 lg:px-8">
-          <div className="mb-12 max-w-2xl">
+          <div className="mb-8 max-w-2xl sm:mb-12">
             <div className="eyebrow text-crimson">More ways to reach us</div>
             <h2 className="mt-2 font-display text-3xl font-medium tracking-display-3xl sm:tracking-display-4xl text-ink sm:text-4xl">
               Prefer to talk now?
             </h2>
-            <p className="mt-4 text-lg leading-relaxed text-ink-soft">
+            <p className="mt-4 text-base leading-relaxed sm:text-lg text-ink-soft">
               Skip the form and reach us on the channel that suits you; we&apos;ll pick it up fast.
             </p>
           </div>
@@ -120,7 +120,7 @@ export default function ContactExtras() {
       </section>
 
       {/* 2 — Trust strip */}
-      <section className="relative overflow-hidden bg-ink py-16 lg:py-20">
+      <section className="relative overflow-hidden bg-ink py-12 sm:py-16 lg:py-20">
         <div
           className="pointer-events-none absolute inset-0"
           style={{
@@ -129,7 +129,7 @@ export default function ContactExtras() {
           }}
         />
         <div className="relative z-10 container mx-auto px-5 sm:px-6 lg:px-8">
-          <div className="mb-12 text-center">
+          <div className="mb-8 text-center sm:mb-12">
             <div className="flex items-center justify-center gap-3">
               <span className="h-px w-8 bg-gold" />
               <span className="eyebrow text-white/55">Why teams trust us</span>

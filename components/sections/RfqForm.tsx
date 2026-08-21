@@ -91,7 +91,7 @@ export default function RfqForm() {
   }
 
   return (
-    <section className="bg-porcelain py-16 lg:py-24">
+    <section className="bg-porcelain py-12 sm:py-16 lg:py-24">
       <div className="container mx-auto px-5 sm:px-6 lg:px-8">
         <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-12 lg:gap-12">
           {/* Reassurance rail */}
@@ -104,7 +104,7 @@ export default function RfqForm() {
               Tell us what you&apos;re sourcing,{" "}
               <span className="text-gradient-crimson italic">we&apos;ll price it out.</span>
             </h2>
-            <p className="mt-4 text-lg leading-relaxed text-ink-soft">
+            <p className="mt-4 text-base leading-relaxed sm:text-lg text-ink-soft">
               The more detail you share, the sharper your quote. No obligation, just a clear,
               factory-direct breakdown of what your order will cost to land.
             </p>
