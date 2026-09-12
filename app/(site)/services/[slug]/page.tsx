@@ -139,6 +139,21 @@ export default async function ServicePage({
             ))}
           </div>
 
+          {/* Where our role starts and stops — for regulated services */}
+          {service.helpNote && (
+            <aside
+              className="mt-12 rounded-r-2xl border-l-[3px] bg-porcelain/70 p-6"
+              style={{ borderLeftColor: "var(--color-crimson)" }}
+            >
+              <h2 className="font-display text-xl font-medium text-ink">
+                {service.helpNote.label}
+              </h2>
+              <p className="mt-3 text-base leading-relaxed text-ink-soft">
+                {service.helpNote.body}
+              </p>
+            </aside>
+          )}
+
           {/* How it works */}
           <section className="mt-16 border-t border-border pt-10">
             <h2 className="font-display text-2xl font-medium tracking-display-2xl sm:tracking-display-3xl text-ink sm:text-3xl">

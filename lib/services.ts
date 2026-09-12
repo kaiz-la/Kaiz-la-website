@@ -30,6 +30,11 @@ export type Service = {
   sections: GuideSection[]
   /** How an engagement runs, in order. */
   process: ServiceStep[]
+  /** For services touching regulation, IP or marketplace policy: what we do
+   *  and, just as importantly, where the responsibility stays with the client.
+   *  These regimes change, so the pages describe how we keep you current
+   *  rather than presenting a rule set as settled fact. */
+  helpNote?: { label: string; body: string }
   faqs: GuideFaq[]
   /** Matching guide slugs — the informational half of the topic. */
   relatedGuides: string[]
@@ -308,8 +313,13 @@ export const services: Service[] = [
       { title: "Coordinate the brokers", body: "Licensed brokers at origin and destination, working from one consistent document set." },
       { title: "Clear and release", body: "Entry filed, duty settled, and goods released to onward delivery." },
     ],
+    helpNote: {
+      label: "How we help with compliance",
+      body:
+        "Import rules change, and they differ by destination, product category and sometimes by port. Our job is to tell you what currently applies to your HS code and your market, prepare documentation that matches it, and coordinate the licensed brokers who file it \u2014 so nothing surfaces for the first time at the border. The declaration is still made in the importer\u2019s name, and for regulated categories we point you to the accredited body that issues the certificate rather than issuing it ourselves. Where a product sits in a grey area, we would rather raise it early than have you find out at the port.",
+    },
     faqs: [
-      { q: "Can you estimate duty before I place an order?", a: "Yes, and this is the right time to ask. We classify the product and give you a duty estimate for your destination up front, so the landed cost is known before you commit to volume." },
+      { q: "Can you estimate duty before I place an order?", a: "Yes, and this is the right time to ask. We classify the product and give you a duty estimate for your destination up front, so you can price against it before committing to volume. Duty is formally assessed by customs at entry, so an estimate remains an estimate — but it is close enough to build a margin on, and it surfaces any certification requirement early, while you can still design around it." },
       { q: "Who is the importer of record?", a: "That depends on your Incoterm. Under most terms you are, which means the declaration is made in your name and you carry responsibility for its accuracy — one of the main reasons we advise against letting a supplier quote DDP unexamined." },
       { q: "What if my product needs certification I don't have?", a: "Better to find out before production than at the port. We flag certification requirements during classification, and where the factory must hold the certificate, that has to be settled before the line starts." },
       { q: "Do you handle clearance at both ends?", a: "Yes — export clearance in China and import clearance at destination, coordinated so the same document set is used on both sides. That consistency is what prevents most holds." },
@@ -487,6 +497,11 @@ export const services: Service[] = [
       { title: "Sample and approve", body: "Pre-production samples and a physical packaging proof, signed off before the line starts." },
       { title: "Produce and inspect", body: "Production tracked, with inspection against the approved sample rather than a description." },
     ],
+    helpNote: {
+      label: "How we help with IP and agreements",
+      body:
+        "Trademarks, tooling ownership and manufacturing agreements are legal matters, and we are not your lawyers. What we do is make sure the questions get asked before they get expensive \u2014 who owns the mould, what the factory may and may not sell, whether your mark is registered where the product is made \u2014 and introduce you to specialists where you need formal advice. The filings and the contracts are yours to make; our part is making sure you are not making them blind.",
+    },
     faqs: [
       { q: "What MOQ should I expect for private label?", a: "It varies widely by category and by how much you are changing. Branding and packaging changes on a stock product carry far lower minimums than custom tooling. Where MOQ is the constraint, it is often negotiable — particularly if you combine variants into one order." },
       { q: "Who owns the mould if I pay for the tooling?", a: "Whoever the agreement says owns it — which is why it must be in the agreement. Paying for tooling does not automatically give you ownership or the right to remove it, so ownership, storage and release terms should be explicit before the mould is cut." },
@@ -582,6 +597,11 @@ export const services: Service[] = [
       { title: "Cartonise to plan", body: "Cartons built to weight and dimension limits, labelled against your shipment plan." },
       { title: "Ship or hold", body: "Direct to the fulfilment centre, or held in our warehouse and released in tranches to suit your storage limits." },
     ],
+    helpNote: {
+      label: "How we help with marketplace rules",
+      body:
+        "Marketplace requirements change often, and each marketplace publishes its own current rules by category. We check your goods against those rules at the time of prep and flag anything that would cause a rejection \u2014 but the seller account, and the requirements attached to it, stay yours. If a category carries a restriction or an approval you do not yet hold, we would rather tell you before production finishes than after the cartons are sealed.",
+    },
     faqs: [
       { q: "Can you ship direct from China to an Amazon fulfilment centre?", a: "Yes, and it is the fastest and cheapest route for a proven product. It is not always the right one — storage limits, long-term fees and the cost of retrieving inventory mean a first order from a new supplier is often better held and released in tranches." },
       { q: "What happens if a shipment is rejected at the fulfilment centre?", a: "It becomes expensive quickly, which is why prep is verified before export. Rejections are usually caused by labelling errors, carton limits or missing prep requirements — all of which are cheap to fix in China and costly to fix at destination." },
