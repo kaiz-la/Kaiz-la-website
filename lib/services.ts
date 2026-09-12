@@ -243,12 +243,12 @@ export const services: Service[] = [
       "china export customs clearance",
       "gcc import compliance",
     ],
-    lead: "Paperwork and duties handled correctly the first time, on both sides of the border.",
+    lead: "Classification, documentation and duties worked out before your goods ship — not after they're held at the border.",
     includes: [
       "HS-code classification and duty estimates shared up front",
       "Complete export and import documentation prepared for you",
       "Coordination with licensed brokers at origin and destination",
-      "Compliance with India, GCC and Southeast Asia import rules",
+      "Import requirements for India, the GCC and Southeast Asia confirmed for your product",
     ],
     sections: [
       {
@@ -316,7 +316,7 @@ export const services: Service[] = [
     helpNote: {
       label: "How we help with compliance",
       body:
-        "Import rules change, and they differ by destination, product category and sometimes by port. Our job is to tell you what currently applies to your HS code and your market, prepare documentation that matches it, and coordinate the licensed brokers who file it \u2014 so nothing surfaces for the first time at the border. The declaration is still made in the importer\u2019s name, and for regulated categories we point you to the accredited body that issues the certificate rather than issuing it ourselves. Where a product sits in a grey area, we would rather raise it early than have you find out at the port.",
+        "Import rules change, and they differ by destination, product category and sometimes by port. Our job is to tell you what currently applies to your HS code and your market, prepare documentation that matches it, and coordinate the licensed brokers who file it — so nothing surfaces for the first time at the border. The declaration is still made in the importer\u2019s name, and for regulated categories we point you to the accredited body that issues the certificate rather than issuing it ourselves. Where a product sits in a grey area, we would rather raise it early than have you find out at the port.",
     },
     faqs: [
       { q: "Can you estimate duty before I place an order?", a: "Yes, and this is the right time to ask. We classify the product and give you a duty estimate for your destination up front, so you can price against it before committing to volume. Duty is formally assessed by customs at entry, so an estimate remains an estimate — but it is close enough to build a margin on, and it surfaces any certification requirement early, while you can still design around it." },
@@ -500,7 +500,7 @@ export const services: Service[] = [
     helpNote: {
       label: "How we help with IP and agreements",
       body:
-        "Trademarks, tooling ownership and manufacturing agreements are legal matters, and we are not your lawyers. What we do is make sure the questions get asked before they get expensive \u2014 who owns the mould, what the factory may and may not sell, whether your mark is registered where the product is made \u2014 and introduce you to specialists where you need formal advice. The filings and the contracts are yours to make; our part is making sure you are not making them blind.",
+        "Trademarks, tooling ownership and manufacturing agreements are legal matters, and we are not your lawyers. What we do is make sure the questions get asked before they get expensive — who owns the mould, what the factory may and may not sell, whether your mark is registered where the product is made — and introduce you to specialists where you need formal advice. The filings and the contracts are yours to make; our part is making sure you are not making them blind.",
     },
     faqs: [
       { q: "What MOQ should I expect for private label?", a: "It varies widely by category and by how much you are changing. Branding and packaging changes on a stock product carry far lower minimums than custom tooling. Where MOQ is the constraint, it is often negotiable — particularly if you combine variants into one order." },
@@ -600,7 +600,7 @@ export const services: Service[] = [
     helpNote: {
       label: "How we help with marketplace rules",
       body:
-        "Marketplace requirements change often, and each marketplace publishes its own current rules by category. We check your goods against those rules at the time of prep and flag anything that would cause a rejection \u2014 but the seller account, and the requirements attached to it, stay yours. If a category carries a restriction or an approval you do not yet hold, we would rather tell you before production finishes than after the cartons are sealed.",
+        "Marketplace requirements change often, and each marketplace publishes its own current rules by category. We check your goods against those rules at the time of prep and flag anything that would cause a rejection — but the seller account, and the requirements attached to it, stay yours. If a category carries a restriction or an approval you do not yet hold, we would rather tell you before production finishes than after the cartons are sealed.",
     },
     faqs: [
       { q: "Can you ship direct from China to an Amazon fulfilment centre?", a: "Yes, and it is the fastest and cheapest route for a proven product. It is not always the right one — storage limits, long-term fees and the cost of retrieving inventory mean a first order from a new supplier is often better held and released in tranches." },

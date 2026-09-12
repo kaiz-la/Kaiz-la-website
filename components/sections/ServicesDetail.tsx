@@ -68,12 +68,12 @@ const coreServices = [
     step: "04",
     title: "Customs Clearance & Compliance",
     href: "/services/customs-clearance-compliance",
-    lead: "Paperwork and duties handled correctly the first time, on both sides of the border.",
+    lead: "Classification, documentation and duties worked out before your goods ship — not after they're held at the border.",
     includes: [
       "HS-code classification and duty estimates shared up front",
       "Complete export and import documentation prepared for you",
       "Coordination with licensed brokers at origin and destination",
-      "Compliance with India, GCC and Southeast Asia import rules",
+      "Import requirements for India, the GCC and Southeast Asia confirmed for your product",
     ],
   },
   {
