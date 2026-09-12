@@ -1,5 +1,5 @@
 import type { Metadata } from "next"
-import { ogImageMeta } from "@/lib/site"
+import { socialMeta } from "@/lib/site"
 import PageHeader from "@/components/layout/PageHeader"
 import Journey from "@/components/sections/Journey"
 import HowItWorks, { faqs } from "@/components/sections/HowItWorks"
@@ -22,14 +22,12 @@ export const metadata: Metadata = {
   description:
     "One accountable partner from factory floor to doorstep. See the six-step Kaiz La sourcing journey, from supplier discovery, negotiation, quality control and warehousing to customs clearance and delivery, at transparent, factory-direct pricing.",
   alternates: { canonical: "/how-it-works" },
-  openGraph: {
+  ...socialMeta({
     title: "How Kaiz La Sourcing Works",
     description:
       "Six deliberate steps from the factory floor in China to your doorstep across India and the Middle East.",
     url: "/how-it-works",
-    images: [ogImageMeta],
-    type: "website",
-  },
+  }),
 }
 
 export default function HowItWorksPage() {

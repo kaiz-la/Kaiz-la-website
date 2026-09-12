@@ -2,10 +2,47 @@
 // queries and funnel readers into the chat / quote flow. Rendered by
 // /guides (hub) and /guides/[slug] (article) with Article + FAQ JSON-LD.
 
+/** An inline link inside body copy. Hrefs starting with "/" are rendered as
+ *  internal <Link>s; everything else opens in a new tab with rel="noopener". */
+export type GuideLink = { text: string; href: string }
+
+/** A run of copy: a plain string, or a mix of strings and inline links. */
+export type RichText = string | (string | GuideLink)[]
+
+/** A bullet, optionally with a bold lead-in ("Product cost — the unit price…").
+ *  `leadHref` turns that lead into a link, which is how the service list points
+ *  at each /services page. */
+export type GuideBullet =
+  | string
+  | { lead: string; leadHref?: string; text: RichText }
+
+/** A labelled aside inside a step — "Common mistake: …", "What to check: …". */
+export type GuideNote = { label: string; text: RichText }
+
+/** A comparison table. `columns` drives the header row and, on narrow screens,
+ *  the per-cell labels the stacked layout falls back to. */
+export type GuideTable = {
+  columns: string[]
+  rows: RichText[][]
+}
+
+/** An H3 inside a section — one numbered step, or one sourcing channel. */
+export type GuideSubsection = {
+  heading: string
+  body?: RichText[]
+  bullets?: GuideBullet[]
+  notes?: GuideNote[]
+}
+
 export type GuideSection = {
   heading: string
-  body: string[]
-  bullets?: string[]
+  body: RichText[]
+  bullets?: GuideBullet[]
+  subsections?: GuideSubsection[]
+  notes?: GuideNote[]
+  table?: GuideTable
+  /** Copy that closes the section, after the bullets/table. */
+  outro?: RichText[]
 }
 
 export type GuideFaq = { q: string; a: string }
@@ -34,97 +71,657 @@ export type Guide = {
     | "Boxes"
   keywords: string[]
   readTime: string
+  /** ISO yyyy-mm-dd. Feeds the visible byline, Article JSON-LD and sitemap
+   *  lastmod — dates taken from this file's git history, not invented. */
+  publishedAt: string
+  updatedAt: string
+  /** Featured image — article hero, and the Open Graph card for this guide so
+   *  a shared link shows the article's own art rather than the site backdrop.
+   *  `src` is what the page renders; `ogSrc` is the raster fallback handed to
+   *  crawlers, because Facebook, LinkedIn, X and WhatsApp all reject SVG. */
+  heroImage?: {
+    src: string
+    ogSrc?: string
+    alt: string
+    width: number
+    height: number
+  }
   intro: string[]
   sections: GuideSection[]
   faqs: GuideFaq[]
   /** Related guide slugs. */
   related: string[]
+  /** Matching /services slugs — the commercial half of the topic. */
+  relatedServices?: string[]
 }
 
 export const guides: Guide[] = [
   {
     slug: "how-to-source-products-from-china",
     eyebrow: "Sourcing 101",
-    title: "How to Source Products from China: A Step-by-Step Guide",
-    metaTitle: "How to Source Products from China (Step-by-Step Guide)",
+    title: "How to Source Products from China: A Complete Guide for Importers",
+    metaTitle: "How to Source Products from China: Complete Guide",
     description:
-      "A practical, step-by-step guide to sourcing products from China — from defining specs and finding suppliers to samples, negotiation, quality control and shipping.",
+      "Learn how to source products from China step by step — finding suppliers, verifying them, MOQ, quality inspection, and shipping.",
     summary:
       "The complete beginner-to-pro playbook for sourcing manufactured goods from China.",
     icon: "Compass",
     keywords: [
       "how to source products from china",
       "sourcing from china",
-      "import from china",
-      "china manufacturing",
+      "china sourcing process",
       "find chinese suppliers",
+      "import from china",
+      "verify chinese supplier",
+      "china sourcing agent",
     ],
-    readTime: "8 min read",
+    readTime: "12 min read",
+    publishedAt: "2026-06-24",
+    updatedAt: "2026-09-12",
+    heroImage: {
+      src: "/media/guide-source-from-china.svg",
+      ogSrc: "/media/guide-source-from-china.jpg",
+      alt: "The China sourcing process from specification and supplier search through samples, inspection and freight to delivery",
+      width: 1200,
+      height: 630,
+    },
     intro: [
-      "China remains the world's largest manufacturing hub, producing everything from electronics and apparel to industrial components at prices and volumes few other countries can match. But sourcing successfully is about far more than finding a cheap factory — it is about finding the right factory, agreeing the right terms, and controlling quality and logistics from the production line to your door.",
-      "This guide breaks the process into clear, repeatable steps so you can move from product idea to delivered shipment with confidence, whether you are placing your first order or scaling an established supply chain.",
+      "If you're building a product-based business, at some point you'll ask the same question almost every importer asks: how to source products from China without losing money to a bad supplier, a missed deadline, or a customs surprise.",
+      "The short answer is that sourcing from China is a process, not a single transaction. You need to define your product clearly, find and compare several suppliers, verify that they're legitimate, test the product with samples, negotiate terms that protect you, inspect the goods before they ship, and plan for shipping and customs before the order is even placed. Skip a step, and it usually shows up later as a quality problem, a delayed shipment, or a cost you didn't budget for.",
+      "This guide walks through the full China sourcing process in order, compares where to actually find suppliers (Alibaba, 1688, Global Sources, the Canton Fair, and direct factories), explains how to verify a Chinese supplier, breaks down the real cost of sourcing beyond the unit price, and covers the mistakes that trip up most first-time importers. Whether you're deciding to source products from China directly or through a sourcing agent, you'll find a practical, step-by-step reference here.",
     ],
     sections: [
       {
-        heading: "1. Define your product specification and budget",
+        heading: "How to source products from China step by step",
         body: [
-          "Before contacting any supplier, write a clear specification. Ambiguous briefs lead to mismatched quotes and costly reworks. The tighter your spec, the more accurate — and comparable — your quotes will be.",
+          "Sourcing products from China is a sequence of decisions, each of which narrows your risk. Here's the process in the order most importers actually follow it.",
+        ],
+        subsections: [
+          {
+            heading: "1. Decide exactly what product you want to source",
+            body: ["Before you contact a single supplier, write down:"],
+            bullets: [
+              "The exact product, including size, materials, and function",
+              "Target retail or resale price, so you know what unit cost you need",
+              "Any certifications your market requires (CE, FCC, RoHS, BIS, SASO, etc.)",
+              "Packaging expectations (retail box, bulk carton, private label)",
+            ],
+            notes: [
+              {
+                label: "Common mistake",
+                text: "Reaching out to suppliers with a vague idea (“a wireless speaker, similar to X”) instead of a spec sheet. Vague briefs get vague quotes that aren't comparable to each other.",
+              },
+              {
+                label: "What to check before moving on",
+                text: "Can you describe your product in one paragraph that a factory could quote from without asking ten follow-up questions?",
+              },
+            ],
+          },
+          {
+            heading: "2. Research the Chinese market and manufacturing regions",
+            body: [
+              "Different regions of China specialise in different product categories — for example, Guangdong for electronics and hardware, Zhejiang for textiles and small commodities, and Fujian for footwear. Knowing roughly where your product is made helps you evaluate whether a supplier is a genuine manufacturer or a trading company reselling someone else's production.",
+            ],
+          },
+          {
+            heading: "3. Find potential suppliers",
+            body: [
+              "Use more than one channel. Alibaba and 1688 are good for casting a wide net; the Canton Fair and referrals are good for finding suppliers who don't rely on marketplace listings. This is covered in detail in the next section.",
+            ],
+            notes: [
+              {
+                label: "Practical advice",
+                text: "Contact at least 5–10 suppliers per product to get a realistic price and quality range before narrowing down.",
+              },
+            ],
+          },
+          {
+            heading: "4. Compare suppliers and quotations",
+            body: [
+              "Put every quote in one sheet with the same columns: unit price, MOQ, sample cost and lead time, payment terms, production lead time, and included certifications. Quotes that look cheaper often exclude packaging, testing, or certain accessories — read the fine print.",
+            ],
+            notes: [
+              {
+                label: "Common mistake",
+                text: "Comparing quotes on price alone. A supplier quoting 15% cheaper but with a 45-day longer lead time and no quality documentation isn't automatically the better deal.",
+              },
+            ],
+          },
+          {
+            heading: "5. Verify supplier legitimacy",
+            body: [
+              [
+                "Before sending money or specifications, confirm the supplier is a real, operating business. See the dedicated section below on ",
+                {
+                  text: "verifying a supplier and auditing a factory",
+                  href: "/guides/supplier-verification-factory-audits",
+                },
+                " — this step is where most sourcing problems are prevented or missed.",
+              ],
+            ],
+          },
+          {
+            heading: "6. Request samples",
+            body: ["Never skip samples, even for simple products. A sample tells you:"],
+            bullets: [
+              "Whether the material and construction match what was described",
+              "How the product performs under basic use or stress",
+              "Whether the factory can actually produce to your spec, not just talk about it",
+            ],
+            notes: [
+              {
+                label: "Common mistake",
+                text: "Ordering bulk production straight after seeing a photo. Photos don't tell you about weight, feel, or functional issues.",
+              },
+            ],
+          },
+          {
+            heading: "7. Negotiate MOQ, pricing, payment terms, and specifications",
+            body: [
+              "Minimum order quantity (MOQ), price, and payment terms are all negotiable to some degree, especially once you're a repeat or higher-volume buyer. Get everything — spec, quantity, price, packaging, inspection rights, and payment schedule — into a written purchase agreement or proforma invoice before paying anything.",
+            ],
+            notes: [
+              {
+                label: "What to check",
+                text: "Does the agreement specify what happens if the goods fail inspection or don't match the approved sample?",
+              },
+            ],
+          },
+          {
+            heading: "8. Place the order",
+            body: [
+              "Standard practice is a deposit (commonly 30%) before production and the balance before or against shipping documents. Paying 100% upfront to an unverified supplier is one of the most common ways buyers lose money in China sourcing.",
+            ],
+          },
+          {
+            heading: "9. Conduct quality inspection",
+            body: [
+              [
+                "Arrange an ",
+                {
+                  text: "inspection before the goods leave the factory",
+                  href: "/services/quality-control-inspection",
+                },
+                " — not after they land in your country, when it's too late to fix anything cheaply. This is covered in more detail further down.",
+              ],
+            ],
+          },
+          {
+            heading: "10. Arrange shipping and logistics",
+            body: [
+              [
+                "Decide between sea freight (cheaper, slower) and air freight (faster, more expensive) based on your timeline and margins. For smaller orders, freight forwarders can consolidate your goods with other shipments (LCL) to reduce cost. For a closer look at cost and timeline trade-offs, see ",
+                {
+                  text: "sea vs air freight from China",
+                  href: "/guides/shipping-freight-from-china",
+                },
+                ".",
+              ],
+            ],
+          },
+          {
+            heading: "11. Handle customs and import requirements",
+            body: [
+              [
+                "Every destination country has its own duty rates, documentation requirements, and restricted or regulated product categories. Confirm the correct HS code, required certificates, and applicable duties for your product before it ships, not after it arrives at the port. In the United States, for example, ",
+                {
+                  text: "U.S. Customs and Border Protection publishes official guidance for new importers",
+                  href: "https://www.cbp.gov/trade/basic-import-export",
+                },
+                " on entry requirements, documentation, and duty payment. If you're importing into India or the Middle East specifically, see ",
+                {
+                  text: "duties, customs, and logistics for India and the Middle East",
+                  href: "/guides/importing-from-china-to-india-middle-east",
+                },
+                " for region-specific requirements.",
+              ],
+            ],
+          },
+          {
+            heading: "12. Receive and evaluate the shipment",
+            body: [
+              "Check the delivered goods against your inspection report and purchase agreement. Keep records of every discrepancy — they matter if you need to raise a claim with the supplier or a payment-protection service.",
+            ],
+          },
+        ],
+      },
+      {
+        heading: "Where to find products and suppliers in China",
+        body: [
+          "There's no single “best” way to source products from China — each channel suits a different stage of sourcing.",
+        ],
+        subsections: [
+          {
+            heading: "Alibaba",
+            body: [
+              "Alibaba is the largest B2B marketplace connecting global buyers with Chinese suppliers and is usually the first stop for new importers.",
+            ],
+            bullets: [
+              {
+                lead: "Pros:",
+                text: [
+                  "Huge supplier base, built-in messaging, supplier ratings, and ",
+                  { text: "Trade Assurance", href: "https://tradeassurance.alibaba.com/" },
+                  ", a payment-protection service that holds funds in escrow until you confirm the order matches the agreed terms.",
+                ],
+              },
+              {
+                lead: "Cons:",
+                text: "Many “suppliers” are trading companies, not factories; badges and reviews can be gamed; product listings don't always reflect actual production capability.",
+              },
+              {
+                lead: "Best for:",
+                text: [
+                  "First-time importers researching product categories, price ranges, and initial supplier lists. For a closer look at avoiding common scams on the platform, see ",
+                  {
+                    text: "how to buy from Alibaba safely",
+                    href: "/guides/buy-from-alibaba-safely",
+                  },
+                  ".",
+                ],
+              },
+            ],
+          },
+          {
+            heading: "1688",
+            body: [
+              "1688.com is Alibaba's domestic Chinese marketplace, generally used by buyers with a China-based team, agent, or partner, since it's in Mandarin and largely built around domestic payment and shipping.",
+            ],
+            bullets: [
+              {
+                lead: "Pros:",
+                text: "Often lower prices than Alibaba, since sellers aren't pricing in export marketing costs; access to smaller factories that don't sell internationally.",
+              },
+              {
+                lead: "Cons:",
+                text: "Language barrier, no built-in export logistics or English-language buyer protection, harder to verify suppliers without local knowledge.",
+              },
+              {
+                lead: "Best for:",
+                text: "Buyers working with a sourcing agent or partner already based in China.",
+              },
+            ],
+          },
+          {
+            heading: "Global Sources",
+            body: [
+              "A B2B platform similar to Alibaba but with a stronger focus on verified manufacturers, especially in electronics and hardware, and closely tied to its own trade shows in Hong Kong.",
+            ],
+            bullets: [
+              {
+                lead: "Pros:",
+                text: "Generally more manufacturer-heavy listings than trading companies.",
+              },
+              { lead: "Cons:", text: "Smaller supplier pool than Alibaba overall." },
+              {
+                lead: "Best for:",
+                text: "Electronics, gadgets, and hardware sourcing where supplier credibility matters more than price comparison volume.",
+              },
+            ],
+          },
+          {
+            heading: "Canton Fair",
+            body: [
+              [
+                "Officially the ",
+                { text: "China Import and Export Fair", href: "https://www.cantonfair.org.cn/en" },
+                ", held twice a year in Guangzhou and co-hosted by China's Ministry of Commerce and the Guangdong provincial government, the Canton Fair is one of the largest sourcing events in the world, bringing tens of thousands of exhibitors together under one roof.",
+              ],
+            ],
+            bullets: [
+              {
+                lead: "Pros:",
+                text: "Meet suppliers face to face, see and touch physical samples, compare multiple factories in the same category in one trip.",
+              },
+              {
+                lead: "Cons:",
+                text: "Requires travel and time; not practical for very small or exploratory orders.",
+              },
+              {
+                lead: "Best for:",
+                text: "Buyers ready to place meaningful order volumes and who want direct factory relationships.",
+              },
+            ],
+          },
+          {
+            heading: "Direct manufacturers",
+            body: [
+              "Sourcing directly from a factory (rather than through a marketplace listing or trading company) usually gets you better pricing and more control over production, but requires you to do your own supplier discovery, vetting, and quality management — or have someone on the ground doing it for you.",
+            ],
+            bullets: [
+              {
+                lead: "Pros:",
+                text: "No middleman markup, direct communication with the people actually making your product.",
+              },
+              {
+                lead: "Cons:",
+                text: "Harder to find without local knowledge; factories are less used to handling small, first-time export orders.",
+              },
+              {
+                lead: "Best for:",
+                text: "Established importers with consistent volume, or those working through a sourcing agent who already has direct factory relationships.",
+              },
+            ],
+          },
+          {
+            heading: "China sourcing agents",
+            body: [
+              [
+                "A sourcing agent or sourcing-as-a-service partner sits between you and the supplier, handling supplier discovery, negotiation, quality checks, and sometimes logistics, on your behalf. See ",
+                {
+                  text: "what a China sourcing agent does and how to choose one",
+                  href: "/guides/china-sourcing-agent",
+                },
+                " for more detail, and the comparison section below for a fuller breakdown.",
+              ],
+            ],
+          },
+        ],
+        table: {
+          columns: ["Channel", "Best for", "Watch out for"],
+          rows: [
+            ["Alibaba", "First-time research, broad supplier comparison", "Trading companies posing as factories"],
+            ["1688", "Lower prices via a China-based partner", "Language barrier, no buyer protection"],
+            ["Global Sources", "Electronics/hardware, manufacturer-heavy listings", "Smaller overall supplier pool"],
+            ["Canton Fair", "Face-to-face vetting at volume", "Requires travel and lead time"],
+            ["Direct manufacturers", "Repeat, higher-volume buyers", "Hard to find and vet without local presence"],
+            ["Sourcing agent", "Buyers who want the process managed end to end", "Adds a service fee"],
+          ],
+        },
+      },
+      {
+        heading: "How to verify a Chinese supplier before placing an order",
+        body: [
+          "No single check guarantees a supplier is legitimate — verification is about stacking several independent signals so that no one red flag slips through.",
         ],
         bullets: [
-          "Materials, dimensions, tolerances and finish",
-          "Target unit cost and total order budget",
-          "Certifications required for your market (CE, RoHS, FCC, BIS, etc.)",
-          "Packaging, labelling and branding requirements",
+          {
+            lead: "Company information.",
+            text: "Ask for the supplier's registered business name and check it against their invoices, contracts, and bank details. Names that don't match across documents are a warning sign.",
+          },
+          {
+            lead: "Business licence.",
+            text: "Legitimate Chinese suppliers can provide a business licence number. This confirms the company is registered, though it doesn't confirm production capability or financial stability on its own.",
+          },
+          {
+            lead: "Factory verification.",
+            text: "Ask for a factory address and, where possible, photos or a video call from the production floor. Some suppliers listed as “manufacturers” are actually trading companies subcontracting production — this isn't automatically a problem, but you should know which one you're dealing with.",
+          },
+          {
+            lead: "Product samples.",
+            text: "A sample tests the supplier's actual output, not just their claims. See the sampling step above.",
+          },
+          {
+            lead: "Relevant certifications.",
+            text: "For regulated categories (electronics, toys, cosmetics, food-contact items), ask for the specific certificates your destination market requires and verify they match your exact product, not a similar one.",
+          },
+          {
+            lead: "References or transaction history.",
+            text: "Ask for buyer references where possible, and treat marketplace ratings and reviews as one data point, not proof, since these can be inflated.",
+          },
+          {
+            lead: "Communication quality.",
+            text: "Slow, evasive, or inconsistent answers to specific technical questions are often a better predictor of problems than any document.",
+          },
+          {
+            lead: "Payment terms.",
+            text: "Suppliers who insist on 100% payment upfront, refuse standard deposit structures, or push you toward untraceable payment methods warrant extra caution.",
+          },
+          {
+            lead: "Third-party inspection.",
+            text: "An independent quality inspection before shipment is one of the most reliable ways to confirm what you're actually getting, regardless of how the supplier presented itself beforehand.",
+          },
         ],
       },
       {
-        heading: "2. Find and shortlist suppliers",
+        heading: "How to calculate the real cost of sourcing products from China",
         body: [
-          "Suppliers can be found through B2B marketplaces, trade shows such as the Canton Fair, industry referrals, or a sourcing agent with feet on the ground. Aim to shortlist three to five suppliers so you can compare pricing, communication and capability side by side.",
-          "Distinguish genuine manufacturers from trading companies. Both have their place, but knowing which you are dealing with affects price, minimum order quantity (MOQ) and quality control.",
+          "The quoted unit price is only one line in your total landed cost. Underestimating everything else is one of the most common reasons first-time importers end up with thinner margins than they planned for.",
+          "Costs to account for:",
+        ],
+        bullets: [
+          { lead: "Product cost", text: "— the per-unit price at your agreed MOQ" },
+          {
+            lead: "MOQ",
+            text: [
+              "— a low unit price at a very high minimum order quantity can tie up more capital than a slightly higher price at a workable MOQ (see ",
+              {
+                text: "how to negotiate lower MOQs",
+                href: "/guides/reduce-moq-small-orders-china",
+              },
+              " if you're testing a product before committing to volume)",
+            ],
+          },
+          { lead: "Sample cost", text: "— usually higher per unit than bulk pricing, plus courier shipping" },
+          {
+            lead: "Packaging",
+            text: "— retail packaging, labelling, and private-label branding are often quoted separately from the base unit",
+          },
+          {
+            lead: "Domestic China transportation",
+            text: "— moving goods from the factory to the port or consolidation warehouse",
+          },
+          {
+            lead: "Inspection",
+            text: "— third-party quality inspection fees, typically charged per inspection day",
+          },
+          { lead: "Freight", text: "— sea or air, plus insurance" },
+          {
+            lead: "Customs duties, taxes, and tariffs",
+            text: "— vary by product classification (HS code) and destination country",
+          },
+          {
+            lead: "Agent or service fees",
+            text: "— if you're using a sourcing agent, this is usually a percentage of order value or a flat service fee",
+          },
+          {
+            lead: "Other charges",
+            text: "— bank transfer fees, currency conversion spreads, warehousing if goods sit before final delivery",
+          },
+        ],
+        notes: [
+          {
+            label: "Simplified example",
+            text: "A product quoted at $4.00/unit with a 1,000-unit MOQ might land closer to $5.20–$5.60/unit once you add packaging, inspection, freight, and duties — a 30–40% increase over the quoted price. This is illustrative only; your actual landed cost depends on your product, weight, volume, and destination country's duty rates.",
+          },
         ],
       },
       {
-        heading: "3. Request quotes, then samples",
-        body: [
-          "Send each shortlisted supplier the same request for quotation (RFQ) so responses are comparable. Evaluate not just price but MOQ, lead time, payment terms and responsiveness — slow or evasive communication now usually predicts problems later.",
-          "Always order samples before committing to a bulk order. A sample confirms the supplier can actually meet your specification and gives you a physical benchmark to inspect production against.",
+        heading: "Common mistakes to avoid when sourcing from China",
+        body: [],
+        bullets: [
+          {
+            lead: "Choosing the cheapest supplier immediately,",
+            text: "without comparing quality, lead time, or communication",
+          },
+          {
+            lead: "Ordering large quantities without samples,",
+            text: "based only on photos or descriptions",
+          },
+          {
+            lead: "Not confirming product specifications in writing",
+            text: "before production starts",
+          },
+          {
+            lead: "Ignoring MOQ mismatches,",
+            text: "agreeing to a quantity that doesn't fit your cash flow or storage capacity",
+          },
+          { lead: "Paying in full upfront", text: "to a supplier you haven't verified" },
+          {
+            lead: "Skipping quality inspection",
+            text: "to save on cost or time, especially on a first order",
+          },
+          {
+            lead: "Not calculating landed cost,",
+            text: "and being surprised by duties, freight, or inspection fees after the fact",
+          },
+          {
+            lead: "Poor communication of requirements,",
+            text: "assuming the supplier will infer details you never actually specified",
+          },
+          {
+            lead: "Choosing a supplier based only on marketplace ratings or badges,",
+            text: "rather than direct verification",
+          },
         ],
       },
       {
-        heading: "4. Negotiate terms, MOQ and payment",
+        heading: "Should you source directly or use a China sourcing agent?",
         body: [
-          "Negotiation in China is expected and normal. Beyond unit price, negotiate MOQ, lead time, payment milestones and tooling costs. A common structure is a deposit (often 30%) with the balance paid against a pre-shipment inspection or bill of lading.",
-          "Use secure payment methods and never pay 100% upfront to a new supplier. Protect yourself with a clear written agreement covering specification, timelines and remedies for defects.",
+          "Both approaches can work — the right one depends on your volume, experience, and how much time you can dedicate to managing the process yourself.",
+        ],
+        table: {
+          columns: ["Factor", "Direct sourcing", "Sourcing agent"],
+          rows: [
+            [
+              "Cost",
+              "No agent fee, but higher risk of hidden costs from mistakes",
+              "Service fee added, but often offset by negotiated pricing and fewer costly errors",
+            ],
+            [
+              "Supplier discovery",
+              "You do the research and outreach",
+              "Agent uses an existing vetted network",
+            ],
+            [
+              "Negotiation",
+              "You negotiate directly, with less leverage as a smaller or first-time buyer",
+              "Agent often has stronger factory relationships and volume leverage",
+            ],
+            [
+              "Quality control",
+              "You arrange inspections yourself, or skip them",
+              "Usually built into the service",
+            ],
+            [
+              "Communication",
+              "Language and time-zone gaps managed by you",
+              "Agent bridges language and cultural gaps",
+            ],
+            [
+              "Logistics coordination",
+              "You coordinate freight forwarders, customs brokers, and last-mile delivery separately",
+              "Often consolidated under one point of contact",
+            ],
+            [
+              "Risk",
+              "Higher, especially for first-time importers",
+              "Lower, but not eliminated — vet your agent too",
+            ],
+            [
+              "Best suited for",
+              "Experienced importers with existing China relationships and time to manage details",
+              "First-time importers, or businesses that want to focus on sales and growth rather than logistics",
+            ],
+          ],
+        },
+        outro: [
+          "Direct sourcing makes sense once you have volume, a track record with specific factories, and the internal capacity to manage quality control and logistics yourself. A sourcing agent or sourcing-as-a-service partner makes more sense when you'd rather have one accountable team handle supplier vetting, negotiation, quality checks, and freight, instead of coordinating several vendors — agents, inspectors, and freight forwarders — who often don't communicate with each other.",
         ],
       },
       {
-        heading: "5. Control quality and arrange shipping",
+        heading: "How Kaiz La helps businesses source products from China",
         body: [
-          "Quality control is where most sourcing projects succeed or fail. Arrange an independent pre-shipment inspection so defects are caught before goods leave the factory — it is far cheaper to fix problems in China than after they have crossed an ocean.",
-          "Finally, agree your Incoterms (such as FOB or DDP), book sea or air freight, and prepare your import documentation and customs clearance for the destination market.",
+          "Kaiz La is a sourcing-as-a-service company headquartered in Hong Kong, working on the ground in China to connect businesses across India, the Middle East, and Southeast Asia with vetted Chinese factories.",
+          [
+            "Kaiz La's ",
+            { text: "core services", href: "/services" },
+            " cover the sourcing process end to end:",
+          ],
+        ],
+        bullets: [
+          {
+            lead: "Supplier discovery and negotiation",
+            text: "— sourcing and vetting factories, then negotiating price, MOQ, and payment terms on the buyer's behalf",
+          },
+          {
+            lead: "Quality control and production tracking",
+            leadHref: "/services/quality-control-inspection",
+            text: "— pre-production sample sign-off, in-line and pre-shipment inspections, and production updates during manufacturing",
+          },
+          {
+            lead: "Warehousing and consolidation",
+            leadHref: "/services/warehousing-consolidation",
+            text: "— short-term storage and consolidating multiple supplier orders into a single shipment",
+          },
+          {
+            lead: "Customs clearance and compliance",
+            leadHref: "/services/customs-clearance-compliance",
+            text: "— HS-code classification, duty estimates, and documentation for import into India, the GCC, and Southeast Asia",
+          },
+          {
+            lead: "International freight",
+            leadHref: "/services/international-freight",
+            text: "— sea (FCL and LCL) and air freight options",
+          },
+          {
+            lead: "Last-mile delivery",
+            text: "— door-to-door delivery coordination to the buyer's warehouse, store, or site",
+          },
+        ],
+        outro: [
+          "Kaiz La also offers additional services including private label and OEM support, sampling and prototyping, factory audits, and marketplace/FBA preparation.",
+          "The idea behind running these stages under one team, rather than splitting them across a marketplace, a separate inspector, and an independent freight forwarder, is that there's a single point of accountability if something goes wrong at any stage of the order.",
+          [
+            "Need help sourcing products from China? ",
+            { text: "Talk to Kaiz La", href: "/chat" },
+            " about your sourcing requirements.",
+          ],
+        ],
+      },
+      {
+        heading: "Conclusion",
+        body: [
+          "Successfully sourcing products from China isn't about finding the supplier with the lowest unit price — it's about managing a full process where supplier reliability, product quality, clear communication, total landed cost, and logistics all carry roughly equal weight. Skip any one of them, and it tends to resurface later as a delay, a quality dispute, or a cost you didn't plan for.",
+          "Whether you handle each step yourself or work with a sourcing partner, the fundamentals stay the same: define your product clearly, verify suppliers before you pay them, test with samples, inspect before shipping, and calculate your real landed cost before you commit to volume.",
+          [
+            "If you'd rather have an experienced team manage supplier discovery, quality control, and logistics on your behalf, ",
+            { text: "talk to Kaiz La", href: "/chat" },
+            " about your sourcing requirements.",
+          ],
         ],
       },
     ],
     faqs: [
       {
-        q: "Is it safe to source products from China?",
-        a: "Yes, when you vet suppliers properly, order samples, use secure staged payments and arrange independent quality inspections. Most disputes come from skipping these steps, not from China itself.",
+        q: "Is China good for product sourcing?",
+        a: "China remains one of the largest manufacturing bases in the world across nearly every product category, from electronics to textiles to industrial machinery, which is why it's a common starting point for importers. That said, “good” depends on execution — the same manufacturing scale that makes China attractive also means quality and supplier reliability vary widely, so verification and inspection matter regardless of category.",
       },
       {
-        q: "What is an MOQ and can it be negotiated?",
-        a: "MOQ is the minimum order quantity a factory will accept. It is often negotiable — especially if you agree to a higher unit price, simpler specification, or a trial order ahead of larger volumes.",
+        q: "What is the best website to source products from China?",
+        a: "There isn't a single best website — it depends on your stage. Alibaba is generally the best starting point for research and initial supplier comparison. 1688 often has lower prices but is better suited to buyers with a China-based partner. Global Sources tends to skew toward manufacturers in electronics and hardware.",
       },
       {
-        q: "How long does it take to source and receive an order?",
-        a: "Typical lead times run 30–60 days for production plus 3–7 days by air or 25–40 days by sea, depending on the product, order size and destination. Sampling and supplier vetting add time up front.",
+        q: "How do I find manufacturers in China?",
+        a: "Use a combination of B2B marketplaces (Alibaba, 1688, Global Sources), trade shows like the Canton Fair, industry-specific directories, and referrals from other importers in your category. Confirm whether a listed “manufacturer” is an actual factory or a trading company reselling someone else's production.",
       },
       {
-        q: "Do I need a sourcing agent?",
-        a: "Not always, but a good agent saves time and reduces risk by verifying factories, managing communication and quality control on the ground, and handling logistics — particularly valuable for first-time importers and complex products.",
+        q: "Is Alibaba safe for sourcing products?",
+        a: "Alibaba itself is a legitimate, widely used platform, and its Trade Assurance service provides payment protection on eligible orders. Safety still depends on which supplier you choose and how carefully you verify them — Trade Assurance protects against issues like non-shipment or products that don't match agreed order terms, but it isn't a substitute for supplier vetting or quality inspection.",
+      },
+      {
+        q: "How much money do I need to start importing from China?",
+        a: "This varies enormously by product and MOQ. Beyond the unit cost multiplied by your MOQ, budget for samples, packaging, inspection, freight, and customs duties, all of which can add a meaningful percentage on top of the quoted unit price — see the cost breakdown above.",
+      },
+      {
+        q: "What is MOQ?",
+        a: "MOQ stands for minimum order quantity — the smallest quantity a supplier will produce or sell per order. MOQs vary by supplier and product complexity and are often negotiable, especially for repeat buyers or when combining several product variants into one order.",
+      },
+      {
+        q: "How can I avoid scams when sourcing from China?",
+        a: "Verify the supplier's business registration and factory before paying anything, insist on samples before bulk production, avoid paying 100% upfront to an unverified supplier, use platform payment protection where available, and arrange independent quality inspection before shipment.",
+      },
+      {
+        q: "Do I need a sourcing agent in China?",
+        a: "Not necessarily — many experienced importers source directly. A sourcing agent tends to be worth the fee for first-time importers, buyers without existing China relationships, or anyone who'd rather have one team manage supplier vetting, quality control, and logistics instead of coordinating multiple vendors themselves.",
+      },
+      {
+        q: "How long does sourcing and shipping from China take?",
+        a: "Timelines vary by product and order size, but as a rough shape: supplier research and sampling can take a few weeks, production typically runs several weeks depending on complexity and order volume, and shipping adds roughly 20–40 days by sea or a few days by air, before customs clearance at destination.",
       },
     ],
     related: ["china-sourcing-agent", "buy-from-alibaba-safely", "reduce-moq-small-orders-china"],
+    relatedServices: ["quality-control-inspection", "customs-clearance-compliance", "international-freight"],
   },
   {
     slug: "china-sourcing-agent",
@@ -144,6 +741,8 @@ export const guides: Guide[] = [
       "sourcing company china",
     ],
     readTime: "6 min read",
+    publishedAt: "2026-06-24",
+    updatedAt: "2026-07-25",
     intro: [
       "A China sourcing agent is a local partner who finds, vets and manages suppliers on your behalf — bridging the language, distance and cultural gaps that make importing from China daunting. For many businesses, a good agent is the difference between a smooth supply chain and an expensive lesson.",
       "This guide explains exactly what a sourcing agent does, how they are paid, and how to choose one you can trust with your orders and your margins.",
@@ -152,7 +751,11 @@ export const guides: Guide[] = [
       {
         heading: "What does a sourcing agent actually do?",
         body: [
-          "A sourcing agent acts as your representative in China, handling the work that is hard to do well from abroad. Their value lies in being physically present — able to visit factories, inspect goods and resolve issues in person.",
+          [
+            "A sourcing agent acts as your representative in China, handling the work that is hard to do well from abroad. Their value lies in being physically present — able to visit factories, ",
+            { text: "inspect goods", href: "/services/quality-control-inspection" },
+            " and resolve issues in person.",
+          ],
         ],
         bullets: [
           "Identify and shortlist verified manufacturers",
@@ -204,6 +807,7 @@ export const guides: Guide[] = [
       },
     ],
     related: ["how-to-source-products-from-china", "supplier-verification-factory-audits"],
+    relatedServices: ["quality-control-inspection", "warehousing-consolidation"],
   },
   {
     slug: "importing-from-china-to-india-middle-east",
@@ -223,6 +827,8 @@ export const guides: Guide[] = [
       "customs clearance china",
     ],
     readTime: "7 min read",
+    publishedAt: "2026-06-24",
+    updatedAt: "2026-06-24",
     intro: [
       "India and the Middle East are among the fastest-growing destinations for Chinese goods, but each market has its own duty structures, documentation and clearance procedures. Getting these right keeps your landed cost predictable and your shipments moving.",
       "This guide covers the taxes, paperwork and logistics decisions that determine whether your import runs smoothly — or gets stuck at the border.",
@@ -244,7 +850,14 @@ export const guides: Guide[] = [
       {
         heading: "Documents you will need",
         body: [
-          "Accurate, consistent paperwork is the single biggest factor in fast customs clearance. Mismatched values or descriptions are a common cause of delays.",
+          [
+            "Accurate, consistent paperwork is the single biggest factor in fast customs clearance. Mismatched values or descriptions are a common cause of delays — which is why ",
+            {
+              text: "classification and documentation",
+              href: "/services/customs-clearance-compliance",
+            },
+            " is worth settling before the goods ship, not after an entry is held.",
+          ],
         ],
         bullets: [
           "Commercial invoice and packing list",
@@ -281,6 +894,7 @@ export const guides: Guide[] = [
       },
     ],
     related: ["shipping-freight-from-china", "how-to-source-products-from-china"],
+    relatedServices: ["customs-clearance-compliance", "international-freight"],
   },
   {
     slug: "supplier-verification-factory-audits",
@@ -300,6 +914,8 @@ export const guides: Guide[] = [
       "avoid china sourcing scams",
     ],
     readTime: "7 min read",
+    publishedAt: "2026-06-24",
+    updatedAt: "2026-07-25",
     intro: [
       "The fastest way to lose money sourcing from China is to trust a supplier you have not verified. Verification confirms a factory legally exists, has the capacity to make your product, and operates to acceptable standards — long before your deposit leaves your account.",
       "This guide walks through the checks and audits that separate dependable manufacturers from the occasional bad actor.",
@@ -333,7 +949,14 @@ export const guides: Guide[] = [
         heading: "Inspect production, not just promises",
         body: [
           "Verification continues through production. Independent inspections at key stages — during production and before shipment — catch defects while they can still be fixed, and confirm the goods match the approved sample.",
-          "A pre-shipment inspection on a statistically valid sample is the industry standard final check before releasing balance payment.",
+          [
+            "A ",
+            {
+              text: "pre-shipment inspection",
+              href: "/services/quality-control-inspection",
+            },
+            " on a statistically valid sample is the industry standard final check before releasing balance payment.",
+          ],
         ],
       },
       {
@@ -365,6 +988,7 @@ export const guides: Guide[] = [
       },
     ],
     related: ["buy-from-alibaba-safely", "how-to-source-products-from-china", "china-sourcing-agent"],
+    relatedServices: ["quality-control-inspection"],
   },
   {
     slug: "shipping-freight-from-china",
@@ -384,6 +1008,8 @@ export const guides: Guide[] = [
       "china freight forwarder",
     ],
     readTime: "6 min read",
+    publishedAt: "2026-06-24",
+    updatedAt: "2026-06-24",
     intro: [
       "Freight is where sourcing budgets are won or lost. The right shipping mode and Incoterms keep your landed cost low and your timelines predictable; the wrong ones quietly erode your margin.",
       "This guide compares your main options for moving goods out of China and explains how to keep shipments visible and clearing customs without drama.",
@@ -400,6 +1026,14 @@ export const guides: Guide[] = [
         heading: "FCL vs. LCL: how much are you shipping?",
         body: [
           "By sea, you choose between a Full Container Load (FCL) and Less than Container Load (LCL). FCL is more economical and lower-risk once your volume fills most of a container; LCL lets smaller shipments share a container but costs more per unit and adds handling.",
+          [
+            "Where the volume comes from several suppliers, ",
+            {
+              text: "consolidating in China",
+              href: "/services/warehousing-consolidation",
+            },
+            " before shipping is often cheaper than sending each one LCL — one set of origin charges and one clearance instead of four.",
+          ],
         ],
       },
       {
@@ -442,6 +1076,7 @@ export const guides: Guide[] = [
       },
     ],
     related: ["importing-from-china-to-india-middle-east", "how-to-source-products-from-china"],
+    relatedServices: ["international-freight", "warehousing-consolidation"],
   },
   {
     slug: "buy-from-alibaba-safely",
@@ -461,6 +1096,8 @@ export const guides: Guide[] = [
       "buy from alibaba india",
     ],
     readTime: "7 min read",
+    publishedAt: "2026-07-25",
+    updatedAt: "2026-07-25",
     intro: [
       "Alibaba is the largest B2B marketplace in the world and, for many businesses in India and the Middle East, the first stop when sourcing from China. It is a powerful tool — but it is a directory of suppliers, not a guarantee of quality. The platform is broadly safe when you use its protections and vet suppliers properly; most losses come from buyers skipping those steps, not from Alibaba itself.",
       "This guide shows you how to buy from Alibaba safely: how to separate real manufacturers from middlemen, use Trade Assurance and secure payment, spot the classic scams, and recognise when a sourcing agent will save you more than it costs.",
@@ -509,6 +1146,14 @@ export const guides: Guide[] = [
         heading: "When a sourcing agent beats going direct",
         body: [
           "Alibaba works well for straightforward, low-risk products once you know the process. For higher-value orders, custom or branded products, or when you cannot inspect the factory yourself, a sourcing agent on the ground verifies suppliers, negotiates in Mandarin, runs quality inspections and consolidates freight — usually paying for itself in better pricing and avoided mistakes.",
+          [
+            "That is the same work covered by our ",
+            {
+              text: "quality control and inspection",
+              href: "/services/quality-control-inspection",
+            },
+            " service, whether or not you sourced the product through us.",
+          ],
         ],
       },
     ],
@@ -531,6 +1176,7 @@ export const guides: Guide[] = [
       },
     ],
     related: ["supplier-verification-factory-audits", "china-sourcing-agent", "how-to-source-products-from-china"],
+    relatedServices: ["quality-control-inspection", "warehousing-consolidation"],
   },
   {
     slug: "private-label-manufacturing-china",
@@ -550,6 +1196,8 @@ export const guides: Guide[] = [
       "build a brand manufacturing china",
     ],
     readTime: "8 min read",
+    publishedAt: "2026-07-25",
+    updatedAt: "2026-07-25",
     intro: [
       "Private label and OEM manufacturing is how most modern brands are built: instead of inventing a product from nothing, you work with a Chinese factory to make goods to your specification, under your brand. It is the fastest route from idea to a shelf-ready product line — if you understand the models and manage the risks.",
       "This guide explains the difference between OEM and ODM, how to develop and brand your product, protect your intellectual property, and keep quality consistent as you scale.",
@@ -559,7 +1207,14 @@ export const guides: Guide[] = [
         heading: "OEM vs. ODM: which model fits your product?",
         body: [
           "OEM (Original Equipment Manufacturer) means the factory builds a product to your own design and specification — you own the concept. ODM (Original Design Manufacturer) means you brand and lightly customise a product the factory has already developed. OEM gives you a unique product but costs more time and tooling; ODM is faster and cheaper but less differentiated.",
-          "Many brands start with ODM to get to market quickly, then move to OEM as volumes and ambitions grow.",
+          [
+            "Many brands start with ODM to get to market quickly, then move to OEM as volumes and ambitions grow. Either way, ",
+            {
+              text: "private label and OEM production",
+              href: "/services/private-label-oem",
+            },
+            " lives or dies on the tooling and IP terms agreed before the first mould is cut.",
+          ],
         ],
       },
       {
@@ -614,6 +1269,7 @@ export const guides: Guide[] = [
       },
     ],
     related: ["reduce-moq-small-orders-china", "supplier-verification-factory-audits", "how-to-source-products-from-china"],
+    relatedServices: ["private-label-oem", "quality-control-inspection"],
   },
   {
     slug: "reduce-moq-small-orders-china",
@@ -633,6 +1289,8 @@ export const guides: Guide[] = [
       "low moq suppliers china",
     ],
     readTime: "6 min read",
+    publishedAt: "2026-07-25",
+    updatedAt: "2026-07-25",
     intro: [
       "Minimum order quantity (MOQ) is the wall most new importers hit first: a factory that only wants to make 5,000 units when you want to test 300. For small businesses and first-time buyers in India and the Middle East, MOQ can feel like the difference between launching and giving up — but it is almost always more negotiable than it looks.",
       "This guide explains why MOQs exist and gives you practical, proven tactics to reduce them so you can test a product without tying up your cash in a mountain of stock.",
@@ -661,6 +1319,14 @@ export const guides: Guide[] = [
         heading: "Ways to test a product without a huge order",
         body: [
           "If a factory truly cannot go lower, there are other routes to a small first run. Each trades a little unit cost or uniqueness for a much smaller commitment.",
+          [
+            "Several small orders can also travel as one shipment — ",
+            {
+              text: "consolidating them in China",
+              href: "/services/warehousing-consolidation",
+            },
+            " spreads freight and clearance across the whole buy instead of each order carrying it alone.",
+          ],
         ],
         bullets: [
           "Buy stock or ODM products that need no custom tooling",
@@ -695,6 +1361,7 @@ export const guides: Guide[] = [
       },
     ],
     related: ["private-label-manufacturing-china", "china-sourcing-agent", "how-to-source-products-from-china"],
+    relatedServices: ["warehousing-consolidation", "amazon-fba-prep"],
   },
 ]
 

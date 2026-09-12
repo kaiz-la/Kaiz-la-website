@@ -1,3 +1,4 @@
+import Image from "next/image"
 import Link from "next/link"
 import { ChevronRight } from "lucide-react"
 import { JsonLd } from "@/components/seo/JsonLd"
@@ -33,11 +34,14 @@ export default function PageHeader({
 
   return (
     <section className="relative w-full overflow-hidden">
-      <img
+      <Image
         src="/KaizLa-Backdrop.png"
         alt=""
         aria-hidden
-        className="absolute inset-0 h-full w-full object-cover"
+        fill
+        priority
+        sizes="100vw"
+        className="object-cover"
       />
       <div
         className="absolute inset-0"

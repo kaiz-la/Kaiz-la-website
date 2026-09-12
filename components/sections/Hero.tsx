@@ -1,5 +1,6 @@
 "use client"
 
+import Image from "next/image"
 import { motion } from "framer-motion"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
@@ -109,10 +110,13 @@ export default function Hero() {
       {/* ===== Banner ===== */}
       <div className="relative w-full overflow-hidden">
         {/* Background image */}
-        <img
+        <Image
           src="/KaizLa-Backdrop.png"
           alt="The gateway of Chinese manufacturing"
-          className="absolute inset-0 h-full w-full object-cover"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover"
         />
         {/* Brand crimson gradient overlay (legibility, per identity guide) */}
         <div

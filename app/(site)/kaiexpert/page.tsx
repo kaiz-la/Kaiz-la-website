@@ -1,5 +1,5 @@
 import type { Metadata } from "next"
-import { siteConfig, ogImageMeta } from "@/lib/site"
+import { siteConfig, socialMeta } from "@/lib/site"
 import PageHeader from "@/components/layout/PageHeader"
 import KaiExpertIntro from "@/components/sections/KaiExpertIntro"
 import KaiExpertCapabilities from "@/components/sections/KaiExpertCapabilities"
@@ -25,14 +25,12 @@ export const metadata: Metadata = {
     "Kaiz La KaiExpert",
   ],
   alternates: { canonical: "/kaiexpert" },
-  openGraph: {
+  ...socialMeta({
     title: "KaiExpert — Kaiz La's AI Sourcing Agent",
     description:
       "Ask anything about sourcing from China, send a product photo and get a factory-ready spec, track a shipment, and get handed to a human specialist — free, and open around the clock.",
     url: "/kaiexpert",
-    images: [ogImageMeta],
-    type: "website",
-  },
+  }),
 }
 
 // The agent itself, described as software so search engines can associate the

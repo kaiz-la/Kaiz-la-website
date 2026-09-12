@@ -1,5 +1,5 @@
 import type { Metadata } from "next"
-import { ogImageMeta } from "@/lib/site"
+import { socialMeta } from "@/lib/site"
 import PageHeader from "@/components/layout/PageHeader"
 import Services from "@/components/sections/services"
 import ServicesDetail from "@/components/sections/ServicesDetail"
@@ -11,14 +11,12 @@ export const metadata: Metadata = {
   description:
     "End-to-end China sourcing services from Kaiz La: supplier discovery & negotiation, quality control, warehousing, customs clearance, international freight, and last-mile delivery.",
   alternates: { canonical: "/services" },
-  openGraph: {
+  ...socialMeta({
     title: "Kaiz La Sourcing Services",
     description:
       "End-to-end China sourcing: supplier discovery, quality control, warehousing, customs clearance, freight, and last-mile delivery.",
     url: "/services",
-    images: [ogImageMeta],
-    type: "website",
-  },
+  }),
 }
 
 export default function ServicesPage() {

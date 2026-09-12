@@ -1,5 +1,5 @@
 import type { Metadata } from "next"
-import { ogImageMeta } from "@/lib/site"
+import { socialMeta } from "@/lib/site"
 import PageHeader from "@/components/layout/PageHeader"
 import TrackingLookup from "@/components/sections/TrackingLookup"
 
@@ -8,14 +8,12 @@ export const metadata: Metadata = {
   description:
     "Track your Kaiz La shipment in real time, from sourcing and quality control through customs, freight and final delivery across India and the Middle East.",
   alternates: { canonical: "/track" },
-  openGraph: {
+  ...socialMeta({
     title: "Track Your Shipment | Kaiz La",
     description:
       "Enter your tracking ID to see your shipment's live status, from the factory floor to your doorstep.",
     url: "/track",
-    images: [ogImageMeta],
-    type: "website",
-  },
+  }),
 }
 
 export default function TrackPage() {

@@ -5,7 +5,7 @@ import GuidesExtras, { guideHubFaqs } from "@/components/sections/GuidesExtras"
 import CTABand from "@/components/sections/CTABand"
 import { JsonLd } from "@/components/seo/JsonLd"
 import { guides } from "@/lib/guides"
-import { siteConfig, ogImageMeta } from "@/lib/site"
+import { siteConfig, socialMeta } from "@/lib/site"
 
 export const metadata: Metadata = {
   title: "Sourcing Guides | Importing & Manufacturing in China",
@@ -18,14 +18,12 @@ export const metadata: Metadata = {
     "product sourcing guide",
   ],
   alternates: { canonical: "/guides" },
-  openGraph: {
+  ...socialMeta({
     title: "Kaiz La Sourcing Guides",
     description:
       "Practical guides to sourcing, importing and shipping from China, for businesses across India and the Middle East.",
     url: "/guides",
-    images: [ogImageMeta],
-    type: "website",
-  },
+  }),
 }
 
 export default function GuidesHubPage() {

@@ -1,3 +1,5 @@
+import type { Metadata } from "next"
+
 // Central site config — used for metadata, sitemap, robots, and JSON-LD.
 
 export const siteConfig = {
@@ -9,7 +11,9 @@ export const siteConfig = {
   description:
     "Kaiz La is a sourcing-as-a-service company headquartered in Hong Kong, with 15+ years of expertise connecting businesses across India and the Middle East with vetted Chinese suppliers — supplier discovery, negotiation, quality control, warehousing, customs clearance, and last-mile logistics.",
   tagline: "Global Sourcing Made Simple",
-  ogImage: "/KaizLa-Backdrop.png",
+  // Purpose-built 1200x630 share card. The old value was the hero backdrop:
+  // 1887x635 (2.97:1, cropped badly by every platform) and 1.3MB.
+  ogImage: "/og-kaizla.jpg",
   email: "hello@kaizla.com",
   // The only number we surface publicly — the main line.
   phone: "+86 139 6765 3019",
@@ -59,12 +63,44 @@ export const officesSentence = (() => {
 
 // Shared Open Graph image. Spread into each page's `openGraph.images` because
 // Next.js does NOT inherit the parent's og image when a page sets its own
-// `openGraph` block (twitter images, however, do inherit).
+// `openGraph` block. The same is true of twitter tags — see socialMeta below.
 export const ogImageMeta = {
   url: siteConfig.ogImage,
-  width: 1887,
-  height: 635,
-  alt: siteConfig.name,
+  width: 1200,
+  height: 630,
+  alt: `${siteConfig.name} — ${siteConfig.tagline}`,
+}
+
+/**
+ * Open Graph + Twitter built from one input.
+ *
+ * Next.js does NOT derive twitter tags from a page's `openGraph`; a page that
+ * sets only openGraph silently inherits the ROOT layout's twitter card. Every
+ * page on this site did exactly that, so each one shared on X as the homepage.
+ * Spread this instead of hand-writing either block.
+ */
+export function socialMeta({
+  title,
+  description,
+  url,
+  image = ogImageMeta,
+  type = "website",
+}: {
+  title: string
+  description: string
+  url: string
+  image?: { url: string; width: number; height: number; alt: string }
+  type?: "website" | "article"
+}): Pick<Metadata, "openGraph" | "twitter"> {
+  return {
+    openGraph: { title, description, url, images: [image], type },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [image.url],
+    },
+  }
 }
 
 // Marketing routes (used for nav + sitemap)

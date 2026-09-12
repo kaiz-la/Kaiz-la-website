@@ -1,5 +1,6 @@
 "use client"
 
+import Image from "next/image"
 import { motion, type Variants } from "framer-motion"
 import type { ReactNode } from "react"
 import { Award, ShieldCheck, UserCheck, Radar } from "lucide-react"
@@ -116,10 +117,12 @@ export default function WhyChooseUs() {
             >
               {/* Photo banner */}
               <div className="relative h-44 overflow-hidden">
-                <img
+                <Image
                   src={a.image}
                   alt={a.title}
-                  className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  fill
+                  sizes="(min-width: 1024px) 512px, (min-width: 640px) 50vw, 100vw"
+                  className="object-cover transition-transform duration-700 group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-ink/55 via-crimson/5 to-transparent" />
                 {/* Oversized number watermark */}

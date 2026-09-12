@@ -1,3 +1,4 @@
+import Image from "next/image"
 import Link from "next/link"
 import { ArrowRight, Ship, Plane, MapPin } from "lucide-react"
 import Reveal from "@/components/ui/Reveal"
@@ -16,10 +17,12 @@ export default function FreightBand() {
   return (
     <section className="relative w-full overflow-hidden">
       {/* Background image */}
-      <img
+      <Image
         src="/media/freight-band.jpg"
         alt="Container ships loading at a Chinese export port"
-        className="absolute inset-0 h-full w-full object-cover"
+        fill
+        sizes="100vw"
+        className="object-cover"
       />
       {/* Brand crimson gradient overlay (matches the hero treatment) */}
       <div

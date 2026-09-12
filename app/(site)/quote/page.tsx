@@ -1,5 +1,5 @@
 import type { Metadata } from "next"
-import { ogImageMeta } from "@/lib/site"
+import { socialMeta } from "@/lib/site"
 import PageHeader from "@/components/layout/PageHeader"
 import RfqForm from "@/components/sections/RfqForm"
 import PricingModel from "@/components/sections/PricingModel"
@@ -9,14 +9,12 @@ export const metadata: Metadata = {
   description:
     "Tell us what you need to source from China and get a clear, factory-direct landed-cost quote: product cost, our service fee, freight and duties, broken out line by line.",
   alternates: { canonical: "/quote" },
-  openGraph: {
+  ...socialMeta({
     title: "Request a Sourcing Quote | Kaiz La",
     description:
       "Share your product, quantity and destination and our team will reply within 24 hours with a shortlist of factories and a landed-cost estimate.",
     url: "/quote",
-    images: [ogImageMeta],
-    type: "website",
-  },
+  }),
 }
 
 export default function QuotePage() {

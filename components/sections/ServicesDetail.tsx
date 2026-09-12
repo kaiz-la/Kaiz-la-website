@@ -41,6 +41,7 @@ const coreServices = [
     icon: ShieldCheck,
     step: "02",
     title: "Quality Control & Production Tracking",
+    href: "/services/quality-control-inspection",
     lead: "Catch problems on the factory floor in China, not after the goods land at your door.",
     includes: [
       "Pre-production sample signed off before the line starts",
@@ -53,6 +54,7 @@ const coreServices = [
     icon: Building2,
     step: "03",
     title: "Warehousing & Consolidation",
+    href: "/services/warehousing-consolidation",
     lead: "One shipment instead of five. We hold, combine and re-check your goods before they ever leave China.",
     includes: [
       "Short-term storage in our China warehouse while you build an order",
@@ -65,6 +67,7 @@ const coreServices = [
     icon: FileText,
     step: "04",
     title: "Customs Clearance & Compliance",
+    href: "/services/customs-clearance-compliance",
     lead: "Paperwork and duties handled correctly the first time, on both sides of the border.",
     includes: [
       "HS-code classification and duty estimates shared up front",
@@ -77,6 +80,7 @@ const coreServices = [
     icon: Plane,
     step: "05",
     title: "International Freight",
+    href: "/services/international-freight",
     lead: "Air or sea, the route is chosen to balance cost, speed and reliability for your cargo.",
     includes: [
       "Sea (FCL & LCL) and air freight at negotiated, transparent rates",
@@ -103,6 +107,7 @@ const specialized = [
   {
     icon: Tag,
     title: "Private Label & OEM",
+    href: "/services/private-label-oem",
     body: "Custom branding, packaging and product modifications that turn a stock product into your own line.",
   },
   {
@@ -123,6 +128,7 @@ const specialized = [
   {
     icon: ShoppingCart,
     title: "Marketplace & FBA Prep",
+    href: "/services/amazon-fba-prep",
     body: "FNSKU labelling, carton prep and compliance so goods go straight into Amazon FBA or retail.",
   },
   {
@@ -205,6 +211,15 @@ export default function ServicesDetail() {
                     </li>
                   ))}
                 </ul>
+                {s.href && (
+                  <Link
+                    href={s.href}
+                    className="group/link mt-auto inline-flex items-center pt-5 text-sm font-semibold text-crimson"
+                  >
+                    More on {s.title.split(" & ")[0].toLowerCase()}
+                    <ArrowRight className="ml-1 h-4 w-4 transition-transform duration-200 group-hover/link:translate-x-1" />
+                  </Link>
+                )}
               </div>
             ))}
           </Rail>
@@ -250,6 +265,15 @@ export default function ServicesDetail() {
                   <h3 className="font-display text-lg font-medium text-ink sm:mt-5">{s.title}</h3>
                   <div className="rule-gold my-2 w-12 sm:my-3" />
                   <p className="text-sm leading-relaxed text-ink-soft">{s.body}</p>
+                  {s.href && (
+                    <Link
+                      href={s.href}
+                      className="group/link mt-3 inline-flex items-center text-sm font-semibold text-crimson"
+                    >
+                      Learn more
+                      <ArrowRight className="ml-1 h-4 w-4 transition-transform duration-200 group-hover/link:translate-x-1" />
+                    </Link>
+                  )}
                 </div>
               </div>
             ))}

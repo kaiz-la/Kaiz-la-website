@@ -1,5 +1,6 @@
 "use client"
 
+import Image from "next/image"
 import { motion, AnimatePresence, useReducedMotion, type Variants } from "framer-motion"
 import { useState, useEffect } from "react"
 import { MapPin, Globe2, Layers, Award } from "lucide-react"
@@ -108,11 +109,13 @@ export default function About({ showHeader = true }: { showHeader?: boolean }) {
           {/* Image collage */}
           <motion.div variants={itemVariants} className="lg:col-span-6">
             <div className="grid grid-cols-2 gap-4">
-              <div className="card-lux relative col-span-2 overflow-hidden rounded-3xl">
-                <img
+              <div className="card-lux relative col-span-2 h-64 overflow-hidden rounded-3xl sm:h-72">
+                <Image
                   src="/media/about-china.jpg"
                   alt="Traditional architecture in China, where Kaiz La is based"
-                  className="h-64 w-full object-cover sm:h-72"
+                  fill
+                  sizes="(min-width: 1024px) 45vw, 100vw"
+                  className="object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-ink/20 to-transparent" />
                 <div className="absolute bottom-5 left-5">
@@ -121,22 +124,26 @@ export default function About({ showHeader = true }: { showHeader?: boolean }) {
                 </div>
               </div>
 
-              <div className="relative overflow-hidden rounded-2xl border border-border">
-                <img
+              <div className="relative h-40 overflow-hidden rounded-2xl border border-border sm:h-44">
+                <Image
                   src="/media/about-qc.jpg"
                   alt="Quality control inspection of electronics"
-                  className="h-40 w-full object-cover sm:h-44"
+                  fill
+                  sizes="(min-width: 1024px) 22vw, 50vw"
+                  className="object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-ink/75 to-transparent" />
                 <span className="absolute bottom-3 left-4 text-sm font-bold text-white">
                   Quality control
                 </span>
               </div>
-              <div className="relative overflow-hidden rounded-2xl border border-border">
-                <img
+              <div className="relative h-40 overflow-hidden rounded-2xl border border-border sm:h-44">
+                <Image
                   src="/media/freight-band.jpg"
                   alt="Freight and delivery from China"
-                  className="h-40 w-full object-cover sm:h-44"
+                  fill
+                  sizes="(min-width: 1024px) 22vw, 50vw"
+                  className="object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-ink/75 to-transparent" />
                 <span className="absolute bottom-3 left-4 text-sm font-bold text-white">

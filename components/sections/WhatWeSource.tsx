@@ -1,3 +1,4 @@
+import Image from "next/image"
 import Link from "next/link"
 import { ArrowRight } from "lucide-react"
 import Reveal from "@/components/ui/Reveal"
@@ -48,10 +49,12 @@ export default function WhatWeSource() {
               href="/chat"
               className="focus-ring group relative aspect-square overflow-hidden rounded-2xl border border-border transition-transform duration-200 active:scale-[0.98] sm:aspect-[4/5]"
             >
-              <img
+              <Image
                 src={cat.image}
                 alt={cat.label}
-                className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                fill
+                sizes="(min-width: 1024px) 16vw, (min-width: 640px) 33vw, 50vw"
+                className="object-cover transition-transform duration-500 group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-ink/85 via-ink/25 to-transparent" />
               <span className="absolute inset-x-0 bottom-0 p-3 text-sm font-bold leading-tight text-white">

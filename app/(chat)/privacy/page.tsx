@@ -1,5 +1,21 @@
 import React from "react";
 
+import type { Metadata } from "next"
+import { socialMeta } from "@/lib/site"
+
+export const metadata: Metadata = {
+  title: "Privacy Policy",
+  description:
+    "How Kaiz La collects, uses and protects your personal data across our website, sourcing services and business operations.",
+  alternates: { canonical: "/privacy" },
+  ...socialMeta({
+    title: "Privacy Policy | Kaiz La",
+    description:
+      "How Kaiz La collects, uses and protects your personal data across our website, sourcing services and business operations.",
+    url: "/privacy",
+  }),
+}
+
 export default function PrivacyPolicy() {
   return (
     <div className="max-w-4xl mx-auto p-8 text-gray-800">
