@@ -107,6 +107,7 @@ export function socialMeta({
 export const navRoutes = [
   { name: "Home", href: "/" },
   { name: "Services", href: "/services" },
+  { name: "Distribution", href: "/distribution" },
   { name: "KaiExpert", href: "/kaiexpert" },
   { name: "How It Works", href: "/how-it-works" },
   { name: "Guides", href: "/guides" },

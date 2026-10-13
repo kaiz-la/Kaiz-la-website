@@ -85,7 +85,11 @@ export function Header() {
                 </Link>
               </div>
 
-              <nav className="hidden items-center gap-7 lg:flex xl:gap-9">
+              {/* Eight items no longer clear 1024px at the old gap — the row
+                  wrapped "How It Works" and the CTA onto a second line. Tighten
+                  between lg and xl, where the space actually runs out, and keep
+                  the roomier rhythm on wide screens. */}
+              <nav className="hidden items-center gap-4 whitespace-nowrap lg:flex xl:gap-8">
                 {navigationItems.map((item) => {
                   const isActive =
                     item.href === "/" ? pathname === "/" : pathname.startsWith(item.href)

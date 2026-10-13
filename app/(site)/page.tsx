@@ -3,6 +3,7 @@ import Hero from "@/components/sections/Hero"
 import WhyChooseUs from "@/components/sections/WhyChooseUs"
 import KaiExpertBand from "@/components/sections/KaiExpertBand"
 import WhatWeSource from "@/components/sections/WhatWeSource"
+import DistributionBand from "@/components/sections/DistributionBand"
 import FreightBand from "@/components/sections/FreightBand"
 import SourcingGuides from "@/components/sections/SourcingGuides"
 import CTABand from "@/components/sections/CTABand"
@@ -30,6 +31,7 @@ export default function Home() {
     <>
       <Hero />
       <WhatWeSource />
+      <DistributionBand />
       <FreightBand />
       <WhyChooseUs />
       <KaiExpertBand />
